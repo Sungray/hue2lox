@@ -39,3 +39,13 @@ The container script requires root and `CI=true` and is intended only for a disp
 Keep changes focused, describe the user-visible result and record which checks actually ran. Use synthetic device names and addresses in fixtures and screenshots. Never commit or log authorization headers, Hue application keys, session cookies, passwords or private TLS keys. Review staged changes and scan history before public release. A green automated run does not replace real-device acceptance.
 
 Deutsch: Änderungen in einem getrennten Klon testen; keine produktiven Zugangsdaten übernehmen. Die echte Neuinstallation und Loxone-Abnahme machen wir anschließend gemeinsam. Fehlerberichte bitte ohne Tokens, Keys oder unbereinigte Protokolle.
+
+## Repository layout
+
+- `src/`: Python application modules; run locally with `python3 src/app.py`.
+- `docker/`: Compose variants and the installer Dockerfile. Compose overrides are combined with the root `compose.yaml`; keep the repository root as the project directory.
+- `config/registry.json`: empty source template, separate from live `data/registry.json`.
+- `scripts/`: installation helpers and historical prototype update scripts. The interactive entry point remains `install-assistant.sh` at the root.
+- `tests/`, `docs/`, `web/`: automated tests, detailed guides and browser assets.
+
+The prototype update scripts require the complete source tree in their explicitly configured staging directory, including `scripts/copy-runtime.sh`. They are not a general updater for RC1 installations.

@@ -44,7 +44,7 @@ Die Farbversion läuft inzwischen; Farbe und Schreiben sind im lokalen Override 
 Die Basisdatei bleibt für frische Installationen standardmäßig gesperrt.
 
 Selektiv nach /opt/loxberry/hue2lox-color-staging/ übertragen: app.py, hue_client.py,
-color.py, compose.yaml, .dockerignore, Dockerfile.status, install-color.sh.
+color.py, compose.yaml, .dockerignore, docker/Dockerfile.status, scripts/install-color.sh.
 Das Root-Script sichert bestehende Laufzeitdateien, behält compose.override.yaml
 und bestehende Credentials bei und prüft vor Start, dass Farbe gesperrt bleibt.
 Es sendet ausschließlich lesende Requests. Ein Container-Neustart verursacht eine
@@ -87,8 +87,8 @@ Für eine separate Neuinstallation liegen versionierte Overrides vor:
 
 ```sh
 # Benötigt vorher sicher bereitgestellte certs/, secrets/hue_key und secrets/control_token.
-docker compose -f compose.yaml -f compose.control.yaml -f compose.color.yaml config --quiet
-docker compose -f compose.yaml -f compose.control.yaml -f compose.color.yaml up -d --build
+docker compose -f compose.yaml -f docker/compose.control.yaml -f docker/compose.color.yaml config --quiet
+docker compose -f compose.yaml -f docker/compose.control.yaml -f docker/compose.color.yaml up -d --build
 ```
 
 Diese Befehle aktivieren Steuerung und Farbe; sie wurden für die Dokumentation nicht

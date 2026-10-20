@@ -34,7 +34,7 @@ GET auf den Steuerpfad schaltet nichts. Kein Steuerbefehl steht im Healthcheck,
 Startcode oder Installationsscript.
 
 Für eine spätere freigegebene Aktivierung sind beide Voraussetzungen nötig:
-- Compose-Override `compose.control.yaml` zusätzlich laden.
+- Compose-Override `docker/compose.control.yaml` zusätzlich laden.
 - Eigenen zufälligen Steuer-Token (mindestens 32 Zeichen) als
   secrets/control_token bereitstellen, UID/GID 10001, Modus 0400.
 
@@ -47,9 +47,9 @@ Aktivierung und echter Schalt-/Dimmtest sind erfolgreich erfolgt; siehe TEST-RES
 ## Update vorbereiten
 
 Quellcode selektiv nach /opt/loxberry/hue2lox-control-staging/ übertragen:
-app.py, hue_client.py, compose.yaml, compose.control.yaml, .dockerignore,
-Dockerfile.status. Kein Kopieren von .env, certs oder secrets nötig.
-Dann install-control.sh als root ausführen, nachdem es ebenfalls übertragen wurde.
+app.py, hue_client.py, compose.yaml, docker/compose.control.yaml, .dockerignore,
+docker/Dockerfile.status. Kein Kopieren von .env, certs oder secrets nötig.
+Dann scripts/install-control.sh als root ausführen, nachdem es ebenfalls übertragen wurde.
 Das Script sichert die bisherigen Laufzeitdateien, baut und installiert den Code
 mit Steuerung AUS. Build und Live-Test im tatsächlichen Container sind inzwischen erfolgreich erfolgt.
 Es aktiviert keine Loxone-Ausgänge und sendet keinen Hue-PUT.

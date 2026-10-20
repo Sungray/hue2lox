@@ -6,15 +6,8 @@ set -eu
 src=/opt/loxberry/hue2lox-color-staging
 dst=/opt/loxberry/hue2lox-prototype
 backup=/opt/loxberry/hue2lox-backups/color-$(date +%Y%m%d-%H%M%S)
-umask 077
-mkdir -p "$backup"
-for f in app.py hue_client.py color.py compose.yaml .dockerignore Dockerfile.status compose.override.yaml; do
-    if [ -f "$dst/$f" ]; then cp -p "$dst/$f" "$backup/$f"; fi
-done
-printf 'Rollback files: %s\n' "$backup"
-for f in app.py hue_client.py color.py compose.yaml .dockerignore Dockerfile.status; do
-    install -m 644 "$src/$f" "$dst/$f"
-done
+. "$(dirname -- "$0")/copy-runtime.sh"
+copy_runtime
 # Preserve existing on/off/dimming activation and token. Do not change override.
 cd "$dst"
 docker compose config --format json | python3 -c 'import json,sys; d=json.load(sys.stdin); assert str(d["services"]["hue2lox"]["environment"].get("HUE_COLOR_ENABLED")) == "0", "Color must stay disabled"'

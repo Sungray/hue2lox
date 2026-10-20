@@ -6,7 +6,7 @@ services:
     container_name: "${HUE2LOX_CONTAINER_NAME:?Run prepare-install first}"
     build:
       context: .
-      dockerfile: Dockerfile.status
+      dockerfile: docker/Dockerfile.status
       args:
         REGISTRY_SOURCE: install/registry.empty.json
     restart: unless-stopped

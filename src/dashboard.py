@@ -14,7 +14,7 @@ from discovery import saved_miniserver
 LOCK = threading.Lock()
 CACHE = None
 CACHE_AT = 0
-REGISTRY = Path(__file__).with_name('registry.json')
+REGISTRY = (Path(__file__).resolve().parent.parent/'config/registry.json')
 
 
 def overview():

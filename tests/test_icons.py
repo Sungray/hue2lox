@@ -35,4 +35,4 @@ assert.equal(Object.keys(LAMP_ICONS).length,22);
         for name in ('hue-icons.js','hue-icons-license.txt'):
             self.assertFalse((ROOT/'web'/name).exists())
             self.assertNotIn('/assets/'+name,(ROOT/'web/index.html').read_text())
-            self.assertNotIn('/assets/'+name,(ROOT/'app.py').read_text())
+            self.assertNotIn('/assets/'+name,(ROOT/'src/app.py').read_text())
