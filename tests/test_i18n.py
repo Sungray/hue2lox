@@ -48,3 +48,12 @@ class LocaleAssetsTests(unittest.TestCase):
             code,headers,body=self.request(path);self.assertEqual(code,200,path);self.assertEqual(int(headers['Content-Length']),len(body));self.assertNotIn(b't'*48,body)
         self.assertIn(b'lang="en"',self.request('/tutorial/en')[2])
         self.assertEqual(self.request('/assets/locales/../../secrets/control_token')[0],404)
+
+class MonitorLocaleTests(unittest.TestCase):
+    def test_actual_monitor_formats_only_redaction_markers(self):
+        for language in ('de','en'):
+            script="const assert=require('node:assert/strict');global.window={};global.navigator={languages:['"+language+"']};global.localStorage={getItem:()=>null};global.document={documentElement:{},createTreeWalker:()=>({nextNode:()=>false}),querySelectorAll:()=>[],querySelector:()=>({addEventListener:()=>{}})};global.NodeFilter={SHOW_TEXT:4};global.setInterval=()=>{};"
+            for file in ('locales/de.js','locales/en.js','i18n.js','monitor.js'):
+                script+=(ROOT/'web'/file).read_text()+'\n'
+            script+="assert.equal(monitorBody('brightness=42 xy=0.2 Passwort & Küche'), 'brightness=42 xy=0.2 Passwort & Küche');assert.equal(monitorBody('[redacted_text]'),t('[Text ausgeblendet]'));assert.equal(monitorDetail('invalid_json:2:7'),t('JSON ungültig: Zeile ')+'2'+t(', Spalte ')+'7');assert.equal(monitorDetail('parsed'),'parsed');"
+            subprocess.run(['node','-e',script],check=True)

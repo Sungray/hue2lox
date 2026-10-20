@@ -6,6 +6,7 @@ import re
 import subprocess
 
 ROOT = Path(__file__).resolve().parent.parent
+assert (ROOT/'Dockerfile').read_bytes() == (ROOT/'docker/Dockerfile.status').read_bytes(), 'Docker recipes diverged: update both together'
 for path in sorted((ROOT / 'src').glob('*.py')) + sorted((ROOT / 'tests').rglob('*.py')) + sorted((ROOT / 'scripts').glob('*.py')) + sorted((ROOT / 'tools').glob('*.py')):
     ast.parse(path.read_text(), filename=str(path))
 for path in sorted((ROOT / 'web').rglob('*.js')):

@@ -14,6 +14,8 @@ from discovery import saved_miniserver
 LOCK = threading.Lock()
 CACHE = None
 CACHE_AT = 0
+GENERATION = 0
+FETCH_LOCK = threading.Lock()
 REGISTRY = (Path(__file__).resolve().parent.parent/'config/registry.json')
 
 
@@ -22,6 +24,12 @@ def overview():
     with LOCK:
         if CACHE is not None and time.monotonic() - CACHE_AT < 5:
             return CACHE
+    # Serialize refreshes separately. Local mutations only acquire LOCK.
+    with FETCH_LOCK:
+        with LOCK:
+            if CACHE is not None and time.monotonic() - CACHE_AT < 5:
+                return CACHE
+            generation = GENERATION
         registry = read_registry()
         if registry.get('schema_version') != 1:
             raise ValueError('unknown registry schema')
@@ -72,12 +80,18 @@ def overview():
                                     and not scene.get('ignored') and not scene.get('removed')),
                   'features':{k: os.environ.get(v) == '1' for k,v in (
                       ('control','HUE_WRITES_ENABLED'),('rgb','HUE_COLOR_ENABLED'),('white','HUE_WHITE_ENABLED'))}}
-        CACHE=result;CACHE_AT=time.monotonic()
-        return result
+        with LOCK:
+            # A mutation during this fetch wins. Do not republish its old snapshot.
+            if generation == GENERATION:
+                CACHE=result;CACHE_AT=time.monotonic()
+                return result
+        # Let the caller retry instead of presenting pre-mutation data as current.
+        raise ValueError('overview changed during refresh; retry')
 
 
 def invalidate():
-    global CACHE, CACHE_AT
+    global CACHE, CACHE_AT, GENERATION
     with LOCK:
+        GENERATION += 1
         CACHE = None
         CACHE_AT = 0

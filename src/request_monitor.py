@@ -103,20 +103,20 @@ NUMBER=re.compile(r'-?(?:0|[1-9][0-9]{0,10})(?:\.[0-9]{1,12})?(?:[eE][+-]?[0-9]{
 def diagnostic_scalar(value):
     if value is None or type(value) is bool:return value
     if type(value) in (int,float):
-        return value if abs(value)<=1e10 and math.isfinite(value) else '[Zahl außerhalb Diagnosebereich]'
+        return value if abs(value)<=1e10 and math.isfinite(value) else '[number_out_of_range]'
     if type(value) is str:
         if value=='<v>':return value
         if NUMBER.fullmatch(value) and math.isfinite(float(value)) and abs(float(value))<=1e10:return value
-        return '[Text ausgeblendet]'
-    return '[Falscher Datentyp]'
+        return '[redacted_text]'
+    return '[invalid_type]'
 
 
 def diagnostic_object(value,depth=0):
     if type(value) is not dict:return diagnostic_scalar(value)
-    if depth>1:return '[Verschachtelung ausgeblendet]'
+    if depth>1:return '[redacted_nesting]'
     result={key:diagnostic_object(item,depth+1) if key=='rgb' else diagnostic_scalar(item)
             for key,item in value.items() if key in FIELDS}
-    if any(key not in FIELDS for key in value):result['[weitere Felder]']='ausgeblendet'
+    if any(key not in FIELDS for key in value):result['[other_fields]']='[redacted]'
     return result
 
 
@@ -134,12 +134,12 @@ def malformed_preview(text):
         except ValueError:value=None
         if index+1<len(tokens) and tokens[index+1]==':':
             allowed=type(value) is str and value in FIELDS
-            safe.append(json.dumps(value if allowed else '[Feld ausgeblendet]'))
-        elif not allowed:safe.append('[ausgeblendet]')
-        elif token.startswith('"'):safe.append(json.dumps(diagnostic_scalar(value) if value is not None else '[Text ausgeblendet]'))
+            safe.append(json.dumps(value if allowed else '[redacted_field]'))
+        elif not allowed:safe.append('[redacted]')
+        elif token.startswith('"'):safe.append(json.dumps(diagnostic_scalar(value) if value is not None else '[redacted_text]'))
         elif token in ('true','false','null','<v>'):safe.append(token)
         elif NUMBER.fullmatch(token) and abs(float(token))<=1e10:safe.append(token)
-        else:safe.append('[ausgeblendet]')
+        else:safe.append('[redacted]')
     return ' '.join(safe)[:2048]
 
 
@@ -152,7 +152,7 @@ def record_body(handle,raw):
         detail='parsed'
     except json.JSONDecodeError as error:
         body=malformed_preview(text)
-        detail='JSON ungültig: Zeile '+str(error.lineno)+', Spalte '+str(error.colno)
+        detail='invalid_json:'+str(error.lineno)+':'+str(error.colno)
     with LOCK:
         if handle[0]!=GENERATION or time.monotonic()>=DEADLINE:return
         event=next((e for e in EVENTS if e['id']==handle[1]),None)

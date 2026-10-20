@@ -11,13 +11,47 @@ from collections import OrderedDict
 from color import rgb_values, rgb_xy, loxone_rgb, kelvin_mirek, loxone_lumitech, light_parameters
 
 
+BRIDGE_DEADLINE_SECONDS = 5
+
+
 class BridgeConnection(http.client.HTTPSConnection):
+    """Keep the transport reachable even when HTTPResponse owns its file object."""
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._transport_lock = threading.Lock()
+        self._transport_socket = None
+        self.expired = threading.Event()
+
+    def _track(self, sock):
+        with self._transport_lock:
+            if self.expired.is_set():
+                sock.close()
+                raise TimeoutError('bridge deadline exceeded')
+            self._transport_socket = sock
+
+    def expire(self):
+        with self._transport_lock:
+            self.expired.set()
+            sock = self._transport_socket
+            if sock is not None:
+                # close alone may leave a makefile read blocked; shutdown wakes it.
+                try:
+                    sock.shutdown(socket.SHUT_RDWR)
+                except OSError:
+                    pass
+
     def connect(self):
         raw = socket.create_connection((self.host, self.port), self.timeout)
+        self._track(raw)
         try:
-            self.sock = self._context.wrap_socket(raw, server_hostname=self.bridge_id)
+            self.sock = self._context.wrap_socket(
+                raw, server_hostname=self.bridge_id, do_handshake_on_connect=False)
+            self._track(self.sock)
+            self.sock.do_handshake()
         except BaseException:
             raw.close()
+            if self.sock is not None:
+                self.sock.close()
             raise
 
 
@@ -93,6 +127,8 @@ def default_bridge():
 def request_document(method, path, payload=None, bridge=None, authenticated=True):
     bridge = bridge or default_bridge()
     conn = None
+    timer = None
+    response = None
     try:
         headers = {'Accept': 'application/json'}
         if authenticated:
@@ -100,8 +136,12 @@ def request_document(method, path, payload=None, bridge=None, authenticated=True
             if not key or '\n' in key or '\r' in key:
                 raise ValueError('invalid key file')
             headers['hue-application-key'] = key
-        conn = BridgeConnection(bridge['host'], timeout=5, context=tls_context())
+        conn = BridgeConnection(bridge['host'], timeout=BRIDGE_DEADLINE_SECONDS, context=tls_context())
         conn.bridge_id = bridge['bridge_id']
+        timer = threading.Timer(BRIDGE_DEADLINE_SECONDS, conn.expire)
+        timer.daemon = True
+        started = time.monotonic()
+        timer.start()
         body = None
         if payload is not None:
             body = json.dumps(payload, allow_nan=False).encode()
@@ -109,12 +149,19 @@ def request_document(method, path, payload=None, bridge=None, authenticated=True
         conn.request(method, path, body=body, headers=headers)
         response = conn.getresponse()
         body = response.read(4194305)
+        if time.monotonic() - started >= BRIDGE_DEADLINE_SECONDS:
+            raise TimeoutError('bridge deadline exceeded')
         if response.status != 200 or len(body) > 4194304:
             raise ValueError('bridge HTTP response invalid')
         return decode_json_document(body)
     except (OSError, http.client.HTTPException, ValueError, RecursionError):
         raise BridgeRequestError('bridge request failed') from None
     finally:
+        if timer is not None:
+            timer.cancel()
+            timer.join()
+        if response is not None:
+            response.close()
         if conn is not None:
             try:
                 conn.close()
