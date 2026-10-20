@@ -1,0 +1,14 @@
+.git
+.env
+.env.*
+certs
+secrets
+**/*.key
+**/*.p12
+**/*.pfx
+__pycache__
+*.log
+health-test.crt
+
+# Persisted bridge topology and credentials
+data/

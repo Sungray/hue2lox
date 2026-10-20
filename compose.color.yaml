@@ -1,0 +1,6 @@
+# Explicit color activation; combine with compose.yaml and compose.control.yaml.
+# Contains no token or bridge key. Real secret files must be provisioned separately.
+services:
+  hue2lox:
+    environment:
+      HUE_COLOR_ENABLED: "1"

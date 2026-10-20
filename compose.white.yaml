@@ -1,0 +1,5 @@
+# Explicit white/Lumitech activation. Requires control and color overrides too.
+services:
+  hue2lox:
+    environment:
+      HUE_WHITE_ENABLED: "1"

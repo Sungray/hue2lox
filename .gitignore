@@ -1,0 +1,20 @@
+# Credentials and private TLS material
+.env
+.env.*
+!.env.example
+certs/
+secrets/
+*.key
+*.p12
+*.pfx
+*.keystore
+*.jks
+# Generated/runtime files
+__pycache__/
+*.py[cod]
+*.log
+health-test.crt
+.DS_Store
+
+# Persisted bridge topology and credentials
+data/

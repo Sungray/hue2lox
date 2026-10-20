@@ -1,0 +1,21 @@
+Read-only Hue Go update. No PUT, POST or control endpoint exists.
+GET /health remains exactly {"status":"ok"} and does not depend on bridge state.
+GET /hue-go/status reads current on/brightness, or returns HTTP 502 with a generic error.
+Key is mounted from secrets/hue_key, read-only, UID 10001, mode 0400; excluded from build.
+No system-wide CA change, no insecure fallback, no HTTP redirects.
+TLS validates Hue CA signature/expiry and exact bridge ID via CN fallback (legacy certificate has no SAN).
+CA source (public mirror, not downloaded directly from manufacturer):
+https://raw.githubusercontent.com/raycast/extensions/eb2e5bff8a2ed8b12208f0835827d9bd35027692/extensions/hue/assets/huebridge_cacert.pem
+Manufacturer guidance could not be retrieved (403):
+https://developers.meethue.com/develop/application-design-guidance/using-https/
+Local macOS Python 3.9 LibreSSL rejects bridge date encoding; target Python 3.11 succeeds.
+Container Python 3.12 verification runs before replacement during install; not yet executed.
+
+Root installation:
+sh /opt/loxberry/hue2lox-status-staging/install-status.sh
+
+Rollback if necessary: from /opt/loxberry/hue2lox-prototype copy app.py, compose.yaml
+and .dockerignore from the printed backup directory, then docker compose up -d --build.
+Existing server certificate/key and original Dockerfile are preserved.
+The root installer can be rerun but creates a new backup of the then-current version.
+No Loxone settings changed; new endpoint contains private lamp state on the same LAN interface.

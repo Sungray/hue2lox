@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "bridges": [
+    {"id":"eg1","name":"Erdgeschoss","host":"10.200.0.253","bridge_id":"001788FFFE000001","enabled":true,"key_file":"/run/secrets/hue_key","lights":[{"id":"00000000-0000-4000-8000-000000000001","name":"Beispiellampe","room":"Wohnen","model":"LLC020","capabilities":["on","brightness","rgb","temperature"],"control_path":"/hue-go/state"}]},
+    {"id":"og1","name":"Obergeschoss","host":"10.200.0.136","enabled":false,"lights":[]},
+    {"id":"ug1","name":"Untergeschoss","host":"10.200.0.137","enabled":false,"lights":[]}
+  ]
+}

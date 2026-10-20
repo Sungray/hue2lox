@@ -1,0 +1,8 @@
+# Apply only for a separately authorized live control test.
+# Requires secrets/control_token (random >=32 characters), UID 10001, mode 0400.
+services:
+  hue2lox:
+    environment:
+      HUE_WRITES_ENABLED: "1"
+    volumes:
+      - ./secrets/control_token:/run/secrets/control_token:ro

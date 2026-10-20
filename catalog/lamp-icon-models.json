@@ -1,0 +1,588 @@
+{
+  "reviewed": "2026-10-19",
+  "basis": "Model identifiers and names from existing MIT-attributed hue-models.json; family geometry classification by Hue2Lox using official Hue references. Not a live device inventory or manufacturer-certified model map. Conflicting or ambiguous descriptions omitted. Resonate and LTO001 IDs additionally confirmed by live bridge product metadata; private inventory is not included.",
+  "models": [
+    {
+      "model_id": "1741430P7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1741530P7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1741730V7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1741830P7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1741930V7",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1742030P7",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1742330P7",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1742730P7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1742830P7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1742930P7",
+      "product_name": "Hue outdoor Impress wall lamp",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743030P7",
+      "product_name": "Hue outdoor Impress wall lamp",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743130P7",
+      "product_name": "Hue Impress outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743230P7",
+      "product_name": "Hue outdoor Impress lantern",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743430P7",
+      "product_name": "Hue Impress outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743530P7",
+      "product_name": "Hue Discover white and color ambiance flood light",
+      "icon": "flood",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743530V7",
+      "product_name": "Hue Discover white and color ambiance flood light",
+      "icon": "flood",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743730P7",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743830P7",
+      "product_name": "Hue Econic outdoor wall lamp",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743830V7",
+      "product_name": "Hue Econic outdoor wall lamp",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743930P7",
+      "product_name": "Hue Outdoor Econic wall lantern",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1743930V7",
+      "product_name": "Hue Outdoor Econic wall lantern",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1744030P7",
+      "product_name": "Hue Outdoor Econic wall lantern",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1744030V7",
+      "product_name": "Hue Outdoor Econic wall lantern",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1744130P7",
+      "product_name": "Hue Econic outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1744230P7",
+      "product_name": "Hue Econic outdoor post light",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745130P7",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745430A7",
+      "product_name": "Hue Impress outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745430P7",
+      "product_name": "Hue Impress outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745730V7",
+      "product_name": "Hue Econic outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745930P7",
+      "product_name": "Hue outdoor Impress wall lamp (low voltage)",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1745930V7",
+      "product_name": "Hue outdoor Impress wall lamp",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746230P7",
+      "product_name": "Hue Lily XL outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746230V7",
+      "product_name": "Hue Lily XL outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746630P7",
+      "product_name": "Hue White and Colour Ambiance Amarant linear outdoor light",
+      "icon": "linear",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746630V7",
+      "product_name": "Amarant linear outdoor light",
+      "icon": "linear",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746730V7",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "1746730V7-HC3",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "4080148P9",
+      "product_name": "Hue Signe table light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "4080148U9",
+      "product_name": "Hue White and color ambiance Signe table light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "4080248P7",
+      "product_name": "Hue Signe floor light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "4080248P9",
+      "product_name": "Hue Signe floor light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "4080248U9",
+      "product_name": "Hue White and color ambiance Signe floor light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "440400982841",
+      "product_name": "Hue White and color ambiance Play Lightbar",
+      "icon": "play-bar",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "440400982842",
+      "product_name": "Hue White and color ambiance Play Lightbar",
+      "icon": "play-bar",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "440400982843",
+      "product_name": "Hue White and color ambiance Play Lightbar",
+      "icon": "play-bar",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "7099930PH",
+      "product_name": "Hue Iris (Generation 2)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005986901",
+      "product_name": "Hue White and color ambiance Gradient Signe table lamp (white)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987001",
+      "product_name": "Hue White and color ambiance Gradient Signe table lamp (black)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987101",
+      "product_name": "Hue Gradient Signe floor lamp (white)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987201",
+      "product_name": "Hue White and color ambiance Signe floor light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987301",
+      "product_name": "Hue Gradient Signe table lamp (white)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987401",
+      "product_name": "Hue White and color ambiance Gradient Signe table lamp (black)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987501",
+      "product_name": "Hue Gradient Signe floor lamp (white)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987601",
+      "product_name": "Hue Gradient Signe floor lamp (black)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987701",
+      "product_name": "Hue Gradient Signe floor lamp (wood)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "915005987801",
+      "product_name": "Hue white and color ambiance gradient Signe floor lamp (black)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002375901",
+      "product_name": "Hue Bloom with Bluetooth (White) - EU/UK",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376001",
+      "product_name": "Hue Bloom with Bluetooth (Black)",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376101",
+      "product_name": "Hue Iris generation 3/4 (white)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376201",
+      "product_name": "Hue Iris (generation 2, black)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376301",
+      "product_name": "Hue Iris rose limited edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376401",
+      "product_name": "Hue Iris gold limited edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376402",
+      "product_name": "Hue Iris gold limited edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376501",
+      "product_name": "Hue Bloom Gen4 with Bluetooth (White) - US",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376701",
+      "product_name": "Hue Iris silver limited edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376703",
+      "product_name": "Hue Iris silver special edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376801",
+      "product_name": "Hue Iris kobber limited edition (generation 4)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376803",
+      "product_name": "Hue Iris copper special edition (generation 4)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002376901",
+      "product_name": "Hue Iris white",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002401001",
+      "product_name": "Hue Iris gold special edition (generation 4)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002401101",
+      "product_name": "Hue Iris silver limited edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929002401201",
+      "product_name": "Hue Iris copper special edition (generation 4) ",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003098601",
+      "product_name": "Hue Calla outdoor Pedestal",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "929003103601",
+      "product_name": "Hue Signe floor lamp",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003479601",
+      "product_name": "Hue Gradient Signe floor lamp (wood)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003479701",
+      "product_name": "Hue Gradient Signe floor lamp (wood)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003479901",
+      "product_name": "Hue Gradient Signe floor lamp (oak)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003516101",
+      "product_name": "Hue Gradient Signe floor lamp (wood)",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003536001",
+      "product_name": "Hue Iris copper special edition (generation 4)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "929003802101",
+      "product_name": "Hue Impress outdoor Pedestal",
+      "icon": "lantern-post",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "929003802201",
+      "product_name": "Hue Impress outdoor wall light",
+      "icon": "lantern-wall",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "LCF001",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "LCF002",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "LCF003",
+      "product_name": "Hue Signe floor light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LCF005",
+      "product_name": "Hue Calla outdoor",
+      "icon": "bollard",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "LCS001",
+      "product_name": "Hue Lily outdoor spot light",
+      "icon": "garden-spot",
+      "reference": "https://www.philips-hue.com/en-gb/products/smart-outdoor-lights"
+    },
+    {
+      "model_id": "LCT020",
+      "product_name": "Hue Signe table light",
+      "icon": "floor",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LCT024",
+      "product_name": "Hue White and color ambiance Play Lightbar",
+      "icon": "play-bar",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LLC006",
+      "product_name": "Hue Iris (Generation 2)",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LLC010",
+      "product_name": "Hue Iris",
+      "icon": "iris",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LLC011",
+      "product_name": "Hue Bloom",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LLC012",
+      "product_name": "Hue Bloom",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "LLC013",
+      "product_name": "Hue Bloom",
+      "icon": "bloom",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "PCM002",
+      "product_name": "Hue White and color ambiance Play Lightbar",
+      "icon": "play-bar",
+      "reference": "https://www.philips-hue.com/en-us/products/smart-table-lamps"
+    },
+    {
+      "model_id": "1746430P7",
+      "product_name": "Hue Resonate outdoor wall",
+      "icon": "resonate",
+      "reference": "Hue Bridge v2 device.product_data (model_id and product_name), verified 2026-10-19"
+    },
+    {
+      "model_id": "929003553001",
+      "product_name": "Hue Resonate outdoor wall",
+      "icon": "resonate",
+      "reference": "Hue Bridge v2 device.product_data (model_id and product_name), verified 2026-10-19"
+    },
+    {
+      "model_id": "LTO001",
+      "product_name": "Hue filament bulb",
+      "icon": "filament",
+      "reference": "Hue Bridge v2 device.product_data (model_id and product_name), verified 2026-10-19"
+    }
+  ]
+}
