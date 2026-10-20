@@ -12,6 +12,7 @@ repo=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 docker pull python:3.12-alpine
 docker build -t hue2lox-default-ci:check -f "$repo/Dockerfile" "$repo"
 docker run --rm --entrypoint python hue2lox-default-ci:check -c 'import app,json; assert json.load(open("/app/config/registry.json")) == {"schema_version":1,"bridges":[]}'
+docker image inspect python:3.12-alpine --format 'Base: {{json .RepoDigests}} {{.Os}}/{{.Architecture}}'
 test_root=$(mktemp -d /tmp/hue2lox-ci.XXXXXXXX)
 project="hue2lox-ci-$$"
 compose() { docker compose --project-directory "$test_root/instance" -p "$project" -f "$test_root/instance/compose.yaml" -f "$test_root/image.yaml" "$@"; }
@@ -21,12 +22,11 @@ python3 "$repo/scripts/prepare-install.py" --destination "$test_root/instance" -
 printf 'services:\n  hue2lox:\n    image: hue2lox-ci:check\n' > "$test_root/image.yaml"
 compose config --quiet
 compose up -d --build --wait --wait-timeout 120
+docker image inspect hue2lox-ci:check --format 'Built image: {{.Id}} {{.Os}}/{{.Architecture}}'
 [ "$(compose exec -T hue2lox id -u)" = 10001 ]
 compose exec -T hue2lox python -c 'import os; assert not os.access("/app/src", os.W_OK)'
 python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
 compose restart
 compose up -d --wait --wait-timeout 120
 python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
-docker image inspect python:3.12-alpine --format 'Base: {{json .RepoDigests}} {{.Os}}/{{.Architecture}}'
-docker image inspect hue2lox-ci:check --format 'Built image: {{.Id}} {{.Os}}/{{.Architecture}}'
 echo 'PASS: fresh Docker build, health, non-root user, read-only application, HTTPS, login and restart.'
