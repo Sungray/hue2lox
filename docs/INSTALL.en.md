@@ -2,7 +2,7 @@
 
 [Deutsch](../INSTALL.md) · [RC1 release and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1) · [English manual](MANUAL.en.md)
 
-This guide covers the interactive installer on `main`. RC1 is unchanged and has an older directory layout: use the instructions bundled in its ZIP for manual commands. The interactive entry point is `install-assistant.sh` in both versions.
+This guide installs published RC1 via its unchanged interactive installer. Verify the [version, commit, ZIP and SHA-256 mapping](DOWNLOADS.md) first. Do not follow old main-download instructions inside the RC1 archive. The manual German development guide targets a different layout.
 
 ## Requirements and supported systems
 
@@ -20,7 +20,7 @@ A 64-bit processor with a 32-bit OS is not sufficient. Existing working Docker E
 
 ## 1. Download on your Mac or Windows PC
 
-For the published candidate, download **hue2lox-main.zip** from [RC1 assets](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1). For current development sources, use **Code → Download ZIP** on the repository page. These are different source versions; record which one you test. Keep the archive zipped in Downloads. GitHub's automatically generated “Source code” archive may use a different folder name; commands below use our named asset or the main-branch ZIP.
+For the published candidate, download **hue2lox-main.zip** from [RC1 assets](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1). Verify the checksum using [these commands](DOWNLOADS.md#prüfen--verify). Do not use Code → Download ZIP for a release installation. Development downloads are listed separately in that document. Keep the archive zipped in Downloads. GitHub's automatically generated “Source code” archive may use a different folder name; commands below use our named asset or the main-branch ZIP.
 
 Downloads are public; no GitHub login is required. If Safari automatically extracts the ZIP, disable that option and download it again.
 

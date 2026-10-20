@@ -118,7 +118,7 @@ Parser akzeptiert auch ganzzahlige JSON-Zahlen wie `84013.0`; Werte mit echtem
 Nachkommaanteil werden abgelehnt. Deshalb den empfangenen Body prüfen, statt aus
 der Anzeigeformatierung allein auf die Ursache zu schließen.
 
- Bei Verbindungsproblemen Adresse, Port 8443 und Zertifikat prüfen.
+ Bei Verbindungsproblemen Adresse, tatsächlich konfigurierten Port (Installer-Vorgabe 18443) und Zertifikat prüfen.
 Die temporäre Logfunktion unter **HTTP-Monitor** zeigt eingegangene
 Befehle ohne Tokens. Ein Browser-Zertifikatsvertrauen gilt nicht automatisch für
 den Miniserver; dessen HTTPS-Aufruf muss separat funktionieren.

@@ -61,7 +61,7 @@ Der Kopplungsaufruf ist ausschließlich `POST /api` mit einem Hue2Lox-App-Namen.
 - Browser mit ausschließlich Testdaten: Bridge hinzufügen, Kopplungsschritte, automatische Inventur und Übernahme in die Loxone-Auswahlliste geprüft.
 - Echte lesende Prüfung auf LoxBerry: EG-Bridge `192.0.2.253`, ID `001788FFFE000001`, BSB002, Firmware `1978418030`, Zertifikatsprüfung erfolgreich. Zertifikat-SHA256: `2A:41:4C:25:34:78:62:ED:00:0E:66:DF:74:99:B9:24:7E:8D:CB:AA:AA:C0:30:75:BC:10:11:75:4E:E8:B2:F0`.
 - Keine reale neue Kopplung oder Inventur aller produktiven Lampen durch die Entwicklung. Root-Installation, Link-Tastendruck und anschließende Live-Prüfung bleiben erforderlich.
-- Hue-v2/HTTPS vorausgesetzt. Hue Bridge v1 und andere Zertifikatsprofile sind nicht als unterstützt/testbestätigt ausgewiesen. IPv6, mDNS-/Cloud-Discovery, Löschen/Widerrufen von Bridge-Keys und SSE sind nicht enthalten.
+- Hue-v2/HTTPS vorausgesetzt. Hue Bridge v1 und andere Zertifikatsprofile sind nicht als unterstützt/testbestätigt ausgewiesen. Lokale mDNS-Suche ist implementiert; siehe [DISCOVERY.md](DISCOVERY.md). IPv6, Cloud-Discovery, Widerrufen von Bridge-Keys auf der Bridge und SSE sind nicht enthalten.
 
 Herstellerreferenz für den Link-Tasten-Ablauf:
 https://developers.meethue.com/develop/get-started-2/

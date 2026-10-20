@@ -13,7 +13,7 @@ Der öffentliche Download enthält den **Quellcode samt Installer und Dockerfile
 
 **[Installation](INSTALL.md) · [RC1 als ZIP herunterladen](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip) · [Release Notes](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)**
 
-RC1 ist ein unveränderter Versionsstand. `main` enthält neuere Aufräumarbeiten; bei RC1 die im ZIP enthaltene Anleitung verwenden.
+RC1 ist ein unveränderter Versionsstand. [Version, Commit und Prüfsumme](docs/DOWNLOADS.md) prüfen; die veralteten main-Downloadhinweise im RC1-ZIP nicht verwenden. `main` ist der getrennte Entwicklungsstand.
 
 Für eine frische Linux-Installation (Ubuntu, Debian, Raspberry Pi OS 64 Bit oder DietPi): Voraussetzungen, ZIP-Download, Übertragung vom Mac/PC auf den Server und erster Login. Jeder Schritt zeigt, wo du ihn ausführst.
 

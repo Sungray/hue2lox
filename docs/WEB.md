@@ -15,11 +15,13 @@ Die Webdaten verlangen eine Admin-Sitzung. Loxone-Steuerung verwendet weiterhin 
 
 Schema-Version 1: Liste von Bridges mit id, name, host, enabled und lights. Aktive Bridges besitzen serverseitig bridge_id und key_file; letzteres ist nur ein Pfad, nie ein ausgegebener Keywert. Neue Keys und Runtime-Registry liegen auf dem geschützten persistenten `/data`-Mount. Die bisherige Registry wird einmal migriert und anschließend vom Installer bewahrt.
 
-Die Ausgangskonfiguration enthält die bekannte EG-Hue-Go und vorbereitete OG-/UG-Bridges. Neue Inventur übernimmt die tatsächlichen Lampen der jeweiligen Bridge. Hue-Go-Alias und bestehende IDs bleiben erhalten. Automatische LAN-/Cloud-Bridge-Suche, allgemeiner Konfigurationseditor und SSE sind noch nicht enthalten.
+Die öffentliche Ausgangskonfiguration ist leer. Bridges werden lokal gesucht (unter anderem per mDNS) oder über eine private IP ergänzt und gekoppelt. Inventur übernimmt die tatsächlichen Lampen. Bestehende IDs und historische Aliase bleiben bei vorhandenen Installationen erhalten. Ein allgemeiner Konfigurationseditor und SSE sind nicht enthalten. Details zur Suche: [DISCOVERY.md](DISCOVERY.md).
 
 Statusabfragen werden je aktiver Bridge gebündelt, mit vier parallelen Bridge-Abfragen, 5-Sekunden-Cache und Aktualisierung im Browser alle 10 Sekunden. Diese Abfragen lesen gemeldete/gespeicherte Zustände und sind keine physische Bestätigung jedes Lampenbefehls.
 
-## Prüfung
+## Historischer Prüfstand vom 18.10.2026
+
+Der folgende Bericht dokumentiert den damaligen Ausbau, nicht die Abnahme des heutigen Release-Kandidaten. Aktuelle Rückmeldungen: [TEST-RESULTS.md](TEST-RESULTS.md).
 
 45 lokale Tests bestanden, darunter bestehende Steuer-/Farbtests und neue Bridge-Prüfungen. Browser mit Testdaten: Login, Tokenkopie, einklappbare Befehle, Export, Hinzufügen, Kopplung und Inventur geprüft. Echte EG-Bridge rein lesend mit Zertifikats- und Identitätsprüfung erkannt. Produktive Kopplung, Vollinventur und Container-Betrieb des neuen Ausbaus bleiben bis zur Installation offen.
 

@@ -7,6 +7,8 @@ Published RC1 (`v1.0.0-rc.1`) remains unchanged. The `main` branch includes subs
 Publisher: **square | com** · [Impressum](https://square-com.de/impressum/)
 License: Apache 2.0 for original project material; see LICENSE, NOTICE and THIRD-PARTY-NOTICES.md.
 
+The authoritative [download mapping](docs/DOWNLOADS.md) records the published candidate, commit, archive root and checksum. Stable is preparation only; no stable asset or checksum is implied.
+
 ## Delivery
 
 This repository starts with a clean source snapshot, without private development history.

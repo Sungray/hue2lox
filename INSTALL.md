@@ -2,7 +2,7 @@
 
 [English installation guide](docs/INSTALL.en.md) · [RC1-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)
 
-Diese Anleitung beschreibt `main`. RC1 bleibt unverändert: Für RC1 die im Release-ZIP enthaltene Anleitung verwenden, insbesondere bei manuellen Befehlen und Dateipfaden.
+Option 1 installiert den veröffentlichten RC1 über seinen unveränderten interaktiven Einstieg. Option 2 ist ausdrücklich eine Entwicklungsinstallation von `main`. [Version, Commit, Paket und Prüfsumme](docs/DOWNLOADS.md) sind zentral dokumentiert. Alte main-Downloadhinweise im RC1-ZIP nicht verwenden.
 
 Hue2Lox ist für **Linux-Systeme mit Docker Engine und Docker Compose** vorgesehen – auf einem eigenen Rechner, in einer virtuellen Maschine oder auf einem Raspberry Pi. Als Plattformen kommen beispielsweise Ubuntu, Debian, DietPi oder Raspberry Pi OS (früher Raspbian) infrage, sofern Betriebssystemversion und CPU-Architektur die benötigten Pakete und Container unterstützen.
 
@@ -30,7 +30,7 @@ Der Installer führt dich über ein Menü durch die Einrichtung. Er prüft vorha
 
 ### A. Herunterladen – auf deinem Mac oder Windows-PC
 
-Öffne [Hue2Lox auf GitHub](https://github.com/square-com-de/hue2lox) und wähle **Code → Download ZIP**. Speichere `hue2lox-main.zip` in deinem Download-Ordner, ohne sie zu entpacken.
+Lade **[RC1: hue2lox-main.zip](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip)** in deinen Download-Ordner, ohne sie zu entpacken. Prüfe vor dem Kopieren die [SHA-256-Prüfsumme](docs/DOWNLOADS.md#prüfen--verify). Verwende nicht Code → Download ZIP; das lädt den Entwicklungsstand.
 
 Der Download ist öffentlich und benötigt kein GitHub-Konto. Falls Safari die ZIP automatisch entpackt, „Sichere Dateien nach dem Laden öffnen“ deaktivieren und erneut herunterladen.
 
@@ -184,7 +184,7 @@ Beim Start **Deutsch oder English** auswählen. Jeder verändernde Schritt fragt
 
 **Sobald `Installation ready` erscheint, öffne die angezeigte Webadresse.** Weiter geht es bei [Webinterface öffnen und anmelden](#9-webinterface-öffnen-und-anmelden). Die folgenden nummerierten Abschnitte sind die manuelle Alternative zum Installer.
 
-# Option 2: Manuelle Installation Schritt für Schritt
+# Option 2: Entwicklungsstand main — Manuelle Installation Schritt für Schritt
 
 ## 1. Voraussetzungen
 
@@ -303,6 +303,8 @@ sudo docker compose version
 ```
 
 Erwartet: `Hello from Docker!` und eine Compose-Versionsnummer. Wir verwenden stets `sudo docker compose` mit Leerzeichen, nicht das alte `docker-compose`.
+
+> **Nur Entwicklung:** Die folgenden manuellen Downloads und Dateipfade gelten für `main`, nicht für RC1. Für einen veröffentlichten Kandidaten Option 1 und [DOWNLOADS](docs/DOWNLOADS.md) verwenden.
 
 ## 5. Hue2Lox herunterladen
 
