@@ -5,13 +5,15 @@
 <p align="center">Philips Hue mit Loxone verbinden – lokal, übersichtlich und mit acht helfenden Armen.</p>
 <p align="center"><a href="README.en.md">English</a> · <a href="docs/MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release-Status</a></p>
 
-**Public Beta.** Deutsch und Englisch sind verfügbar. Eine frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Die vollständige Abnahme aller Loxone-Funktionen auf dem Veröffentlichungsstand bleibt offen. Der eigene Projektcode steht unter Apache 2.0.
+**Release Candidate 1.** Deutsch und Englisch sind verfügbar. Eine frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Die vollständige Abnahme aller Loxone-Funktionen auf dem Veröffentlichungsstand bleibt offen. Der eigene Projektcode steht unter Apache 2.0.
 
 Der öffentliche Download enthält den **Quellcode samt Installer und Dockerfile**. Der Installer baut das Hue2Lox-Image auf deinem Linux-Rechner; ein fertiges Hue2Lox-Image bieten wir vorerst nicht an.
 
 ## Hier starten
 
-**[Hue2Lox installieren – Schritt für Schritt](INSTALL.md)**
+**[Installation](INSTALL.md) · [RC1 als ZIP herunterladen](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip) · [Release Notes](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)**
+
+RC1 ist ein unveränderter Versionsstand. `main` enthält neuere Aufräumarbeiten; bei RC1 die im ZIP enthaltene Anleitung verwenden.
 
 Für eine frische Linux-Installation (Ubuntu, Debian, Raspberry Pi OS 64 Bit oder DietPi): Voraussetzungen, ZIP-Download, Übertragung vom Mac/PC auf den Server und erster Login. Jeder Schritt zeigt, wo du ihn ausführst.
 

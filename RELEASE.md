@@ -1,4 +1,8 @@
-# Hue2Lox — Public Beta
+# Hue2Lox — Release Candidate 1
+
+[RC1 release notes and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1) · [English installation](docs/INSTALL.en.md) · [Deutsche Installation](INSTALL.md)
+
+Published RC1 (`v1.0.0-rc.1`) remains unchanged. The `main` branch includes subsequent repository and documentation cleanup. Test the exact candidate commit before publishing stable; a passing older release test is not automatic acceptance of newer changes.
 
 Publisher: **square | com** · [Impressum](https://square-com.de/impressum/)
 License: Apache 2.0 for original project material; see LICENSE, NOTICE and THIRD-PARTY-NOTICES.md.
