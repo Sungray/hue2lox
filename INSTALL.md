@@ -1,11 +1,11 @@
 # Hue2Lox auf Linux installieren
 
-[English installation guide](docs/INSTALL.en.md) · [RC1-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)
+[English installation guide](docs/INSTALL.en.md) · [RC2-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.2)
 
 - [Option 1: Einfach und komfortabel – der Installer](#option-1-einfach-und-komfortabel--der-installer)
 - [Option 2: Entwicklungsstand main — Manuelle Installation Schritt für Schritt](#option-2-entwicklungsstand-main--manuelle-installation-schritt-für-schritt)
 
-Option 1 installiert den veröffentlichten RC1 über seinen unveränderten interaktiven Einstieg. Option 2 ist ausdrücklich eine Entwicklungsinstallation von `main`. [Version, Commit, Paket und Prüfsumme](docs/DOWNLOADS.md) sind zentral dokumentiert. Alte main-Downloadhinweise im RC1-ZIP nicht verwenden.
+Option 1 installiert **RC2** direkt auf dem Linux-Server. Option 2 ist der getrennte Entwicklungsweg von `main`. [Version, Paket und Prüfsumme](docs/DOWNLOADS.md) gehören immer zusammen; für den normalen Einstieg Option 1 verwenden.
 
 Hue2Lox ist für **Linux-Systeme mit Docker Engine und Docker Compose** vorgesehen – auf einem eigenen Rechner, in einer virtuellen Maschine oder auf einem Raspberry Pi. Als Plattformen kommen beispielsweise Ubuntu, Debian, DietPi oder Raspberry Pi OS (früher Raspbian) infrage, sofern Betriebssystemversion und CPU-Architektur die benötigten Pakete und Container unterstützen.
 
@@ -31,108 +31,54 @@ Alle Schritte der Reihe nach ausführen. Bei einem Fehler zunächst stoppen und 
 
 Der Installer führt dich über ein Menü durch die Einrichtung. Er prüft vorhandene Software und kann fehlende Pakete installieren. **Du brauchst einen Linux-Server, seinen Benutzernamen und seine IP-Adresse sowie Root-Zugang oder vorhandene sudo-Rechte.** Der Installer erkennt die Systeme aus der Tabelle oben, zeigt die erkannte Basis an und wählt die passende Docker-Paketquelle. Mit einem Root-Konto kannst du die Befehle ohne `sudo` ausführen.
 
-### A. Herunterladen – auf deinem Mac oder Windows-PC
+### A. Am Server anmelden
 
-Lade **[RC1: hue2lox-main.zip](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip)** in deinen Download-Ordner, ohne sie zu entpacken. Prüfe vor dem Kopieren die [SHA-256-Prüfsumme](docs/DOWNLOADS.md#prüfen--verify). Verwende nicht Code → Download ZIP; das lädt den Entwicklungsstand.
-
-Der Download ist öffentlich und benötigt kein GitHub-Konto. Falls Safari die ZIP automatisch entpackt, „Sichere Dateien nach dem Laden öffnen“ deaktivieren und erneut herunterladen.
-
-### B. Auf den Server kopieren
-
-In den folgenden Beispielen **`anna` durch deinen Server-Benutzernamen und `192.0.2.50` durch die IP deines Servers ersetzen**. Falls du diese noch nicht kennst: direkt in der Server-Konsole `whoami` und `hostname -I` ausführen.
-
-**Mac – im lokalen Terminal:**
-
-```sh
-scp ~/Downloads/hue2lox-main.zip anna@192.0.2.50:~/hue2lox-main.zip
-```
-
-**Windows – in PowerShell mit OpenSSH-Client:**
-
-```powershell
-scp "$env:USERPROFILE\Downloads\hue2lox-main.zip" anna@192.0.2.50:~/hue2lox-main.zip
-```
-
-Gib bei Nachfrage das Passwort deines Server-Benutzers ein. Im Terminal erscheinen dabei keine Zeichen. Die Datei liegt danach im persönlichen Ordner auf dem Server.
-
-### C. Am Server anmelden und entpacken
-
-**Mac-Terminal oder Windows PowerShell:**
+**Auf deinem Mac im Terminal oder unter Windows in PowerShell:** `anna` durch deinen Server-Benutzernamen und `192.0.2.50` durch dessen IP ersetzen.
 
 ```sh
 ssh anna@192.0.2.50
 ```
 
-Alternativ kannst du PuTTY verwenden. Hinweise zur ersten Verbindung und zur optionalen SSH-Installation stehen unter [Server-IP herausfinden und anmelden](#2-server-ip-herausfinden-und-anmelden). Wenn SSH noch fehlt, zuerst dort fortfahren; der Installer kann keinen noch fehlenden Fernzugang herstellen.
+Benutzer und IP findest du bei Bedarf in der Server-Konsole mit `whoami` und `hostname -I`. Alternativ kannst du PuTTY oder direkt die lokale Server-Konsole verwenden. Wenn SSH noch fehlt, zuerst den Abschnitt [Server-IP herausfinden und anmelden](#2-server-ip-herausfinden-und-anmelden) nutzen. Der Installer kann keinen noch fehlenden Fernzugang herstellen.
 
-#### Vorhandenes sudo oder Root verwenden
+### B. Root verwenden und Download-Werkzeuge bereitstellen
 
-Wähle **einen** der beiden Wege. sudo muss nicht extra installiert werden.
+**Auf dem Linux-Server:** Wenn du bereits als Root angemeldet bist, überspringe den Wechsel. Sonst wähle genau einen Weg:
 
-**Mit vorhandenen sudo-Rechten** bleibst du als normaler Benutzer angemeldet:
+- **Debian ohne sudo:** `su -` eingeben und das Root-Passwort verwenden.
+- **Vorhandene sudo-Rechte:** `sudo -i` eingeben und das eigene Benutzerpasswort verwenden.
 
-```sh
-sudo whoami
-```
+sudo wird nicht extra installiert; Benutzergruppen bleiben unverändert. Ohne Root-Zugang oder vorhandene sudo-Rechte hilft der Serveradministrator. Passwörter nur im Terminal eingeben; dabei erscheinen keine Zeichen.
 
-Erscheint `root`, verwende Weg A. Bei „sudo: Kommando nicht gefunden“ oder „ist nicht in der sudoers-Datei“ verwende Weg B.
-
-#### Weg A: Mit sudo entpacken und starten
-
-Falls `unzip` fehlt, auf dem Server installieren:
+Ab hier alle Serverbefehle **in derselben Root-Sitzung** ausführen. Der Download erfolgt erst jetzt, deshalb müssen keine Dateien aus dem normalen Benutzerordner übernommen werden.
 
 ```sh
-sudo apt update && sudo apt install -y --no-install-recommends unzip
+apt update &&
+apt install -y --no-install-recommends ca-certificates curl unzip
 ```
 
-ZIP prüfen und in einen neuen Ordner entpacken:
+Das gilt für die oben genannten Ubuntu-/Debian-basierten Systeme. Auf anderen Systemen diese drei Werkzeuge mit dem dortigen Paketmanager bereitstellen. Bei einem Fehler stoppen; bei „Not live until“ zuerst die Uhrzeit prüfen.
+
+### C. RC2 direkt herunterladen, prüfen und starten
+
+**Weiterhin auf dem Server als Root.** Diesen Block vollständig kopieren. Er erstellt einen neuen Downloadordner, lädt das feste RC2-Paket samt SHA-256-Prüfsumme, prüft und entpackt es und startet danach den Installer. Bestehende Ordner werden nicht überschrieben.
 
 ```sh
-unzip -tq "$HOME/hue2lox-main.zip" &&
-mkdir "$HOME/hue2lox-installer" &&
-unzip -q "$HOME/hue2lox-main.zip" -d "$HOME/hue2lox-installer"
+HUE2LOX_DOWNLOAD_DIR=$(mktemp -d "$HOME/hue2lox-rc2-XXXXXXXX") &&
+cd "$HUE2LOX_DOWNLOAD_DIR" &&
+curl --fail --location --output hue2lox-v1.0.0-rc.2.zip \
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/hue2lox-v1.0.0-rc.2.zip &&
+curl --fail --location --output SHA256SUMS.txt \
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/SHA256SUMS.txt &&
+sha256sum --check SHA256SUMS.txt &&
+unzip -tq hue2lox-v1.0.0-rc.2.zip &&
+unzip -q hue2lox-v1.0.0-rc.2.zip &&
+bash "$HUE2LOX_DOWNLOAD_DIR/hue2lox-v1.0.0-rc.2/install-assistant.sh"
 ```
 
-Nur wenn das Entpacken erfolgreich war, den Installer starten:
+Nur bei erfolgreicher Prüfung geht es weiter. Bei `FAILED`, Downloadfehler oder Entpackfehler stoppen; den Installer nicht separat starten. Die Prüfsumme gehört zum ZIP aus demselben Release. `Code → Download ZIP` lädt dagegen den Entwicklungsstand.
 
-```sh
-sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"
-```
-
-#### Weg B: Ohne sudo – zum Beispiel auf Debian
-
-Vor dem Wechsel den persönlichen Ordner anzeigen und merken:
-
-```sh
-printf '%s\n' "$HOME"
-su -
-```
-
-Gib das **Root-Passwort** ein. Bleibe für die Installation als Root angemeldet. Ohne Root-Passwort oder vorhandene sudo-Rechte muss der Serveradministrator helfen.
-
-**Nach `su -` zeigen `~` und `$HOME` auf `/root`.** Verwende deshalb den zuvor angezeigten vollständigen Benutzerpfad. Im Beispiel ist das `/home/anna`; überall durch deinen tatsächlichen Pfad ersetzen.
-
-Falls `unzip` fehlt, als Root installieren:
-
-```sh
-apt update && apt install -y --no-install-recommends unzip
-```
-
-ZIP im Benutzerordner prüfen und entpacken:
-
-```sh
-unzip -tq /home/anna/hue2lox-main.zip &&
-mkdir /home/anna/hue2lox-installer &&
-unzip -q /home/anna/hue2lox-main.zip -d /home/anna/hue2lox-installer
-```
-
-Nur wenn das Entpacken erfolgreich war, den Installer starten:
-
-```sh
-bash /home/anna/hue2lox-installer/hue2lox-main/install-assistant.sh
-```
-
-**Für beide Wege:** Bei einem Fehler stoppen. Existiert der Entpackordner bereits, einen neuen Ordner wählen und den Startpfad anpassen; nichts überschreiben. Als Root bei späteren Serverbefehlen das Präfix `sudo` weglassen. Es sind weder eine sudo-Installation noch Gruppenänderungen oder eine erneute SSH-Anmeldung nötig.
+**Erneut öffnen:** In derselben Root-Sitzung kannst du den letzten `bash`-Befehl wiederholen. Nach einer neuen Anmeldung den tatsächlich erstellten Downloadordner verwenden; `ls -d /root/hue2lox-rc2-*` zeigt die Standardpfade. Der Entpackordner ist nicht das spätere Installationsziel, etwa `/opt/hue2lox-test`.
 
 ### D. Im Installer weiter
 
@@ -143,10 +89,10 @@ sichtbar eingeblendet. Auch wenn Python noch fehlt, zeigt der Installer bereits 
 Fehler beim Laden oder Prüfen der Paketlisten stoppen den Schritt; bei Hinweisen
 wie „Not live until“ zuerst Datum und Zeitsynchronisation des Servers prüfen. Ohne geeignetes Terminal werden einfache Statuszeilen angezeigt.
 
-Für die vollständige direkte Ausgabe an den Startbefehl aus Weg A oder B `--verbose` anhängen. Beispiel mit sudo:
+Für die vollständige direkte Ausgabe in derselben Root-Sitzung:
 
 ```sh
-sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh" --verbose
+bash "$HUE2LOX_DOWNLOAD_DIR/hue2lox-v1.0.0-rc.2/install-assistant.sh" --verbose
 ```
 
 Die kompakten Protokolle filtern erkennbare Zugangsdaten; vor dem Teilen trotzdem
@@ -290,7 +236,7 @@ sudo docker compose version
 
 Erwartet: `Hello from Docker!` und eine Compose-Versionsnummer. Wir verwenden stets `sudo docker compose` mit Leerzeichen, nicht das alte `docker-compose`.
 
-> **Nur Entwicklung:** Die folgenden manuellen Downloads und Dateipfade gelten für `main`, nicht für RC1. Für einen veröffentlichten Kandidaten Option 1 und [DOWNLOADS](docs/DOWNLOADS.md) verwenden.
+> **Nur Entwicklung:** Die folgenden manuellen Downloads und Dateipfade gelten für `main`, nicht für RC2. Für einen veröffentlichten Kandidaten Option 1 und [DOWNLOADS](docs/DOWNLOADS.md) verwenden.
 
 ## 5. Hue2Lox herunterladen
 
@@ -511,6 +457,8 @@ Erfolg erst bei `Installation ready`. Die bisherige Webadresse bleibt unverände
 Zurück zum vorherigen Netzwerkmodus: die gesicherte `compose.yaml` nach `/opt/hue2lox-test/compose.yaml` zurückkopieren und das Startskript erneut ausführen. Den ausgegebenen Sicherungspfad verwenden. Die Datenordner weder löschen noch überschreiben.
 
 ## Zertifikat prüfen und optional dauerhaft vertrauen
+
+Wenn du Option 1 als Root ausgeführt hast, bei den folgenden Serverbefehlen `sudo` weglassen. Bei einem anderen Installationsziel die Pfade anpassen.
 
 Das lokal erzeugte Zertifikat ist dem Browser noch nicht bekannt. Auf dem **SERVER** den Fingerabdruck ablesen:
 

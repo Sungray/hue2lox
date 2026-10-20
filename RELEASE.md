@@ -1,8 +1,10 @@
-# Hue2Lox — Release Candidate 1
+# Hue2Lox — Release Candidate 2
 
-[RC1 release notes and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1) · [English installation](docs/INSTALL.en.md) · [Deutsche Installation](INSTALL.md)
+[RC2 release notes and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.2) · [English installation](docs/INSTALL.en.md) · [Deutsche Installation](INSTALL.md)
 
-Published RC1 (`v1.0.0-rc.1`) remains unchanged. The `main` branch includes subsequent repository and documentation cleanup. Test the exact candidate commit before publishing stable; a passing older release test is not automatic acceptance of newer changes.
+RC2 (`v1.0.0-rc.2`) packages the updated application, repository layout and direct-download documentation into one fixed source archive. RC1 (`v1.0.0-rc.1`) remains unchanged. The `main` branch can contain newer development work; use the named RC2 asset for normal installation and testing.
+
+RC2 enthält Anwendung, aktuelle Ordnerstruktur und die vereinfachte Direktdownload-Anleitung in einem festen Paket. RC1 bleibt unverändert. Der erneute Test auf einer frischen Debian-VM folgt genau dieser öffentlichen RC2-Anleitung; er ist noch nicht abgeschlossen.
 
 Publisher: **square | com** · [Impressum](https://square-com.de/impressum/)
 License: Apache 2.0 for original project material; see LICENSE, NOTICE and THIRD-PARTY-NOTICES.md.
@@ -12,14 +14,14 @@ The authoritative [download mapping](docs/DOWNLOADS.md) records the published ca
 ## Delivery
 
 This repository starts with a clean source snapshot, without private development history.
-Download the source ZIP or clone this repository and follow [INSTALL.md](INSTALL.md).
+Download the named RC2 ZIP and follow its [INSTALL.md](INSTALL.md); the guide verifies SHA256SUMS.txt before extraction. Cloning main is a separate development path.
 Docker images are built locally from these sources. No prebuilt Hue2Lox images or VM appliances are distributed.
 
 ## Validation and limits
 
 On 20 October 2026, a user-run fresh Debian 13 VM installation passed installation, login, bridge discovery/pairing, inventory display and a full VM reboot with the configuration retained. See [docs/TEST-RESULTS.md](docs/TEST-RESULTS.md).
 Automated source, HTTPS and container checks are defined in GitHub Actions; consult the run for the specific commit.
-Full Loxone acceptance on this release, backup/restore and certificate renewal remain additional acceptance work. Existing historical live-control tests do not imply every device or distribution is covered.
+Isolated CI covers backup/restore, certificate renewal and an IP change. A fresh Debian test of this exact RC2 package and real Loxone/client-trust acceptance remain open. Existing historical live-control tests do not imply every device or distribution is covered.
 
 ## Operating notes
 

@@ -34,22 +34,22 @@ Alles bleibt übersichtlich: mehrere Bridges, deine Lampen und Szenen in einer O
 
 Du brauchst einen Linux-Server, eine VM oder einen Raspberry Pi mit unterstütztem 64-Bit-Betriebssystem, eine Hue Bridge und einen Loxone Miniserver für die Steuerung. Dein Mac oder Windows-PC begleitet dich bei der Einrichtung.
 
-1. **Installer starten:** Die [Installationsanleitung](INSTALL.md) führt dich durch Voraussetzungen, RC1-ZIP-Download, Kopieren auf den Server und Start des Installers.
+1. **Installer starten:** Die [Installationsanleitung](INSTALL.md) führt dich durch Anmeldung am Server, direkten RC2-Download mit Prüfsumme und Start des Installers.
 2. **Hue2Lox einrichten:** Der Installer prüft dein System und kann fehlende Pakete und Docker installieren. Vorhandene funktionierende Docker-Installationen werden weiterverwendet.
 3. **Bridge koppeln:** Öffne die angezeigte HTTPS-Adresse, prüfe das Zertifikat und melde dich mit `admin` / `admin` an. Das Passwort kannst du in der Oberfläche ändern.
 4. **Mit Loxone verbinden:** Wähle Lampen oder Szenen aus und folge der [bebilderten Anleitung](docs/TUTORIAL.md), um Befehle zu kopieren oder XML in Loxone Config zu importieren.
 
-**[Zur Installationsanleitung](INSTALL.md) · [RC1 als ZIP herunterladen](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip) · [Download prüfen](docs/DOWNLOADS.md)**
+**[Zur Installationsanleitung](INSTALL.md) · [RC2 als ZIP herunterladen](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/hue2lox-v1.0.0-rc.2.zip) · [Download prüfen](docs/DOWNLOADS.md)**
 
 Lieber mit KI-Begleitung? Nutze den [Installationsprompt für ChatGPT oder Claude](docs/AI-INSTALL.md). Er führt dich bis zum selben interaktiven Installer.
 
 ## Release-Status und technische Hinweise
 
-**Release Candidate 1.** Deutsch und Englisch sind verfügbar. Eine frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Der durchgängige Funktionstest mit einem Loxone Miniserver ist noch nicht abgeschlossen. Der eigene Projektcode steht unter Apache 2.0.
+**Release Candidate 2.** Deutsch und Englisch sind verfügbar. Eine frühere frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Der erneute Debian-Test des RC2-Pakets und der durchgängige Funktionstest mit einem Loxone Miniserver stehen noch aus. Der eigene Projektcode steht unter Apache 2.0.
 
 Der öffentliche Download enthält den **Quellcode samt Installer und Dockerfile**. Der Installer baut das Hue2Lox-Image auf deinem Linux-Rechner; ein fertiges Hue2Lox-Image bieten wir vorerst nicht an.
 
-RC1 ist ein unveränderter Versionsstand. [Version, Commit und Prüfsumme](docs/DOWNLOADS.md) prüfen; die veralteten main-Downloadhinweise im RC1-ZIP nicht verwenden. `main` ist der getrennte Entwicklungsstand.
+RC2 ist ein unveränderter Versionsstand. [Version, Commit und Prüfsumme](docs/DOWNLOADS.md) prüfen. `main` ist der getrennte Entwicklungsstand.
 
 Szenen erstellst du weiterhin in der Hue-App. Hue2Lox ruft sie über Loxone ab. Eine Synchronisierung des tatsächlichen Lampenzustands zurück in den Loxone-Lichtsteuerungsbaustein ist nicht vorgesehen.
 

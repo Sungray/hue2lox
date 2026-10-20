@@ -16,26 +16,19 @@ step through exactly this workflow:
    username. Also ask whether my workstation is a Mac or Windows PC.
    Wait for any missing answers. My workstation is not automatically the
    installation target.
-2. Download the published RC1 ZIP on my workstation:
-   https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip
-   Verify its SHA-256 against
-   https://github.com/square-com-de/hue2lox/blob/main/docs/DOWNLOADS.md.
-   Use an existing ZIP only if its checksum matches. No main-branch ZIP.
-3. Give me the appropriate scp command to copy the ZIP from my workstation
-   to my home directory on the target server, then the SSH login command.
-   Use my actual details.
-4. On the target: use existing sudo access or switch to root with su -.
-   Do not install sudo or change user groups. Install unzip only if missing.
-   Follow
-   https://github.com/square-com-de/hue2lox/blob/main/docs/INSTALL.en.md.
-   Before su -, note the user's home directory. After switching, use its
-   absolute path for the ZIP and hue2lox-installer, not root's $HOME.
-   If the directory already exists
-   or an error occurs, resolve that first; do not overwrite or continue.
-5. Start on the target server:
-   sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"
-   If I am working as root, omit sudo and use the actual path in the user's
-   home directory, not /root. The installer menu takes over from here.
+2. Give me the SSH command for the target using my details. On the server,
+   use existing sudo access with sudo -i or switch to root with su -.
+   If already root, skip the switch. Do not install sudo or change user groups.
+3. Follow the direct-download steps in
+   https://github.com/square-com-de/hue2lox/blob/v1.0.0-rc.2/docs/INSTALL.en.md.
+   As root on the target server, provide ca-certificates, curl and unzip.
+   Download the fixed hue2lox-v1.0.0-rc.2.zip and SHA256SUMS.txt directly from
+   https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.2.
+   No workstation download or scp is needed. No main-branch ZIP.
+4. In a new download directory, verify with sha256sum --check SHA256SUMS.txt.
+   Only after verification succeeds, extract and start install-assistant.sh
+   from hue2lox-v1.0.0-rc.2. Stop on errors and do not overwrite anything.
+   The installer menu takes over from here.
 
 Label each command block WORKSTATION or TARGET SERVER.
 Give only the next step and wait for my result.
