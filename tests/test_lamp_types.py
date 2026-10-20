@@ -7,8 +7,8 @@ import xml.etree.ElementTree as ET
 import lamp_types
 import loxone_export
 import bridge_store
-import test_bridges
-import test_admin
+from tests import test_bridges
+from tests import test_admin
 
 class LampTypeTests(unittest.TestCase):
     setUp=test_bridges.BridgeTests.setUp
@@ -48,7 +48,7 @@ class LampUsageAPITests(unittest.TestCase):
     def setUp(self):
         test_admin.AdminTests.setUp(self)
         self.registry=self.directory/'registry.json'
-        self.registry.write_text((Path(__file__).parent/'test-fixtures/registry.json').read_text())
+        self.registry.write_text((Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json').read_text())
         self.registry_env=patch.dict(os.environ,{'HUE_REGISTRY_FILE':str(self.registry),'HUE_STATE_DIR':str(self.directory)})
         self.registry_env.start()
     def tearDown(self):self.registry_env.stop();test_admin.AdminTests.tearDown(self)
@@ -112,7 +112,7 @@ class LampUsageAPITests(unittest.TestCase):
             expected={'Hue-Modelltabelle.csv':'hue-models.csv','LICENSE.txt':'LICENSE-zigbee-herdsman-converters','SOURCE.md':'README.md'}
             self.assertEqual(set(archive.namelist()),set(expected))
             for name,source in expected.items():
-                self.assertEqual(archive.read(name),Path(__file__).with_name('catalog').joinpath(source).read_bytes())
+                self.assertEqual(archive.read(name),(Path(__file__).resolve().parent.parent/'catalog'/source).read_bytes())
             self.assertIn(b'499535e092401a6c21e8c3b5e3aeca8062c11841',archive.read('SOURCE.md'))
         code,headers,_=self.request('/assets/hue-models.csv')
         self.assertEqual(code,302)

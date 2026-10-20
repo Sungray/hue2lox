@@ -4,7 +4,7 @@ import unittest
 from unittest.mock import patch
 from color import GAMUT, clip_xy, rgb_xy, loxone_rgb
 from hue_client import state_payload, write_state, read_status
-import test_control
+from tests import test_control
 
 
 class ColorMathTests(unittest.TestCase):

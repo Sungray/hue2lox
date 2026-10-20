@@ -9,7 +9,7 @@ from unittest.mock import Mock, patch
 
 class NetworkHealthTests(unittest.TestCase):
     def test_health_command_uses_configured_ip_and_port(self):
-        compose=(Path(__file__).parent/'compose.install.yaml').read_text()
+        compose=(Path(__file__).resolve().parent.parent/'compose.install.yaml').read_text()
         line=next(line.strip()[6:] for line in compose.splitlines() if line.strip().startswith('test: '))
         command=json.loads(line)
         response=Mock(status=200)

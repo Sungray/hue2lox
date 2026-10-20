@@ -9,7 +9,7 @@ import tempfile
 import time
 import unittest
 
-HELPER = Path(__file__).parent / 'scripts/installer_progress.py'
+HELPER = Path(__file__).resolve().parent.parent / 'scripts/installer_progress.py'
 
 
 class ProgressTests(unittest.TestCase):

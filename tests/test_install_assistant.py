@@ -4,7 +4,7 @@ import subprocess
 import tempfile
 import unittest
 
-SCRIPT=Path(__file__).parent/'install-assistant.sh'
+SCRIPT=Path(__file__).resolve().parent.parent/'install-assistant.sh'
 class AssistantTests(unittest.TestCase):
     def shell(self, code):
         return subprocess.run(['bash','-c','source "$1"; '+code,'test',str(SCRIPT)],capture_output=True,text=True)

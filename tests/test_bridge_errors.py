@@ -5,7 +5,7 @@ from unittest.mock import MagicMock, patch
 
 import hue_client
 import bridge_admin
-import test_admin
+from tests import test_admin
 
 
 class BridgeTransportTests(unittest.TestCase):

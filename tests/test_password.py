@@ -4,7 +4,7 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 import admin_auth
-import test_admin
+from tests import test_admin
 
 
 class PasswordTests(unittest.TestCase):
@@ -63,7 +63,7 @@ class PasswordTests(unittest.TestCase):
         import sys
         from pathlib import Path
         self.login()
-        result=subprocess.run([sys.executable,str(Path(__file__).parent/'admin_auth.py'),
+        result=subprocess.run([sys.executable,str(Path(__file__).resolve().parent.parent/'admin_auth.py'),
                                str(admin_auth.credential_path()),'--default'],capture_output=True)
         self.assertEqual(result.returncode,0)
         self.assertEqual(self.request('/api/admin/token',{})[0],401)

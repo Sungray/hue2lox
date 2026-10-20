@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 
 import app
 import hue_client
-import test_admin
+from tests import test_admin
 
 
 class StrictJSONTests(unittest.TestCase):
@@ -65,7 +65,7 @@ class CertificatePermissionsTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root=Path(directory);(root/'scripts').mkdir()
             script=root/'scripts/create-cert.sh'
-            shutil.copyfile(Path(__file__).parent/'scripts/create-cert.sh',script)
+            shutil.copyfile(Path(__file__).resolve().parent.parent/'scripts/create-cert.sh',script)
             env=dict(os.environ,HUE2LOX_BIND_IP='127.0.0.1')
             first=subprocess.run(['sh',str(script)],env=env,capture_output=True)
             self.assertEqual(first.returncode,0)

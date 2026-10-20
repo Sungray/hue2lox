@@ -1,7 +1,7 @@
 import os
 import unittest
 from unittest.mock import patch
-import test_control
+from tests import test_control
 from color import kelvin_mirek,loxone_lumitech
 from hue_client import state_payload,write_state
 

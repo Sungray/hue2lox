@@ -21,7 +21,7 @@ class AdminTests(unittest.TestCase):
         auth=self.directory/'auth.json';auth.write_text(json.dumps(admin_auth.create_credentials('admin',self.password)))
         token=self.directory/'token';token.write_text('t'*48)
         admin_auth.SESSIONS.clear();admin_auth.ATTEMPTS.clear()
-        self.env=patch.dict(os.environ,{'HUE_REGISTRY_FILE':str(Path(__file__).parent/'test-fixtures/registry.json'),'HUE_ADMIN_AUTH_FILE':str(auth),'HUE_CONTROL_TOKEN_FILE':str(token),'HUE_PUBLIC_URL':'https://hue2lox.test:8443','HUE_COLOR_ENABLED':'1','HUE_WHITE_ENABLED':'1','HUE_WRITES_ENABLED':'1'})
+        self.env=patch.dict(os.environ,{'HUE_REGISTRY_FILE':str(Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json'),'HUE_ADMIN_AUTH_FILE':str(auth),'HUE_CONTROL_TOKEN_FILE':str(token),'HUE_PUBLIC_URL':'https://hue2lox.test:8443','HUE_COLOR_ENABLED':'1','HUE_WHITE_ENABLED':'1','HUE_WRITES_ENABLED':'1'})
         self.env.start();self.server=ThreadingHTTPServer(('127.0.0.1',0),app.Handler)
         self.thread=threading.Thread(target=self.server.serve_forever,daemon=True);self.thread.start()
         self.cookie=None;self.csrf=None

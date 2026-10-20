@@ -4,9 +4,9 @@ from pathlib import Path
 import tempfile
 import unittest
 from unittest.mock import patch
-from test_install import setup
+from tests.test_install import setup
 
-spec = importlib.util.spec_from_file_location('start_install', Path(__file__).parent/'scripts/start-install.py')
+spec = importlib.util.spec_from_file_location('start_install', Path(__file__).resolve().parent.parent/'scripts/start-install.py')
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
 

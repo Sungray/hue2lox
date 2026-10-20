@@ -482,7 +482,7 @@ Erfahrene Nutzer können statt ZIP einen separaten Git-Klon verwenden: Git mit `
 Für Entwickler, aus dem Quellordner mit Python, OpenSSL und Node.js (nicht für die normale Installation erforderlich):
 
 ```sh
-python3 -m unittest discover -s . -p 'test_*.py'
+python3 -m unittest discover -s tests -t . -p 'test_*.py'
 python3 scripts/smoke-install.py
 ```
 

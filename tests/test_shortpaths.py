@@ -7,7 +7,7 @@ from unittest.mock import patch
 import xml.etree.ElementTree as ET
 import bridge_store
 import loxone_export
-import test_bridges
+from tests import test_bridges
 
 class ShortPathTests(unittest.TestCase):
     setUp=test_bridges.BridgeTests.setUp
@@ -45,7 +45,7 @@ class ShortPathTests(unittest.TestCase):
         bridge_store.ensure_short_names(reserved);self.assertNotEqual(reserved['bridges'][0]['short_name'],'api')
 
 class ShortPathAPITests(unittest.TestCase):
-    import test_admin
+    from tests import test_admin
     setUp=test_admin.AdminTests.setUp
     tearDown=test_admin.AdminTests.tearDown
     request=test_admin.AdminTests.request

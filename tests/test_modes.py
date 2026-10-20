@@ -3,8 +3,8 @@ import unittest
 from unittest.mock import patch
 import xml.etree.ElementTree as ET
 import loxone_export
-import test_bridges
-import test_admin
+from tests import test_bridges
+from tests import test_admin
 
 class ModeTests(unittest.TestCase):
     setUp=test_bridges.BridgeTests.setUp

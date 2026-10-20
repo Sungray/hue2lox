@@ -9,8 +9,8 @@ import bridge_admin
 import bridge_store
 import scenes
 import loxone_export
-import test_admin
-import test_bridges
+from tests import test_admin
+from tests import test_bridges
 
 
 def resources():
@@ -119,7 +119,7 @@ class SceneAPITests(unittest.TestCase):
     def setUp(self):
         test_admin.AdminTests.setUp(self)
         self.registry=self.directory/'registry.json'
-        doc=json.loads((Path(__file__).parent/'test-fixtures/registry.json').read_text())
+        doc=json.loads((Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json').read_text())
         doc['bridges'][0]['scenes']=scenes.collect(resources());self.registry.write_text(json.dumps(doc))
         self.registry_env=patch.dict(os.environ,{'HUE_REGISTRY_FILE':str(self.registry),'HUE_STATE_DIR':str(self.directory)});self.registry_env.start()
     def tearDown(self):

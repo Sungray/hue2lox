@@ -6,7 +6,7 @@ from pathlib import Path
 import ssl
 import tempfile
 import unittest
-spec=importlib.util.spec_from_file_location('prepare_install',Path(__file__).parent/'scripts/prepare-install.py')
+spec=importlib.util.spec_from_file_location('prepare_install',Path(__file__).resolve().parent.parent/'scripts/prepare-install.py')
 setup=importlib.util.module_from_spec(spec);spec.loader.exec_module(setup)
 
 class FreshInstallTests(unittest.TestCase):
@@ -34,7 +34,7 @@ class FreshInstallTests(unittest.TestCase):
             self.assertIn("os.environ['PORT']",compose)
             self.assertNotIn('127.0.0.1:8443/health',compose)
             for name in ('LICENSE','NOTICE','THIRD-PARTY-NOTICES.md'):
-                self.assertEqual((a/name).read_bytes(),(Path(__file__).parent/name).read_bytes())
+                self.assertEqual((a/name).read_bytes(),(Path(__file__).resolve().parent.parent/name).read_bytes())
             values = dict(line.split('=', 1) for line in env.splitlines())
             self.assertRegex(values['COMPOSE_PROJECT_NAME'], r'^hue2lox-[a-z]+$')
             self.assertEqual(values['HUE2LOX_CONTAINER_NAME'], values['COMPOSE_PROJECT_NAME'] + '-1')
