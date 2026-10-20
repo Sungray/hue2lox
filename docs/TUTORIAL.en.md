@@ -20,7 +20,7 @@ Under **Use with Loxone**, check the modes you need. Your choices are saved and 
 
 Only detected modes enabled on the server are offered. For Tunable White, use **Lumitech** in Loxone, select white light and set brightness above 0% to test it. Both Tunable White and Lumitech RGB + White use `{"loxone_lumitech":<v>}`; the latter also supports color.
 
-![Control mode and copy fields in Hue2Lox (German interface)](web/tutorial-commands.png)
+![Control mode and copy fields in Hue2Lox (German interface)](../web/tutorial-commands.png)
 
 ## 2. Create a virtual output
 
@@ -53,7 +53,7 @@ For existing commands, replace the entire ON header, and the OFF header for On/o
 - **On/off:** enable digital output and also copy the OFF fields.
 - **Dimming, Tunable White, RGB, Lumitech:** set Unit to `<v>`, disable digital output and leave OFF fields empty. Value 0 switches off. Dimming uses 0–100%; RGB and Lumitech require the matching actuator type on the Lighting Controller.
 
-![Virtual output command properties in Loxone Config (German interface)](web/tutorial-config.png)
+![Virtual output command properties in Loxone Config (German interface)](../web/tutorial-config.png)
 
 ## Alternative: import XML
 
@@ -67,7 +67,7 @@ Import the template under Virtual Outputs in Loxone Config, then check the base 
 
 Connect the command to a suitable test output, save the program to the Miniserver and trigger it deliberately. Start the **HTTP monitor** to inspect the response. HTTP 200 confirms that Hue accepted the request; verify the effect on the light itself.
 
-![Successful response in the HTTP monitor (German interface)](web/tutorial-monitor.png)
+![Successful response in the HTTP monitor (German interface)](../web/tutorial-monitor.png)
 
 For HTTP 401 check the token; for 403 check whether control is enabled. For **HTTP 400**, start recording, trigger the command again and inspect **Body (sanitized)**: a numeric value rather than a string, a resolved `<v>` and the matching RGB/Lumitech format. Invalid JSON reports its line and column.
 

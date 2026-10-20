@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">Get a grip on Hue. With Hue2Lox.</h1>
 <p align="center">Connect Philips Hue to Loxone – locally, clearly, with eight helping arms.</p>
-<p align="center"><a href="README.md">Deutsch</a> · <a href="MANUAL.en.md">Manual</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release status</a></p>
+<p align="center"><a href="README.md">Deutsch</a> · <a href="docs/MANUAL.en.md">Manual</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release status</a></p>
 
 **Public beta.** German and English are available. A fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. Full acceptance of all Loxone functions on this release remains pending. Original project code is licensed under Apache 2.0.
 
@@ -13,7 +13,7 @@ The public download contains **source code, the installer and Dockerfile**. The 
 
 **[Install Hue2Lox step by step (German)](INSTALL.md)**
 
-Fresh Ubuntu setup: prerequisites, ZIP download, transfer from your Mac/PC to the server, and first login. Each step states where to run it. For English assistance, use the [AI installation guide](AI-INSTALL.en.md).
+Fresh Ubuntu setup: prerequisites, ZIP download, transfer from your Mac/PC to the server, and first login. Each step states where to run it. For English assistance, use the [AI installation guide](docs/AI-INSTALL.en.md).
 
 ## Features
 
@@ -30,31 +30,31 @@ Create and edit scenes in the Hue app; recall them through Loxone. Synchronizing
 
 ![Loxone command fields in Hue2Lox](web/tutorial-commands.png)
 
-*Example with test data and German labels; the current layout is more compact. More illustrations are in the [Loxone guide](TUTORIAL.en.md).*
+*Example with test data and German labels; the current layout is more compact. More illustrations are in the [Loxone guide](docs/TUTORIAL.en.md).*
 
 ## Get started
 
-You need a Linux machine with Docker Compose, Python and OpenSSL, a supported Hue Bridge and a Loxone Miniserver for control. See [TEST-RESULTS.md](TEST-RESULTS.md) for the documented test scope.
+You need a Linux machine with Docker Compose, Python and OpenSSL, a supported Hue Bridge and a Loxone Miniserver for control. See [docs/TEST-RESULTS.md](docs/TEST-RESULTS.md) for the documented test scope.
 
 1. Follow [INSTALL.md](INSTALL.md), using a separate test directory and free port.
 2. Generate a fresh installation with unique credentials and an empty bridge list.
 3. Open the web interface, verify its certificate, and sign in with `admin` / `admin`. Change the password in the interface.
-4. Pair a bridge, inspect discovered lights and follow the [Loxone guide](TUTORIAL.en.md).
+4. Pair a bridge, inspect discovered lights and follow the [Loxone guide](docs/TUTORIAL.en.md).
 
 **Existing development installations:** use the established staged update path, not fresh setup. Preserve credentials and device state. A general release updater is not yet approved.
 
 ## Install with ChatGPT or Claude
 
-[AI installation prompt and prerequisites](AI-INSTALL.en.md): copy the prompt, check your target system and set up an isolated test instance step by step. With terminal access the assistant can act; otherwise it guides you. The assistant guides you to the same interactive installer.
+[AI installation prompt and prerequisites](docs/AI-INSTALL.en.md): copy the prompt, check your target system and set up an isolated test instance step by step. With terminal access the assistant can act; otherwise it guides you. The assistant guides you to the same interactive installer.
 
 ## Documentation
 
 | Topic | Start here |
 | --- | --- |
-| Usage, troubleshooting and backup | [Manual](MANUAL.en.md) |
+| Usage, troubleshooting and backup | [Manual](docs/MANUAL.en.md) |
 | Fresh test installation | [Installation](INSTALL.md) |
-| Loxone HTTP outputs and XML | [Illustrated guide](TUTORIAL.en.md) |
-| Architecture and container | [Technical reference (German)](CONTAINER.md) |
+| Loxone HTTP outputs and XML | [Illustrated guide](docs/TUTORIAL.en.md) |
+| Architecture and container | [Technical reference (German)](docs/CONTAINER.md) |
 | Quality checks and contributing | [Development](CONTRIBUTING.md) |
 | Joint hardware tests | [Acceptance plan](docs/ACCEPTANCE.md) |
 | Sources, icons and licensing | [Third-party notices](THIRD-PARTY-NOTICES.md) |

@@ -11,7 +11,7 @@ Registry und keine Image-TARs oder VM-/Appliance-Abbilder als Download.
 Die CI baut und prüft temporäre Images; sie ist kein Image-Veröffentlichungsweg.
 
 Vor einem späteren Image-Vertrieb müssen die Freigabekriterien in
-[RELEASE.md](RELEASE.md#future-prebuilt-image-release-gate) erfüllt sein.
+[RELEASE.md](../RELEASE.md#future-prebuilt-image-release-gate) erfüllt sein.
 Ein grüner Schwachstellenscan ist keine Lizenzfreigabe.
 
 ## Betriebssystem und CPU-Architektur
@@ -174,7 +174,7 @@ docker compose exec -T hue2lox cat /etc/alpine-release
 
 ## Weiterführende Dateien
 
-- [README.md](README.md): Einstieg und Betrieb.
+- [README.md](../README.md): Einstieg und Betrieb.
 - [ADMIN.md](ADMIN.md): Einrichtung des Logins, Tokenanzeige und XML-Export.
 - [WEB.md](WEB.md): Oberfläche und Bridge-/Lampenmodell.
 - [BRIDGES.md](BRIDGES.md): Bridge-Kopplung, Inventur und Migration auf persistenten Speicher.

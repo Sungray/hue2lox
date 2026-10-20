@@ -44,7 +44,7 @@ nur vorhandene, nicht ignorierte oder lokal entfernte Szenen aktivierter Bridges
 - Gespeichert wird der Link in `/data/registry.json`; Netzwerkresultate bleiben
   vorübergehend im Browser. Es gibt keinen zusätzlichen Dienst oder Container.
 
-**Neue Linux-Installationen:** `compose.install.yaml` verwendet Host-Netzwerk, sodass die Suche direkt im LAN der VM erfolgt. Web-IP, Port und HTTPS-Healthcheck folgen den Installationswerten. Die tatsächliche Suche im LAN muss weiterhin getestet werden; Details und Umstellung bestehender Testinstallationen stehen in [INSTALL.md](INSTALL.md).
+**Neue Linux-Installationen:** `compose.install.yaml` verwendet Host-Netzwerk, sodass die Suche direkt im LAN der VM erfolgt. Web-IP, Port und HTTPS-Healthcheck folgen den Installationswerten. Die tatsächliche Suche im LAN muss weiterhin getestet werden; Details und Umstellung bestehender Testinstallationen stehen in [INSTALL.md](../INSTALL.md).
 
 **Ältere Installationen und Netzwerkgrenzen:** Broadcast/Multicast kann im Docker-Bridge-Netz,
 bei VLANs oder Firewalls fehlen. Ein erfolgreicher Test auf Mac oder LoxBerry-Host

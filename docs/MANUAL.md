@@ -1,6 +1,6 @@
 # Hue2Lox – Handbuch
 
-[Startseite](README.md) · [English](MANUAL.en.md) · [Installation](INSTALL.md)
+[Startseite](../README.md) · [English](MANUAL.en.md) · [Installation](../INSTALL.md)
 
 ## 1. Zugang und Sprache
 
@@ -78,6 +78,6 @@ Das bestehende Prototyp-Update legt nur eine begrenzte Rückrollkopie an; sie er
 
 ## 8. Grenzen und Quellen
 
-Die [Release-Checkliste](RELEASE.md) nennt offene Prüfungen. Die konkrete Lizenz für eigenen Code und die neuen SVG-Symbole ist noch offen. [Quellen und Lizenztexte](THIRD-PARTY-NOTICES.md) sind auch über den Footer erreichbar.
+Die [Release-Checkliste](../RELEASE.md) nennt offene Prüfungen. Die konkrete Lizenz für eigenen Code und die neuen SVG-Symbole ist noch offen. [Quellen und Lizenztexte](../THIRD-PARTY-NOTICES.md) sind auch über den Footer erreichbar.
 
 Unter **Nutzung & Verwaltung → Lampensymbol** kannst du die Form pro Lampe wählen. **Automatisch** verwendet Modell und Bridge-Daten; unbekannte Geräte erhalten ein Glühbirnensymbol. Die Auswahl bleibt bei Neustarts und erneutem Einlesen erhalten und verändert keine Loxone-Befehle.
