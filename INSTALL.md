@@ -2,6 +2,9 @@
 
 [English installation guide](docs/INSTALL.en.md) · [RC1-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)
 
+- [Option 1: Einfach und komfortabel – der Installer](#option-1-einfach-und-komfortabel--der-installer)
+- [Option 2: Entwicklungsstand main — Manuelle Installation Schritt für Schritt](#option-2-entwicklungsstand-main--manuelle-installation-schritt-für-schritt)
+
 Option 1 installiert den veröffentlichten RC1 über seinen unveränderten interaktiven Einstieg. Option 2 ist ausdrücklich eine Entwicklungsinstallation von `main`. [Version, Commit, Paket und Prüfsumme](docs/DOWNLOADS.md) sind zentral dokumentiert. Alte main-Downloadhinweise im RC1-ZIP nicht verwenden.
 
 Hue2Lox ist für **Linux-Systeme mit Docker Engine und Docker Compose** vorgesehen – auf einem eigenen Rechner, in einer virtuellen Maschine oder auf einem Raspberry Pi. Als Plattformen kommen beispielsweise Ubuntu, Debian, DietPi oder Raspberry Pi OS (früher Raspbian) infrage, sofern Betriebssystemversion und CPU-Architektur die benötigten Pakete und Container unterstützen.
