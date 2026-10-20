@@ -78,6 +78,6 @@ Das bestehende Prototyp-Update legt nur eine begrenzte Rückrollkopie an; sie er
 
 ## 8. Grenzen und Quellen
 
-Die [Release-Checkliste](../RELEASE.md) nennt offene Prüfungen. Die konkrete Lizenz für eigenen Code und die neuen SVG-Symbole ist noch offen. [Quellen und Lizenztexte](../THIRD-PARTY-NOTICES.md) sind auch über den Footer erreichbar.
+Die [Release-Checkliste](../RELEASE.md) nennt offene Prüfungen. Eigener Projektcode und eigene SVG-Symbole stehen unter der [Apache License 2.0](../LICENSE); Drittanbieterbestandteile behalten ihre jeweiligen Bedingungen. [Quellen und Lizenztexte](../THIRD-PARTY-NOTICES.md) sind auch über den Footer erreichbar.
 
 Unter **Nutzung & Verwaltung → Lampensymbol** kannst du die Form pro Lampe wählen. **Automatisch** verwendet Modell und Bridge-Daten; unbekannte Geräte erhalten ein Glühbirnensymbol. Die Auswahl bleibt bei Neustarts und erneutem Einlesen erhalten und verändert keine Loxone-Befehle.

@@ -1,4 +1,8 @@
-# Hue2Lox auf Linux installieren – am Beispiel Ubuntu Server
+# Hue2Lox auf Linux installieren
+
+[English installation guide](docs/INSTALL.en.md) · [RC1-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)
+
+Diese Anleitung beschreibt `main`. RC1 bleibt unverändert: Für RC1 die im Release-ZIP enthaltene Anleitung verwenden, insbesondere bei manuellen Befehlen und Dateipfaden.
 
 Hue2Lox ist für **Linux-Systeme mit Docker Engine und Docker Compose** vorgesehen – auf einem eigenen Rechner, in einer virtuellen Maschine oder auf einem Raspberry Pi. Als Plattformen kommen beispielsweise Ubuntu, Debian, DietPi oder Raspberry Pi OS (früher Raspbian) infrage, sofern Betriebssystemversion und CPU-Architektur die benötigten Pakete und Container unterstützen.
 
@@ -9,7 +13,7 @@ Du lädst die Hue2Lox-Quelldateien herunter. Der Installer lädt das benötigte 
 | System (64 Bit) | Automatische Einrichtung | Praktischer Teststatus |
 |---|---|---|
 | Ubuntu 22.04 / 24.04 / 26.04 LTS | amd64 und arm64 | Ubuntu 26.04 amd64: Installer bis HTTPS-Healthcheck erfolgreich; übrige Varianten noch offen |
-| Debian 12 Bookworm / 13 Trixie | amd64 und arm64 | Debian 13 in Proxmox: Installation und Bridge-Suche vom Nutzer bestätigt (19.10.2026). Kopplung und Neustart dort nicht getestet; Debian 12 und ARM noch offen |
+| Debian 12 Bookworm / 13 Trixie | amd64 und arm64 | Debian 13 in Proxmox: Installation, Login, Bridge-Kopplung, Inventar und VM-Neustart vom Nutzer bestätigt (20.10.2026); Debian 12 und ARM noch offen |
 | Raspberry Pi OS auf Debian 12 / 13 | arm64; Debian-Paketquelle | Erkennung automatisiert geprüft; Raspberry-Pi-Test noch offen |
 | DietPi auf Debian 12 / 13 | amd64 und arm64; Debian-Basis automatisch erkannt | Erkennung automatisiert geprüft; DietPi-Test noch offen |
 | Andere Linux-Systeme | Voraussetzungen manuell; vorhandenes Docker + Compose nutzbar | Kein allgemeines Funktionsversprechen |
