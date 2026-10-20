@@ -2,6 +2,9 @@
 
 [English installation guide](docs/INSTALL.en.md) · [RC1-Download](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1)
 
+- [Option 1: Einfach und komfortabel – der Installer](#option-1-einfach-und-komfortabel--der-installer)
+- [Option 2: Entwicklungsstand main — Manuelle Installation Schritt für Schritt](#option-2-entwicklungsstand-main--manuelle-installation-schritt-für-schritt)
+
 Option 1 installiert den veröffentlichten RC1 über seinen unveränderten interaktiven Einstieg. Option 2 ist ausdrücklich eine Entwicklungsinstallation von `main`. [Version, Commit, Paket und Prüfsumme](docs/DOWNLOADS.md) sind zentral dokumentiert. Alte main-Downloadhinweise im RC1-ZIP nicht verwenden.
 
 Hue2Lox ist für **Linux-Systeme mit Docker Engine und Docker Compose** vorgesehen – auf einem eigenen Rechner, in einer virtuellen Maschine oder auf einem Raspberry Pi. Als Plattformen kommen beispielsweise Ubuntu, Debian, DietPi oder Raspberry Pi OS (früher Raspbian) infrage, sofern Betriebssystemversion und CPU-Architektur die benötigten Pakete und Container unterstützen.
@@ -26,7 +29,7 @@ Alle Schritte der Reihe nach ausführen. Bei einem Fehler zunächst stoppen und 
 
 # Option 1: Einfach und komfortabel – der Installer
 
-Der Installer führt dich über ein Menü durch die Einrichtung. Er prüft vorhandene Software und kann fehlende Pakete installieren. **Du brauchst einen Linux-Server, seinen Benutzernamen und seine IP-Adresse sowie sudo-Rechte.** Der Installer erkennt die Systeme aus der Tabelle oben, zeigt die erkannte Basis an und wählt die passende Docker-Paketquelle. Mit einem Root-Konto kannst du die Befehle ohne `sudo` ausführen.
+Der Installer führt dich über ein Menü durch die Einrichtung. Er prüft vorhandene Software und kann fehlende Pakete installieren. **Du brauchst einen Linux-Server, seinen Benutzernamen und seine IP-Adresse sowie Root-Zugang oder vorhandene sudo-Rechte.** Der Installer erkennt die Systeme aus der Tabelle oben, zeigt die erkannte Basis an und wählt die passende Docker-Paketquelle. Mit einem Root-Konto kannst du die Befehle ohne `sudo` ausführen.
 
 ### A. Herunterladen – auf deinem Mac oder Windows-PC
 
@@ -62,93 +65,76 @@ ssh anna@192.0.2.50
 
 Alternativ kannst du PuTTY verwenden. Hinweise zur ersten Verbindung und zur optionalen SSH-Installation stehen unter [Server-IP herausfinden und anmelden](#2-server-ip-herausfinden-und-anmelden). Wenn SSH noch fehlt, zuerst dort fortfahren; der Installer kann keinen noch fehlenden Fernzugang herstellen.
 
-#### Debian: sudo einmalig prüfen und bei Bedarf einrichten
+#### Vorhandenes sudo oder Root verwenden
 
-**Auf dem SERVER als normaler Benutzer** prüfen:
+Wähle **einen** der beiden Wege. sudo muss nicht extra installiert werden.
 
-```sh
-sudo whoami
-```
-
-Gib das Passwort deines normalen Benutzers ein. Erscheint **`root`**, ist alles bereit; weiter mit „ZIP entpacken“ unten.
-
-Bei **„sudo: Kommando nicht gefunden“** oder **„ist nicht in der sudoers-Datei“** fehlt das Paket oder die Berechtigung. Beides wird einmalig eingerichtet. Zuerst deinen Benutzernamen anzeigen und merken:
-
-```sh
-whoami
-```
-
-Dann als Root anmelden:
-
-```sh
-su -
-```
-
-Hier das **Root-Passwort aus der Debian-Installation** eingeben, nicht das Passwort des normalen Benutzers. Ohne Root-Zugang muss der Administrator diese Schritte übernehmen.
-
-Als Root sudo installieren:
-
-```sh
-apt update && apt install -y sudo
-```
-
-Den zuvor angezeigten Benutzernamen bei der Abfrage eingeben (nicht `root`):
-
-```sh
-read -r -p 'Dein normaler Debian-Benutzername: ' HUE2LOX_USER
-if [ -n "$HUE2LOX_USER" ] && [ "$HUE2LOX_USER" != root ] && id "$HUE2LOX_USER" >/dev/null 2>&1; then
-  usermod -aG sudo "$HUE2LOX_USER"
-else
-  printf 'Benutzer nicht gefunden. Benutzernamen prüfen und diesen Block wiederholen.\n'
-fi
-```
-
-**Bei einem Fehler stoppen.** Nach erfolgreicher Ausführung zuerst Root und dann die SSH-Sitzung verlassen:
-
-```sh
-exit
-exit
-```
-
-**Auf dem Mac/PC neu verbinden** (Benutzer und IP durch deine Werte ersetzen):
-
-```sh
-ssh anna@192.0.2.50
-```
-
-Die neue Anmeldung ist nötig, damit die Gruppenzugehörigkeit gilt. **Auf dem SERVER** erneut prüfen:
+**Mit vorhandenen sudo-Rechten** bleibst du als normaler Benutzer angemeldet:
 
 ```sh
 sudo whoami
 ```
 
-Erwartet: **`root`**. Ab jetzt kannst du als normaler Benutzer alle weiteren `sudo`-Befehle dieser Anleitung verwenden. Nur sudo zu installieren reicht ohne die Benutzerberechtigung nicht aus.
+Erscheint `root`, verwende Weg A. Bei „sudo: Kommando nicht gefunden“ oder „ist nicht in der sudoers-Datei“ verwende Weg B.
 
-#### ZIP entpacken
+#### Weg A: Mit sudo entpacken und starten
 
-**Auf dem SERVER** im verbundenen Terminal. Auf den unterstützten Ubuntu-/Debian-basierten Systemen zunächst das Entpackwerkzeug installieren, falls es fehlt:
-
-```sh
-sudo apt update && sudo apt install -y unzip
-```
-
-Anschließend die ZIP prüfen und in einen neuen Ordner entpacken:
+Falls `unzip` fehlt, auf dem Server installieren:
 
 ```sh
-unzip -tq ~/hue2lox-main.zip &&
-mkdir ~/hue2lox-installer &&
-unzip -q ~/hue2lox-main.zip -d ~/hue2lox-installer
+sudo apt update && sudo apt install -y --no-install-recommends unzip
 ```
 
-Falls der Ordner schon existiert oder eine Fehlermeldung erscheint, nicht überschreiben und noch nicht weitergehen. Hilfe steht unten unter „Fehlerbehebung“.
+ZIP prüfen und in einen neuen Ordner entpacken:
 
-### D. Installer starten – los geht’s
+```sh
+unzip -tq "$HOME/hue2lox-main.zip" &&
+mkdir "$HOME/hue2lox-installer" &&
+unzip -q "$HOME/hue2lox-main.zip" -d "$HOME/hue2lox-installer"
+```
 
-**SERVER:**
+Nur wenn das Entpacken erfolgreich war, den Installer starten:
 
 ```sh
 sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"
 ```
+
+#### Weg B: Ohne sudo – zum Beispiel auf Debian
+
+Vor dem Wechsel den persönlichen Ordner anzeigen und merken:
+
+```sh
+printf '%s\n' "$HOME"
+su -
+```
+
+Gib das **Root-Passwort** ein. Bleibe für die Installation als Root angemeldet. Ohne Root-Passwort oder vorhandene sudo-Rechte muss der Serveradministrator helfen.
+
+**Nach `su -` zeigen `~` und `$HOME` auf `/root`.** Verwende deshalb den zuvor angezeigten vollständigen Benutzerpfad. Im Beispiel ist das `/home/anna`; überall durch deinen tatsächlichen Pfad ersetzen.
+
+Falls `unzip` fehlt, als Root installieren:
+
+```sh
+apt update && apt install -y --no-install-recommends unzip
+```
+
+ZIP im Benutzerordner prüfen und entpacken:
+
+```sh
+unzip -tq /home/anna/hue2lox-main.zip &&
+mkdir /home/anna/hue2lox-installer &&
+unzip -q /home/anna/hue2lox-main.zip -d /home/anna/hue2lox-installer
+```
+
+Nur wenn das Entpacken erfolgreich war, den Installer starten:
+
+```sh
+bash /home/anna/hue2lox-installer/hue2lox-main/install-assistant.sh
+```
+
+**Für beide Wege:** Bei einem Fehler stoppen. Existiert der Entpackordner bereits, einen neuen Ordner wählen und den Startpfad anpassen; nichts überschreiben. Als Root bei späteren Serverbefehlen das Präfix `sudo` weglassen. Es sind weder eine sudo-Installation noch Gruppenänderungen oder eine erneute SSH-Anmeldung nötig.
+
+### D. Im Installer weiter
 
 Der Installer zeigt den Fortschritt mit einem kleinen animierten Oktopus. Ausführliche
 Paket- und Build-Ausgaben landen in geschützten Protokolldateien; deren Pfad wird
@@ -157,7 +143,7 @@ sichtbar eingeblendet. Auch wenn Python noch fehlt, zeigt der Installer bereits 
 Fehler beim Laden oder Prüfen der Paketlisten stoppen den Schritt; bei Hinweisen
 wie „Not live until“ zuerst Datum und Zeitsynchronisation des Servers prüfen. Ohne geeignetes Terminal werden einfache Statuszeilen angezeigt.
 
-Für die vollständige direkte Ausgabe den Installer mit `--verbose` starten:
+Für die vollständige direkte Ausgabe an den Startbefehl aus Weg A oder B `--verbose` anhängen. Beispiel mit sudo:
 
 ```sh
 sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh" --verbose

@@ -1,6 +1,6 @@
 # Development and quality checks / Entwicklung
 
-Hue2Lox is public. Release Candidate 1 is available; final Loxone acceptance is still pending. The main branch can contain changes newer than the published release. Original project code is licensed under [Apache License 2.0](LICENSE). Contributions intended for inclusion are submitted under that license unless explicitly stated otherwise. Third-party terms are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+Hue2Lox is publicly available as Release Candidate 1. End-to-end testing with a Loxone Miniserver is still in progress. The main branch can contain changes newer than the published release. Original project code is licensed under [Apache License 2.0](LICENSE). Contributions intended for inclusion are submitted under that license unless explicitly stated otherwise. Third-party terms are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
 
 ## Work from a clean clone
 
@@ -38,7 +38,7 @@ The container script requires root and `CI=true` and is intended only for a disp
 
 Keep changes focused, describe the user-visible result and record which checks actually ran. Use synthetic device names and addresses in fixtures and screenshots. Never commit or log authorization headers, Hue application keys, session cookies, passwords or private TLS keys. Review staged changes and scan history before public release. A green automated run does not replace real-device acceptance.
 
-Deutsch: Änderungen in einem getrennten Klon testen; keine produktiven Zugangsdaten übernehmen. Eine Debian-13-Neuinstallation mit Kopplung und Neustart wurde bestätigt; die abschließende Loxone-Abnahme bleibt offen. Fehlerberichte bitte ohne Tokens, Keys oder unbereinigte Protokolle.
+Deutsch: Hue2Lox ist als Release Candidate 1 öffentlich verfügbar. Der durchgängige Funktionstest mit einem Loxone Miniserver ist noch nicht abgeschlossen. Änderungen in einem getrennten Klon testen; keine produktiven Zugangsdaten übernehmen. Eine Debian-13-Neuinstallation mit Kopplung und Neustart wurde bestätigt. Fehlerberichte bitte ohne Tokens, Keys oder unbereinigte Protokolle.
 
 ## Repository layout
 

@@ -24,10 +24,13 @@ step through exactly this workflow:
 3. Give me the appropriate scp command to copy the ZIP from my workstation
    to my home directory on the target server, then the SSH login command.
    Use my actual details.
-4. On the target: if unzip or sudo is missing or permissions are missing,
-   help only with that prerequisite using
+4. On the target: use existing sudo access or switch to root with su -.
+   Do not install sudo or change user groups. Install unzip only if missing.
+   Follow
    https://github.com/square-com-de/hue2lox/blob/main/docs/INSTALL.en.md.
-   Extract the ZIP into ~/hue2lox-installer. If the directory already exists
+   Before su -, note the user's home directory. After switching, use its
+   absolute path for the ZIP and hue2lox-installer, not root's $HOME.
+   If the directory already exists
    or an error occurs, resolve that first; do not overwrite or continue.
 5. Start on the target server:
    sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"

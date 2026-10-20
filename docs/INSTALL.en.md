@@ -44,55 +44,76 @@ ssh anna@192.0.2.50
 
 Verify the SSH host fingerprint through the server console on first connection. Password entry shows no characters. If SSH is missing, run `apt update && apt install openssh-server` as root in the Linux console, then `systemctl enable --now ssh` and retry.
 
-## 3. Check sudo on the server
+## 3. Use existing sudo access or root
 
-As your normal Linux user:
+Choose **one** of the following paths. There is no need to install sudo.
+
+If your normal user already has sudo access, check it:
 
 ```sh
 sudo whoami
 ```
 
-If it prints `root`, continue. On minimal Debian, sudo may be missing or your user may lack permission. Run `whoami` and remember your normal username, then:
-
-```sh
-su -
-```
-
-Enter the **root password** chosen during Debian installation. If you have no root access, ask the server administrator to perform this setup. As root:
-
-```sh
-apt update && apt install -y sudo
-read -r -p 'Normal Linux username: ' HUE2LOX_USER
-if [ -n "$HUE2LOX_USER" ] && [ "$HUE2LOX_USER" != root ] && id "$HUE2LOX_USER" >/dev/null 2>&1; then
-  usermod -aG sudo "$HUE2LOX_USER"
-else
-  printf 'User not found. Check the name and repeat this block.\n'
-fi
-```
-
-Stop on errors. Exit root, then exit SSH:
-
-```sh
-exit
-exit
-```
-
-Reconnect from your Mac/PC with `ssh anna@192.0.2.50` and check `sudo whoami` again. A new login is necessary for group permissions to apply. Alternatively, an administrator may run the installer as root without sudo, using absolute paths under the user's home directory.
+If it prints `root`, use path A. If sudo is missing or the user is not in the sudoers file, use path B.
 
 ## 4. Extract and start — on the server
 
+### Path A: With sudo
+
+If `unzip` is missing, install it:
+
 ```sh
 sudo apt update && sudo apt install -y --no-install-recommends unzip
-unzip -tq ~/hue2lox-main.zip &&
-mkdir ~/hue2lox-installer &&
-unzip -q ~/hue2lox-main.zip -d ~/hue2lox-installer
 ```
 
-Stop if a command fails. If the destination already exists, choose a new extraction directory and adjust the following path; do not overwrite an existing installation.
+Check and extract the ZIP into a new directory:
+
+```sh
+unzip -tq "$HOME/hue2lox-main.zip" &&
+mkdir "$HOME/hue2lox-installer" &&
+unzip -q "$HOME/hue2lox-main.zip" -d "$HOME/hue2lox-installer"
+```
+
+Only after successful extraction, start the installer:
 
 ```sh
 sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"
 ```
+
+### Path B: Without sudo — for example on Debian
+
+Print and remember your home directory before switching to root:
+
+```sh
+printf '%s\n' "$HOME"
+su -
+```
+
+Enter the **root password**. Stay logged in as root for installation. If you have neither the root password nor existing sudo access, ask the server administrator for help.
+
+**After `su -`, both `~` and `$HOME` refer to `/root`.** Use the full user-directory path printed above instead. The example uses `/home/anna`; replace it throughout with your actual path.
+
+If `unzip` is missing, install it as root:
+
+```sh
+apt update && apt install -y --no-install-recommends unzip
+```
+
+Check and extract the ZIP in the user's directory:
+
+```sh
+unzip -tq /home/anna/hue2lox-main.zip &&
+mkdir /home/anna/hue2lox-installer &&
+unzip -q /home/anna/hue2lox-main.zip -d /home/anna/hue2lox-installer
+```
+
+Only after successful extraction, start the installer:
+
+```sh
+bash /home/anna/hue2lox-installer/hue2lox-main/install-assistant.sh
+```
+
+**For both paths:** Stop on errors. If the extraction directory already exists, choose a new directory and adjust the start path; do not overwrite it. While logged in as root, omit `sudo` from later server commands. No sudo installation, group changes or SSH reconnection is required.
 
 Select English when prompted. The menu offers:
 
