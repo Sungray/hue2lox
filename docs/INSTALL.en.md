@@ -1,8 +1,8 @@
 # Install Hue2Lox on Linux
 
-[Deutsch](../INSTALL.md) · [RC1 release and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1) · [English manual](MANUAL.en.md)
+[Deutsch](../INSTALL.md) · [RC2 release and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.2) · [English manual](MANUAL.en.md)
 
-This guide installs published RC1 via its unchanged interactive installer. Verify the [version, commit, ZIP and SHA-256 mapping](DOWNLOADS.md) first. Do not follow old main-download instructions inside the RC1 archive. The manual German development guide targets a different layout.
+This guide installs **RC2** directly on the Linux server. The [version, package and checksum](DOWNLOADS.md) belong together. The German manual development path uses `main` and is separate from this release installation.
 
 ## Requirements and supported systems
 
@@ -18,102 +18,56 @@ You need a Linux server or VM, its address and user account, root or sudo access
 
 A 64-bit processor with a 32-bit OS is not sufficient. Existing working Docker Engine and Compose are reused. The installer does not automatically remove conflicting Docker packages or overwrite existing installation directories. Images are built locally from source; no prebuilt Hue2Lox image is distributed.
 
-## 1. Download on your Mac or Windows PC
+## 1. Connect to the server
 
-For the published candidate, download **hue2lox-main.zip** from [RC1 assets](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.1). Verify the checksum using [these commands](DOWNLOADS.md#prüfen--verify). Do not use Code → Download ZIP for a release installation. Development downloads are listed separately in that document. Keep the archive zipped in Downloads. GitHub's automatically generated “Source code” archive may use a different folder name; commands below use our named asset or the main-branch ZIP.
-
-Downloads are public; no GitHub login is required. If Safari automatically extracts the ZIP, disable that option and download it again.
-
-## 2. Copy to the server and connect
-
-Replace `anna` and `192.0.2.50` with your Linux user and server address. In the server's local console, `whoami` shows the user and `hostname -I` shows addresses.
-
-**Mac Terminal:**
+**On your Mac in Terminal or on Windows in PowerShell:** replace `anna` with your server username and `192.0.2.50` with its IP.
 
 ```sh
-scp ~/Downloads/hue2lox-main.zip anna@192.0.2.50:~/hue2lox-main.zip
 ssh anna@192.0.2.50
 ```
 
-**Windows PowerShell with OpenSSH:**
+In the server console, `whoami` shows the username and `hostname -I` shows addresses. You can also use PuTTY or the server's local console. Verify the SSH host fingerprint through the server console on first connection. If SSH is missing, run `apt update && apt install openssh-server` as root in the Linux console, then `systemctl enable --now ssh` and retry.
 
-```powershell
-scp "$env:USERPROFILE\Downloads\hue2lox-main.zip" anna@192.0.2.50:~/hue2lox-main.zip
-ssh anna@192.0.2.50
-```
+## 2. Use root and prepare the download tools
 
-Verify the SSH host fingerprint through the server console on first connection. Password entry shows no characters. If SSH is missing, run `apt update && apt install openssh-server` as root in the Linux console, then `systemctl enable --now ssh` and retry.
+**On the Linux server:** if already logged in as root, skip the switch. Otherwise choose one path:
 
-## 3. Use existing sudo access or root
+- **Debian without sudo:** enter `su -` and use the root password.
+- **Existing sudo access:** enter `sudo -i` and use your own password.
 
-Choose **one** of the following paths. There is no need to install sudo.
+Do not install sudo or change user groups. Without root access or existing sudo rights, ask the server administrator for help. Enter passwords only in the terminal; no characters are displayed while typing.
 
-If your normal user already has sudo access, check it:
+Run all remaining server commands **in this same root session**. The download happens after switching, so no files need to be copied from the normal user's home directory.
 
 ```sh
-sudo whoami
+apt update &&
+apt install -y --no-install-recommends ca-certificates curl unzip
 ```
 
-If it prints `root`, use path A. If sudo is missing or the user is not in the sudoers file, use path B.
+This applies to the Ubuntu/Debian-based systems above. On other systems, provide these three tools using their package manager. Stop on errors; if you see “Not live until”, check the server clock first.
 
-## 4. Extract and start — on the server
+## 3. Download RC2, verify and start
 
-### Path A: With sudo
-
-If `unzip` is missing, install it:
+**Still on the server as root.** Copy the whole block. It creates a new download directory, downloads the fixed RC2 package and SHA-256 checksum, verifies and extracts it, then starts the installer. Existing directories are not overwritten.
 
 ```sh
-sudo apt update && sudo apt install -y --no-install-recommends unzip
+HUE2LOX_DOWNLOAD_DIR=$(mktemp -d "$HOME/hue2lox-rc2-XXXXXXXX") &&
+cd "$HUE2LOX_DOWNLOAD_DIR" &&
+curl --fail --location --output hue2lox-v1.0.0-rc.2.zip \
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/hue2lox-v1.0.0-rc.2.zip &&
+curl --fail --location --output SHA256SUMS.txt \
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/SHA256SUMS.txt &&
+sha256sum --check SHA256SUMS.txt &&
+unzip -tq hue2lox-v1.0.0-rc.2.zip &&
+unzip -q hue2lox-v1.0.0-rc.2.zip &&
+bash "$HUE2LOX_DOWNLOAD_DIR/hue2lox-v1.0.0-rc.2/install-assistant.sh"
 ```
 
-Check and extract the ZIP into a new directory:
+Continue only when verification succeeds. On `FAILED`, download or extraction errors, stop; do not start the installer separately. The checksum must come from the same release as the ZIP. `Code → Download ZIP` downloads the development branch instead.
 
-```sh
-unzip -tq "$HOME/hue2lox-main.zip" &&
-mkdir "$HOME/hue2lox-installer" &&
-unzip -q "$HOME/hue2lox-main.zip" -d "$HOME/hue2lox-installer"
-```
+**Open again:** repeat the final `bash` command in the same root session. After reconnecting, use the actual download directory; `ls -d /root/hue2lox-rc2-*` lists the default paths. This extraction directory is separate from the eventual installation directory, such as `/opt/hue2lox-test`.
 
-Only after successful extraction, start the installer:
-
-```sh
-sudo bash "$HOME/hue2lox-installer/hue2lox-main/install-assistant.sh"
-```
-
-### Path B: Without sudo — for example on Debian
-
-Print and remember your home directory before switching to root:
-
-```sh
-printf '%s\n' "$HOME"
-su -
-```
-
-Enter the **root password**. Stay logged in as root for installation. If you have neither the root password nor existing sudo access, ask the server administrator for help.
-
-**After `su -`, both `~` and `$HOME` refer to `/root`.** Use the full user-directory path printed above instead. The example uses `/home/anna`; replace it throughout with your actual path.
-
-If `unzip` is missing, install it as root:
-
-```sh
-apt update && apt install -y --no-install-recommends unzip
-```
-
-Check and extract the ZIP in the user's directory:
-
-```sh
-unzip -tq /home/anna/hue2lox-main.zip &&
-mkdir /home/anna/hue2lox-installer &&
-unzip -q /home/anna/hue2lox-main.zip -d /home/anna/hue2lox-installer
-```
-
-Only after successful extraction, start the installer:
-
-```sh
-bash /home/anna/hue2lox-installer/hue2lox-main/install-assistant.sh
-```
-
-**For both paths:** Stop on errors. If the extraction directory already exists, choose a new directory and adjust the start path; do not overwrite it. While logged in as root, omit `sudo` from later server commands. No sudo installation, group changes or SSH reconnection is required.
+## 4. Continue in the installer
 
 Select English when prompted. The menu offers:
 
@@ -131,10 +85,12 @@ The installation stores its generated container/project name in `.env`; preserve
 
 ## 5. Open and pair
 
+Server commands below continue in the same root session. Adjust paths if you selected a different installation directory.
+
 Open the HTTPS address printed by the installer, for example `https://192.0.2.50:18443`. The certificate is locally generated. Compare its SHA-256 fingerprint with the server output before adding a browser exception:
 
 ```sh
-sudo openssl x509 -in /opt/hue2lox-test/certs/server.crt -noout -fingerprint -sha256
+openssl x509 -in /opt/hue2lox-test/certs/server.crt -noout -fingerprint -sha256
 ```
 
 Initial login is **admin / admin**. You can change the password in the interface. Pair a bridge via **Bridges**, pressing its physical button when instructed. Check the inventory, then follow the [English Loxone tutorial](TUTORIAL.en.md). Scenes are created in the Hue app. Actual Hue state is not synchronized back into the Loxone Lighting Controller.
@@ -150,13 +106,13 @@ For persistent browser trust, import only the public server certificate after ch
 - **Start failed:** inspect the installation's own Compose project, replacing paths if you chose another directory:
 
 ```sh
-sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml ps
-sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml logs --tail=60
+docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml ps
+docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml logs --tail=60
 ```
 
 Read logs locally and remove credentials and personal details before sharing. Report the source version, OS/architecture, failing step and sanitized error in [Issues](https://github.com/square-com-de/hue2lox/issues).
 
-The installer is for fresh installations, not a general updater. Preserve the whole installation including `.env`, data, secrets and certificates; follow [backup and recovery guidance](MANUAL.en.md). Do not copy individual newer files into RC1. The [German extended guide](../INSTALL.md) also documents manual setup and specific network migration procedures; those sections are not yet translated.
+The installer is for fresh installations, not a general updater. Preserve the whole installation including `.env`, data, secrets and certificates; follow [backup and recovery guidance](MANUAL.en.md). Do not copy individual newer files into an existing release installation. The [German extended guide](../INSTALL.md) also documents manual setup and specific network migration procedures; those sections are not yet translated.
 
 ## Maintenance / Wartung
 

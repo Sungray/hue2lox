@@ -34,22 +34,22 @@ Keep everything in view: multiple bridges, your lights and scenes in one interfa
 
 You need a Linux server, VM or Raspberry Pi with a supported 64-bit OS, a Hue Bridge and a Loxone Miniserver for control. Use your Mac or Windows PC to follow the setup guide.
 
-1. **Start the installer:** the [English installation guide](docs/INSTALL.en.md) takes you through prerequisites, downloading the RC1 ZIP, copying it to the server and starting the installer.
+1. **Start the installer:** the [English installation guide](docs/INSTALL.en.md) takes you through connecting to the server, downloading RC2 directly with its checksum and starting the installer.
 2. **Set up Hue2Lox:** the installer checks your system and can install missing packages and Docker. Existing working Docker installations are reused.
 3. **Pair your bridge:** open the displayed HTTPS address, verify the certificate and sign in with `admin` / `admin`. You can change the password in the interface.
 4. **Connect to Loxone:** choose lights or scenes and follow the [illustrated guide](docs/TUTORIAL.en.md) to copy commands or import XML into Loxone Config.
 
-**[Open the installation guide](docs/INSTALL.en.md) · [Download RC1 ZIP](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip) · [Verify the download](docs/DOWNLOADS.md)**
+**[Open the installation guide](docs/INSTALL.en.md) · [Download RC2 ZIP](https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/hue2lox-v1.0.0-rc.2.zip) · [Verify the download](docs/DOWNLOADS.md)**
 
 Prefer guidance from an AI assistant? Use the [ChatGPT or Claude installation prompt](docs/AI-INSTALL.en.md). It guides you to the same interactive installer.
 
 ## Release status and technical notes
 
-**Release Candidate 1.** German and English are available. A fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. End-to-end testing with a Loxone Miniserver is still in progress. Original project code is licensed under Apache 2.0.
+**Release Candidate 2.** German and English are available. An earlier fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. A fresh Debian test of the RC2 package and end-to-end testing with a Loxone Miniserver are still pending. Original project code is licensed under Apache 2.0.
 
 The public download contains **source code, the installer and Dockerfile**. The installer builds the Hue2Lox image on your Linux machine; we do not offer prebuilt Hue2Lox images at this stage.
 
-RC1 is an immutable version. Verify its [commit and checksum](docs/DOWNLOADS.md); do not follow the outdated main-download instructions inside the RC1 ZIP. `main` is the separate development version.
+RC2 is an immutable version. Verify its [commit and checksum](docs/DOWNLOADS.md). `main` is the separate development version.
 
 Create and edit scenes in the Hue app; recall them through Loxone. Synchronizing actual Hue light state back into the Loxone Lighting Controller is not part of this project.
 
