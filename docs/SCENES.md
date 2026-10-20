@@ -34,8 +34,7 @@ XML als virtuelle Ausgänge importieren oder Werte aus **Befehle anzeigen** übe
 - Basisadresse: HTTPS-Adresse von Hue2Lox.
 - Befehl bei EIN: `/api/scenes/<bridge-id>/<scene-id>/recall`.
 - Methode bei EIN: `PUT`.
-- HTTP-Header bei EIN: `Authorization: Bearer DEIN_HUE2LOX_TOKEN` und
-  `Content-Type: application/json`, jeweils eigene Zeile.
+- HTTP-Header bei EIN als **eine Zeile**: `Authorization: Bearer DEIN_HUE2LOX_TOKEN\r\nContent-Type: application/json`. `\r\n` sind sichtbare Zeichen, keine echten Zeilenumbrüche; keine End-Leerzeile. Am besten **Header mit Token kopieren** oder XML verwenden, wie bei Lampen.
 - HTTP-Body bei EIN: `{"recall":true}`.
 - Digitalausgang verwenden, Wiederholung `0`.
 - AUS-Befehl, AUS-Header und AUS-Body leer lassen.

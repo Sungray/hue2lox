@@ -16,9 +16,11 @@ step through exactly this workflow:
    username. Also ask whether my workstation is a Mac or Windows PC.
    Wait for any missing answers. My workstation is not automatically the
    installation target.
-2. Have me open https://github.com/square-com-de/hue2lox on my workstation and
-   download the current hue2lox-main.zip via Code → Download ZIP.
-   If I already have the file, use it without renaming it.
+2. Download the published RC1 ZIP on my workstation:
+   https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip
+   Verify its SHA-256 against
+   https://github.com/square-com-de/hue2lox/blob/main/docs/DOWNLOADS.md.
+   Use an existing ZIP only if its checksum matches. No main-branch ZIP.
 3. Give me the appropriate scp command to copy the ZIP from my workstation
    to my home directory on the target server, then the SSH login command.
    Use my actual details.

@@ -121,7 +121,7 @@ Das Admin-Passwort wird als PBKDF2-SHA256-Hash mit 600.000 Iterationen und zufä
 | Container → konfigurierte Hue-Bridge `443/tcp` | Lokale Hue-v2-API, Zertifikatskette und Bridge-ID werden geprüft |
 | Intern `127.0.0.1:8443/health` | Docker-Healthcheck mit explizitem Vertrauen in das Serverzertifikat |
 
-Compose bindet standardmäßig nur an Host-Loopback `127.0.0.1`. Die bestehende Installation verwendet `HUE2LOX_BIND_IP=192.0.2.96`. Im Container bindet der Server standardmäßig an `0.0.0.0`; das ist unabhängig von der Host-Portfreigabe. Es wird kein Host-Netzwerkmodus verwendet. Compose erzeugt ein eigenes Projekt-Netzwerk.
+Compose bindet standardmäßig nur an Host-Loopback `127.0.0.1`. Die bestehende Installation verwendet `HUE2LOX_BIND_IP=192.0.2.96`. Im Container bindet der Server standardmäßig an `0.0.0.0`; das ist unabhängig von der Host-Portfreigabe. Diese Beschreibung gilt nur für die historische Basis-Compose-Datei mit Portmapping. Die vorbereitete Neuinstallation verwendet dagegen `docker/compose.install.yaml` mit **Host-Netzwerk**, bindet an die gewählte Server-IP und den gewählten Port (Installer-Vorgabe 18443) und benötigt keine Portweiterleitung. Ihr Healthcheck verwendet diese konfigurierte Adresse. Netzwerkisolation und Portwahl daher immer anhand der tatsächlich verwendeten Compose-Datei beurteilen.
 
 Wichtige Routen:
 

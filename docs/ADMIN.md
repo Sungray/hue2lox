@@ -1,17 +1,21 @@
 # Login, Tokenanzeige und Loxone-Export
 
-## Installieren
+## Historische, zielgebundene Prototypwartung
+
+Dieser Abschnitt ist kein RC1-Updater und keine Neuinstallation. Reguläre Nutzer beginnen mit [INSTALL.md](../INSTALL.md). Nur für den damaligen LoxBerry-Prototyp: vollständigen geprüften Quellbaum einschließlich `scripts/copy-runtime.sh`, `src/`, `docker/`, `config/` und Assets unter dem Staging-Pfad bereitstellen, Ziel und Sicherung prüfen. `HUE_PUBLIC_URL` muss der tatsächlichen bestehenden HTTPS-Adresse entsprechen; das Beispiel unten ist anzupassen. Nicht auf andere Installationen anwenden.
 
 Im bestehenden Root-Terminal auf LoxBerry:
 
 ```sh
-sh /opt/loxberry/hue2lox-web-staging/install-web.sh
+export HUE_PUBLIC_URL=https://192.0.2.96:8443
+sh /opt/loxberry/hue2lox-web-staging/scripts/install-web.sh
 ```
 
 Bei einer neuen Installation gilt standardmäßig **admin / admin**. Ein vorhandenes Passwort wird bei normalen Updates nicht verändert. Zur ausdrücklich gewünschten Rücksetzung einer bestehenden Installation:
 
 ```sh
-sh /opt/loxberry/hue2lox-web-staging/install-web.sh --reset-admin
+export HUE_PUBLIC_URL=https://192.0.2.96:8443
+sh /opt/loxberry/hue2lox-web-staging/scripts/install-web.sh --reset-admin
 ```
 
 Gespeichert wird ausschließlich ein zufällig gesalzener PBKDF2-SHA256-Hash mit 600.000 Iterationen in `data/admin_auth.json` (UID/GID 10001, Modus 600). Die Datei liegt auf dem geschützten persistenten `/data`-Mount, damit sie im Web geändert werden kann. Ein bisheriger Hash aus `secrets/admin_auth.json` wird einmal übernommen, wenn noch keine Runtime-Datei vorhanden ist. Das öffentliche Standardpasswort ist absichtlich bekannt; individuelle Passwortwerte/Hashes, Hue-Keys und Tokens werden nicht versioniert.
@@ -55,7 +59,7 @@ docker compose up -d --force-recreate
 Struktur: `VirtualOut` / `Info templateType=3` / `VirtualOutCmd`, PUT, Header, JSON-Bodies, Analog-Flags und Wiederholung 0. XML-Sonderzeichen werden escaped. Der Header enthält die wörtlichen Zeichenfolgen `\r\n` statt echter CR/LF-Zeichen; GUI-Anzeige, Kopierfunktion und XML stimmen überein. Formatabgleich mit dem veröffentlichten Template des Autors:
 https://github.com/wkulhanek/loxone-shelly/blob/main/VirtualOut/VO_shelly_powerstrip_4_gen_4.xml
 
-36 lokale Tests bestanden: Zugriffssperren, CSRF/Origin/Host, Cookie-Flags, Ablauf/Logout, Rate-Limit, Token-Platzhalter, Einzel-/Mehrfachauswahl, XML-Escaping, kontrollierte Lampenpfade und bisherige Steuerung. UI mit simulierten Daten geprüft: Login, Token anzeigen/verbergen, Headerkopie, Auswahl und XML-Download. Der tatsächliche Import in Loxone Config 17.2 sowie Container-Build und Betrieb dieser Version auf LoxBerry sind bis zur Installation noch nicht bestätigt.
+Historischer Prüfstand vom 18.10.2026 (keine aktuelle Release-Abnahme): 36 lokale Tests bestanden: Zugriffssperren, CSRF/Origin/Host, Cookie-Flags, Ablauf/Logout, Rate-Limit, Token-Platzhalter, Einzel-/Mehrfachauswahl, XML-Escaping, kontrollierte Lampenpfade und bisherige Steuerung. UI mit simulierten Daten geprüft: Login, Token anzeigen/verbergen, Headerkopie, Auswahl und XML-Download. Der tatsächliche Import in Loxone Config 17.2 sowie Container-Build und Betrieb dieser Version auf LoxBerry sind bis zur Installation noch nicht bestätigt.
 
 ## Bridge-Ausbau
 

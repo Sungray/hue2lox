@@ -16,9 +16,11 @@ Schritt für Schritt durch genau diesen Ablauf:
    IP/Hostname und Benutzername. Frage auch, ob mein Arbeitsgerät ein Mac
    oder Windows-PC ist. Warte auf die fehlenden Antworten. Mein Arbeitsgerät
    ist nicht automatisch das Installationsziel.
-2. Lass mich auf dem Arbeitsgerät https://github.com/square-com-de/hue2lox öffnen
-   und über Code → Download ZIP das aktuelle hue2lox-main.zip herunterladen.
-   Wenn die Datei schon vorhanden ist, verwende sie ohne Umbenennung.
+2. Lade auf meinem Arbeitsgerät das veröffentlichte RC1-ZIP:
+   https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.1/hue2lox-main.zip
+   Prüfe seine SHA-256 anhand von
+   https://github.com/square-com-de/hue2lox/blob/main/docs/DOWNLOADS.md.
+   Vorhandenes ZIP nur bei passender Prüfsumme verwenden. Kein main-Branch-ZIP.
 3. Gib mir den passenden scp-Befehl, um das ZIP vom Arbeitsgerät in den
    persönlichen Ordner auf dem Zielserver zu kopieren, und den SSH-Befehl
    zum Anmelden. Setze meine tatsächlichen Angaben ein.
