@@ -74,9 +74,20 @@ sudo bash deployment/native/update.sh \
   --sha256 GEPRUEFTER_SHA256
 ```
 
-Der Updater prüft und bereitet die neue Anwendung vor, stoppt den Dienst, sichert privaten Zustand und bisherigen Codebezug und schaltet anschließend um. Passwort, Token, Zertifikat und Inventar bleiben erhalten. Schlägt der Start-/HTTPS-Test fehl, stellt der Rückweg bisherigen Code und dazugehörigen Zustand wieder her. Aktuell wird nur Registry-Schema 1 unterstützt; andere Schemata werden vor dem Umschalten abgelehnt, es gibt keine automatische Migration. Die Abschlussmeldung und das angegebene Backup prüfen. Bleibt ein Fehler bestehen, Dienst stoppen und die Sicherung erhalten; nicht durch eine Neuinstallation ersetzen.
+Der Updater prüft und bereitet die neue Anwendung vor, stoppt den Dienst, sichert privaten Zustand und vollständigen bisherigen Anwendungscode und schaltet anschließend um. Passwort, Token, Zertifikat und Inventar bleiben erhalten. Schlägt der Start-/HTTPS-Test fehl, stellt der Rückweg bisherigen Code und dazugehörigen Zustand wieder her. Aktuell wird nur Registry-Schema 1 unterstützt; andere Schemata werden vor dem Umschalten abgelehnt, es gibt keine automatische Migration. Die Abschlussmeldung und das angegebene Backup prüfen. Bleibt ein Fehler bestehen, Dienst stoppen und die Sicherung erhalten; nicht durch eine Neuinstallation ersetzen.
 
 Es gibt keinen unbeaufsichtigten Updatetimer und keine automatische Aktualisierung auf main. Datenmigrationen benötigen einen ausdrücklich unterstützten Migrations- und Rückweg; nicht beliebige ältere Versionen über neuere Daten starten.
+
+
+### Späteres Rollback nach zunächst erfolgreichem Update
+
+Die neuen Updatesicherungen enthalten vollständigen Code, Konfiguration und Zustand samt Prüfsummen. Den bei einem Update ausgegebenen Sicherungsordner ausdrücklich auswählen:
+
+```sh
+sudo sh deployment/native/rollback.sh --backup /var/backups/hue2lox/ZEITSTEMPEL-ID
+```
+
+Der Rückweg prüft die Sicherung vor dem Stoppen, sichert den aktuellen Stand und stellt Code **und den damaligen privaten Datenstand** wieder her. Änderungen an Passwort, Inventar und Schlüsseln seit dieser Sicherung gehen dabei auf den damaligen Stand zurück. Bei Startfehlern wird die Sicherung des unmittelbar vorherigen Stands wiederhergestellt. Scheitert auch das, bleibt eine ausdrückliche Fehlermeldung mit Sicherungspfad; Dienst und Logs prüfen. Ein Stromausfall während des Austauschs erfordert gegebenenfalls manuelle Wiederherstellung. Alte Sicherungen ohne vollständigen Code und `snapshot.json` werden abgelehnt. Der Dienst wird nach erfolgreichem Update/Rollback für den Systemstart aktiviert.
 
 ## Sicherung und Wiederherstellung
 
@@ -125,6 +136,19 @@ sudo bash deployment/native/uninstall.sh --purge-data
 ```
 
 Sicherungen und der Systembenutzer bleiben auch mit `--purge-data` erhalten. Aufbewahrte Daten verhindern eine erneute frische Installation; nicht mit dem Neuinstaller überschreiben. Vorher ein getrenntes Backup erstellen. Die Löschung privater Daten ist nicht rückgängig zu machen. Dockerinstallationen werden nicht entfernt.
+
+
+### Wiederinstallation mit erhaltenen Daten
+
+Nach einer Deinstallation ohne `--purge-data` das **gleiche geprüfte Paket** (Version, Commit und Dirty-Kennzeichen) wie vor der Deinstallation verwenden. IP und Port müssen den erhaltenen Einstellungen entsprechen:
+
+```sh
+sudo sh deployment/native/install.sh --keep-data \
+  --package /tmp/hue2lox-native.tar.gz --sha256 GEPRUEFTER_SHA256 \
+  --host 192.168.1.50 --port 18443
+```
+
+Dabei werden keine Zugangsdaten, Zertifikate oder Registry neu erzeugt. Anschließend sind reguläre Updates möglich. Ohne `--keep-data` bleibt vorhandener Zustand geschützt. Eine unterbrochene Deinstallation lässt sich mit demselben Deinstallationsaufruf fortsetzen; fremde Dienstdateien und Symlinks werden vor Änderungen abgelehnt.
 
 ## Teststand und offene Abnahmen
 

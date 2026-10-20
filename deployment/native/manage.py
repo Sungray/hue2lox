@@ -337,6 +337,8 @@ def staged_release(args, layout):
 
 def install(args, layout):
     platform_check()
+    if getattr(args, 'keep_data', False):
+        return reinstall(args, layout)
     for path in (layout.app, layout.config, layout.state, layout.backups, layout.unit):
         reject_links(path)
     if any(p.exists() for p in (layout.app, layout.config, layout.state, layout.unit)):
@@ -398,6 +400,122 @@ def install(args, layout):
     print(f'Native installation ready: https://{host}:{args.port}\nInitial login: admin / admin. Change it after login. Control remains disabled.')
 
 
+def reinstall(args, layout):
+    """Resume only an explicitly retained installation of the same code identity."""
+    record, _ = managed(layout, require_installed=False)
+    if record.get('installed') is not False or record.get('uninstalling'):
+        raise ValueError('Finish uninstall before reinstalling retained data')
+    values = settings(layout)
+    if values['BIND_HOST'] != args.host or int(values['PORT']) != args.port:
+        raise ValueError('Retained endpoint must be preserved')
+    for path in (layout.app, layout.unit):
+        reject_links(path)
+        if path.exists(): raise ValueError('Application destination already exists')
+    with tempfile.TemporaryDirectory(prefix='hue2lox-reinstall-') as directory:
+        manifest, runtime = staged_release(args, Path(directory))
+        if any(manifest[key] != record[key] for key in ('version', 'commit', 'dirty')):
+            raise ValueError('Reinstall requires the retained package identity; update afterwards')
+        uid, gid = ensure_account()
+        layout.app.mkdir(parents=True, mode=0o755)
+        (layout.app / 'releases').mkdir(mode=0o755)
+        destination = layout.app / 'releases' / ('restored-' + secrets.token_hex(8))
+        try:
+            shutil.copytree(runtime, destination)
+            activate(layout, destination)
+            install_unit(layout, destination)
+            install_record(layout, manifest)
+            private_permissions(layout, uid, gid)
+            run_systemctl('daemon-reload')
+            run_systemctl('enable', '--now', SERVICE)
+            health(layout)
+        except BaseException:
+            if strict_json((layout.config / 'install.json').read_text()).get('installed') is False:
+                if layout.unit.exists(): layout.unit.unlink()
+                shutil.rmtree(layout.app)
+                raise
+            # Keep a managed installation for diagnosis/retry via update/uninstall.
+            if layout.unit.exists():
+                try: run_systemctl('disable', '--now', SERVICE)
+                except subprocess.CalledProcessError: pass
+            raise
+    print('Native application reinstalled; existing private data preserved.')
+
+
+def snapshot_hashes(directory):
+    reject_links(directory)
+    return {p.relative_to(directory).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in directory.rglob('*') if p.is_file() and p.relative_to(directory).as_posix() != 'snapshot.json'}
+
+
+def checked_backup(layout, directory):
+    directory = Path(directory).absolute()
+    reject_links(layout.backups)
+    if directory.parent != layout.backups.absolute() or not directory.is_dir():
+        raise ValueError('Select a direct backup directory under the managed backup root')
+    manifest = strict_json((directory / 'snapshot.json').read_text())
+    if manifest.get('schema_version') != 1 or manifest.get('files') != snapshot_hashes(directory):
+        raise ValueError('Backup checksum mismatch or incomplete backup')
+    for name in ('config/install.json', 'config/settings.env', 'state/registry.json',
+                 'hue2lox.service', 'runtime/manifest.json', 'state/admin_auth.json',
+                 'config/certs/server.key', 'config/certs/server.crt', 'config/secrets/control_token'):
+        if name not in manifest['files']: raise ValueError('Incomplete native backup')
+    validate_runtime(directory / 'runtime')
+    return directory
+
+
+def restore_snapshot(layout, saved, uid, gid, previous=None):
+    # Prepare complete replacements before removing any live private directory.
+    checked_backup(layout, saved)
+    reject_links(layout.config)
+    reject_links(layout.state)
+    destination = layout.app / 'releases' / ('rollback-' + secrets.token_hex(8))
+    if previous is not None and snapshot_hashes(previous) == snapshot_hashes(saved / 'runtime'):
+        destination = previous
+    else:
+        shutil.copytree(saved / 'runtime', destination)
+    with tempfile.TemporaryDirectory(prefix='.restore-', dir=layout.config.parent) as directory:
+        staged_config = Path(directory) / 'config'
+        shutil.copytree(saved / 'config', staged_config)
+        with tempfile.TemporaryDirectory(prefix='.restore-', dir=layout.state.parent) as state_directory:
+            staged_state = Path(state_directory) / 'state'
+            shutil.copytree(saved / 'state', staged_state)
+            for source, target in ((staged_config, layout.config), (staged_state, layout.state)):
+                if target.exists(): shutil.rmtree(target)
+                source.rename(target)
+    activate(layout, destination)
+    shutil.copy2(saved / 'hue2lox.service', layout.unit)
+    private_permissions(layout, uid, gid)
+    run_systemctl('daemon-reload')
+    run_systemctl('reset-failed', SERVICE)
+    run_systemctl('enable', '--now', SERVICE)
+    health(layout)
+
+
+def rollback(args, layout):
+    platform_check()
+    _, active = managed(layout)
+    settings(layout)
+    reject_links(layout.app / 'releases')
+    saved = checked_backup(layout, args.backup)
+    uid, gid = ensure_account()
+    run_systemctl('stop', SERVICE)
+    try:
+        recovery = backup(layout, active)
+    except BaseException:
+        run_systemctl('start', SERVICE)
+        raise
+    try:
+        restore_snapshot(layout, saved, uid, gid)
+    except BaseException as failure:
+        try:
+            run_systemctl('stop', SERVICE)
+            restore_snapshot(layout, recovery, uid, gid)
+        except BaseException as error:
+            raise ValueError(f'Rollback and recovery failed; protected backup: {recovery}') from error
+        raise ValueError(f'Rollback failed; original installation restored. Backup: {recovery}') from failure
+    print(f'Rollback passed HTTPS check. Pre-rollback recovery backup: {recovery}')
+
+
 def backup(layout, active):
     layout.backups.mkdir(parents=True, exist_ok=True, mode=0o700)
     layout.backups.chmod(0o700)
@@ -406,7 +524,9 @@ def backup(layout, active):
     shutil.copytree(layout.config, target / 'config', symlinks=True)
     shutil.copytree(layout.state, target / 'state', symlinks=True)
     shutil.copy2(layout.unit, target / 'hue2lox.service')
+    shutil.copytree(active, target / 'runtime')
     atomic_text(target / 'previous.json', json.dumps({'active': str(active)}))
+    atomic_text(target / 'snapshot.json', json.dumps({'schema_version': 1, 'files': snapshot_hashes(target)}))
     return target
 
 
@@ -438,25 +558,12 @@ def update(args, layout):
             private_permissions(layout, uid, gid)
             run_systemctl('daemon-reload')
             run_systemctl('reset-failed', SERVICE)
-            run_systemctl('start', SERVICE)
+            run_systemctl('enable', '--now', SERVICE)
             health(layout)
         except BaseException as failure:
             try:
                 run_systemctl('stop', SERVICE)
-                # Restore the MATCHING private snapshot, not only old code.
-                # Check again after candidate execution before removing paths.
-                reject_links(layout.config)
-                reject_links(layout.state)
-                for source, target in ((saved / 'config', layout.config), (saved / 'state', layout.state)):
-                    shutil.rmtree(target)
-                    shutil.copytree(source, target)
-                activate(layout, previous)
-                shutil.copy2(saved / 'hue2lox.service', layout.unit)
-                private_permissions(layout, uid, gid)
-                run_systemctl('daemon-reload')
-                run_systemctl('reset-failed', SERVICE)
-                run_systemctl('start', SERVICE)
-                health(layout)
+                restore_snapshot(layout, saved, uid, gid, previous=previous)
             except BaseException as rollback:
                 raise ValueError(f'Update AND rollback failed. Service needs attention. Protected backup: {saved}') from rollback
             raise ValueError(f'Update failed; previous application and private state restored. Backup: {saved}') from failure
@@ -466,21 +573,32 @@ def update(args, layout):
 def uninstall(args, layout):
     platform_check()
     record, _ = managed(layout, require_installed=False)
+    # Finish every safety check before changing service or installation metadata.
+    reject_links(layout.app / 'releases')
     if record.get('installed'):
-        managed(layout)
-        run_systemctl('disable', '--now', SERVICE)
-        layout.unit.unlink()
+        if not record.get('uninstalling'):
+            managed(layout)
+        elif layout.unit.exists() or layout.unit.is_symlink():
+            if layout.unit.is_symlink() or hashlib.sha256(layout.unit.read_bytes()).hexdigest() != record['unit_sha256']:
+                raise ValueError('Managed service file changed during uninstall')
+        if layout.current.exists() or layout.current.is_symlink():
+            if not layout.current.is_symlink() or layout.current.resolve().parent != (layout.app / 'releases').resolve():
+                raise ValueError('Invalid current application reference')
+        record['uninstalling'] = True
+        atomic_text(layout.config / 'install.json', json.dumps(record), 0o640)
+        if layout.unit.exists():
+            run_systemctl('disable', '--now', SERVICE)
+            layout.unit.unlink()
         run_systemctl('daemon-reload')
-        # current is the only deliberate symlink and was validated by managed().
-        reject_links(layout.app / 'releases')
-        layout.current.unlink()
-        shutil.rmtree(layout.app)
+        if layout.current.is_symlink(): layout.current.unlink()
+        if layout.app.exists(): shutil.rmtree(layout.app)
     if args.purge_data:
-        for directory in (layout.config, layout.state):
+        for directory in (layout.state, layout.config):
             reject_links(directory)
             if directory.exists(): shutil.rmtree(directory)
         print('Native application and private configuration/state removed. Backups retained.')
     else:
+        record.pop('uninstalling', None)
         record['installed'] = False
         record['unit_sha256'] = None
         atomic_text(layout.config / 'install.json', json.dumps(record, indent=2) + '\n', 0o640)
@@ -509,15 +627,18 @@ def main():
         sub.add_argument('--package', required=True, type=Path)
         sub.add_argument('--sha256', required=True)
         if action == 'install':
+            sub.add_argument('--keep-data', action='store_true', help='Reinstall the same package using retained private data')
             sub.add_argument('--host', required=True)
             sub.add_argument('--port', type=int, default=18443)
+    sub = commands.add_parser('rollback')
+    sub.add_argument('--backup', required=True, type=Path, help='Complete managed backup; restores its code AND private data')
     sub = commands.add_parser('uninstall')
     sub.add_argument('--purge-data', action='store_true', help='Explicitly remove native config/state; retain backups')
     args = parser.parse_args()
     try:
         platform_check()
         with operation_lock():
-            {'install': install, 'update': update, 'uninstall': uninstall}[args.action](args, Layout())
+            {'install': install, 'update': update, 'uninstall': uninstall, 'rollback': rollback}[args.action](args, Layout())
     except (ValueError, OSError, subprocess.SubprocessError, tarfile.TarError, KeyError) as error:
         parser.exit(1, 'Native operation stopped: ' + str(error) + '\n')
 

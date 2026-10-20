@@ -86,9 +86,19 @@ else:
 assert snapshot() == before
 run('sh', installer, '--package', str(packages[0]), '--sha256', digest(packages[0]), '--host', '127.0.0.1', '--port', '18443', success=False)
 assert snapshot() == before
+# Simulate disabled startup after an initial installation failure.
+run('systemctl', 'disable', 'hue2lox.service')
 run('sh', updater, '--package', str(packages[1]), '--sha256', digest(packages[1]))
 check_login(password)
 assert snapshot() == before
+run('systemctl', 'is-enabled', 'hue2lox.service')
+# Late rollback must restore code and matching state after a successful update.
+late_backup = next(Path('/var/backups/hue2lox').iterdir())
+run('sh', '/source/deployment/native/rollback.sh', '--backup', str(late_backup))
+check_login(password)
+assert snapshot() == before
+assert json.loads(Path('/etc/hue2lox/install.json').read_text())['version'] == '0.0.0-ci.1'
+run('sh', updater, '--package', str(packages[1]), '--sha256', digest(packages[1]))
 active = Path('/opt/hue2lox/current').resolve()
 uid = subprocess.check_output(['systemctl', 'show', 'hue2lox.service', '-p', 'User', '--value'], text=True).strip()
 assert uid and uid != 'root'
@@ -123,10 +133,24 @@ assert set(Path('/var/backups/hue2lox').iterdir()) > backups_before, 'Candidate 
 assert Path('/opt/hue2lox/current').resolve() == active
 assert snapshot() == before
 check_login(password)
+# A rejected uninstall must leave the enabled, working service untouched.
+alias = active / 'rejected-alias'
+alias.symlink_to('/tmp/unrelated')
+run('sh', uninstaller, success=False)
+run('systemctl', 'is-active', 'hue2lox.service')
+run('systemctl', 'is-enabled', 'hue2lox.service')
+alias.unlink()
+check_login(password)
 run('sh', uninstaller)
 assert snapshot() == before
 assert not Path('/etc/systemd/system/hue2lox.service').exists()
 assert Path('/var/backups/hue2lox').is_dir()
+# Explicit reinstall of retained data must preserve changed credentials and flags.
+run('sh', installer, '--keep-data', '--package', str(packages[1]), '--sha256', digest(packages[1]), '--host', '127.0.0.1', '--port', '18443')
+check_login(password)
+assert snapshot() == before
+run('systemctl', 'is-enabled', 'hue2lox.service')
+run('sh', uninstaller)
 run('sh', uninstaller, '--purge-data')
 assert not Path('/etc/hue2lox').exists() and not Path('/var/lib/hue2lox').exists()
 assert Path('/var/backups/hue2lox').is_dir(), 'Backups require a separate deliberate cleanup'

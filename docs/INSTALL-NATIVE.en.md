@@ -74,9 +74,20 @@ sudo bash deployment/native/update.sh \
   --sha256 VERIFIED_SHA256
 ```
 
-The updater verifies and stages the application, stops the service, backs up private state and the previous code reference, then switches versions. Password, token, certificate and inventory are retained. Failed startup/HTTPS checks trigger restoration of the previous code and matching state. Only registry schema 1 is currently supported; other schemas are rejected before switching, without automatic migration. Check the final message and indicated backup. If an error persists, stop the service and retain the backup; do not replace the installation with fresh setup.
+The updater verifies and stages the application, stops the service, backs up private state and the complete previous application code, then switches versions. Password, token, certificate and inventory are retained. Failed startup/HTTPS checks trigger restoration of the previous code and matching state. Only registry schema 1 is currently supported; other schemas are rejected before switching, without automatic migration. Check the final message and indicated backup. If an error persists, stop the service and retain the backup; do not replace the installation with fresh setup.
 
 There is no unattended update timer or automatic main update. Data migrations need an explicitly supported migration and recovery path. Do not start arbitrary older versions against newer state.
+
+
+### Later rollback after an initially successful update
+
+New update backups contain complete application code, configuration and state with checksums. Explicitly select the backup directory printed by the update:
+
+```sh
+sudo sh deployment/native/rollback.sh --backup /var/backups/hue2lox/TIMESTAMP-ID
+```
+
+Rollback verifies the backup before stopping the service, backs up the current installation, then restores code **and the matching historical private state**. Password, inventory and key changes made since that backup revert to their historical values. If startup fails, the immediately preceding installation is restored. If recovery also fails, inspect the service/logs and retain the recovery backup identified by the error. A power failure during replacement may require manual recovery. Older backups without complete code and `snapshot.json` are rejected. Successful updates and rollbacks enable service startup at boot.
 
 ## Backup and restore
 
@@ -125,6 +136,19 @@ sudo bash deployment/native/uninstall.sh --purge-data
 ```
 
 Backups and the system account are retained even with `--purge-data`. Retained private data prevents fresh reinstallation; do not overwrite it with the installer. Create a separate backup first. Private-data deletion cannot be undone. Docker installations are not removed.
+
+
+### Reinstall with retained private data
+
+After uninstalling without `--purge-data`, use the **same verified package** (version, commit and dirty flag) as before removal. Preserve the IP address and port from the retained settings:
+
+```sh
+sudo sh deployment/native/install.sh --keep-data \
+  --package /tmp/hue2lox-native.tar.gz --sha256 VERIFIED_SHA256 \
+  --host 192.168.1.50 --port 18443
+```
+
+Credentials, certificates and registry are not initialized again. Regular updates are possible afterwards. Existing state remains protected without `--keep-data`. Retry an interrupted uninstall using the same uninstall command; foreign service files and symbolic links are rejected before changes.
 
 ## Test status and remaining acceptance
 

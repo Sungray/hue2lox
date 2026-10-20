@@ -306,3 +306,124 @@ class NativeLifecycleTests(unittest.TestCase):
             native.update(self.args, self.layout)
         self.assertEqual(outside.read_text(), 'untouched')
         self.systemctl.assert_not_called()
+
+    def test_reinstall_retained_data_requires_explicit_matching_package(self):
+        self.install()
+        self.changed_user_state()
+        before = self.protected_snapshot()
+        native.uninstall(self.args, self.layout)
+        with self.assertRaises(ValueError): self.install()
+        self.args.keep_data = True
+        self.next_package()
+        with self.assertRaisesRegex(ValueError, 'identity'): self.install()
+        self.assertFalse(self.layout.app.exists())
+        self.args.sha256 = package(self.archive)
+        self.install()
+        for name, value in before.items():
+            if not name.endswith('/install.json'):
+                self.assertEqual(self.protected_snapshot()[name], value)
+        self.systemctl.assert_any_call('enable', '--now', native.SERVICE)
+
+    def test_uninstall_symlink_preflight_does_not_change_service(self):
+        self.install()
+        link = self.layout.current.resolve() / 'alias'
+        link.symlink_to(self.root / 'outside')
+        before = self.protected_snapshot()
+        self.systemctl.reset_mock()
+        with self.assertRaises(ValueError): native.uninstall(self.args, self.layout)
+        self.systemctl.assert_not_called()
+        self.assertTrue(self.layout.unit.is_file())
+        self.assertEqual(before, self.protected_snapshot())
+
+    def test_interrupted_uninstall_can_resume_after_unit_removal(self):
+        self.install()
+        with patch.object(native, 'run_systemctl', side_effect=lambda *args: (_ for _ in ()).throw(OSError('interrupted reload')) if args == ('daemon-reload',) else None):
+            with self.assertRaises(OSError): native.uninstall(self.args, self.layout)
+        self.assertFalse(self.layout.unit.exists())
+        native.uninstall(self.args, self.layout)
+        self.assertFalse(self.layout.app.exists())
+        self.assertFalse(native.strict_json((self.layout.config / 'install.json').read_text())['installed'])
+
+    def test_failed_initial_install_recovery_enables_autostart(self):
+        self.health.side_effect = ValueError('startup failed')
+        with self.assertRaises(ValueError): self.install()
+        self.health.side_effect = None
+        self.systemctl.reset_mock()
+        self.next_package()
+        native.update(self.args, self.layout)
+        self.systemctl.assert_any_call('enable', '--now', native.SERVICE)
+
+    def test_later_rollback_restores_self_contained_code_and_private_data(self):
+        self.install()
+        self.changed_user_state()
+        before = self.protected_snapshot()
+        old = self.layout.current.resolve()
+        self.next_package()
+        native.update(self.args, self.layout)
+        saved = next(self.layout.backups.iterdir())
+        import shutil
+        shutil.rmtree(old)
+        (self.layout.state / 'registry.json').write_text('{"schema_version":1,"bridges":[],"later":"change"}')
+        self.args.backup = saved
+        native.rollback(self.args, self.layout)
+        for name, value in before.items():
+            self.assertEqual(self.protected_snapshot()[name], value)
+        self.assertEqual((self.layout.current.resolve() / 'src/app.py').read_bytes(), (ROOT / 'src/app.py').read_bytes())
+        self.assertEqual(len(list(self.layout.backups.iterdir())), 2)
+
+    def test_corrupt_manual_rollback_rejected_before_service_stop(self):
+        self.install()
+        self.next_package()
+        native.update(self.args, self.layout)
+        self.args.backup = next(self.layout.backups.iterdir())
+        (self.args.backup / 'state/admin_auth.json').write_text('corrupted')
+        self.systemctl.reset_mock()
+        with self.assertRaisesRegex(ValueError, 'checksum'): native.rollback(self.args, self.layout)
+        self.systemctl.assert_not_called()
+
+    def test_failed_manual_rollback_recovers_current_installation(self):
+        self.install()
+        self.next_package()
+        native.update(self.args, self.layout)
+        self.args.backup = next(self.layout.backups.iterdir())
+        before = self.protected_snapshot()
+        calls = []
+        def fail_once(layout):
+            calls.append(True)
+            if len(calls) == 1: raise ValueError('restored application failed')
+        self.health.side_effect = fail_once
+        with self.assertRaisesRegex(ValueError, 'original installation restored'):
+            native.rollback(self.args, self.layout)
+        self.assertEqual(before, self.protected_snapshot())
+
+    def test_reinstall_failure_before_record_keeps_data_and_allows_retry(self):
+        self.install()
+        self.changed_user_state()
+        native.uninstall(self.args, self.layout)
+        before = self.protected_snapshot()
+        self.args.keep_data = True
+        with patch.object(native, 'install_unit', side_effect=OSError('write failure')):
+            with self.assertRaises(OSError): self.install()
+        self.assertEqual(before, self.protected_snapshot())
+        self.assertFalse(self.layout.app.exists())
+        self.install()
+        self.assertTrue(self.layout.unit.is_file())
+
+    def test_manual_rollback_recovers_after_private_directory_removal_error(self):
+        self.install()
+        self.next_package()
+        native.update(self.args, self.layout)
+        self.args.backup = next(self.layout.backups.iterdir())
+        before = self.protected_snapshot()
+        remove = native.shutil.rmtree
+        failed = []
+        def fail_once(path, *args, **kwargs):
+            result = remove(path, *args, **kwargs)
+            if Path(path) == self.layout.state and not failed:
+                failed.append(True)
+                raise OSError('interrupted after state removal')
+            return result
+        with patch.object(native.shutil, 'rmtree', side_effect=fail_once):
+            with self.assertRaisesRegex(ValueError, 'original installation restored'):
+                native.rollback(self.args, self.layout)
+        self.assertEqual(before, self.protected_snapshot())
