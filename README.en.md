@@ -43,6 +43,8 @@ You need a Linux server, VM or Raspberry Pi with a supported 64-bit OS, a Hue Br
 
 Prefer guidance from an AI assistant? Use the [ChatGPT or Claude installation prompt](docs/AI-INSTALL.en.md). It guides you to the same interactive installer.
 
+**Additional development option on main:** The [native Linux installation](docs/INSTALL-NATIVE.en.md) runs the same application without Docker. Its initial target is isolated Debian 13 testing on amd64; there is no published native package or hardware acceptance yet. The Docker installation above remains available.
+
 ## Release status and technical notes
 
 **Release Candidate 2.** German and English are available. An earlier fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. A fresh Debian test of the RC2 package and end-to-end testing with a Loxone Miniserver are still pending. Original project code is licensed under Apache 2.0.
@@ -62,7 +64,8 @@ See [release notes](RELEASE.md) and [documented test results](docs/TEST-RESULTS.
 | Topic | Start here |
 | --- | --- |
 | Usage, troubleshooting and backup | [Manual](docs/MANUAL.en.md) |
-| Fresh test installation | [Installation](docs/INSTALL.en.md) |
+| Fresh Docker test installation | [Installation](docs/INSTALL.en.md) |
+| Native installation without Docker (development) | [Native guide](docs/INSTALL-NATIVE.en.md) |
 | Loxone HTTP outputs and XML | [Illustrated guide](docs/TUTORIAL.en.md) |
 | Architecture and container | [Technical reference (German)](docs/CONTAINER.md) |
 | Quality checks and contributing | [Development](CONTRIBUTING.md) |

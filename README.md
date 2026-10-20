@@ -43,6 +43,8 @@ Du brauchst einen Linux-Server, eine VM oder einen Raspberry Pi mit unterstützt
 
 Lieber mit KI-Begleitung? Nutze den [Installationsprompt für ChatGPT oder Claude](docs/AI-INSTALL.md). Er führt dich bis zum selben interaktiven Installer.
 
+**Zusätzlicher Entwicklungsweg auf main:** Die [native Linux-Installation](docs/INSTALL-NATIVE.md) betreibt dieselbe Anwendung ohne Docker. Sie ist zunächst für isolierte Debian-13-Tests auf amd64 vorgesehen; es gibt dafür noch kein veröffentlichtes Paket und keine Hardwarefreigabe. Der oben beschriebene Dockerweg bleibt bestehen.
+
 ## Release-Status und technische Hinweise
 
 **Release Candidate 2.** Deutsch und Englisch sind verfügbar. Eine frühere frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Der erneute Debian-Test des RC2-Pakets und der durchgängige Funktionstest mit einem Loxone Miniserver stehen noch aus. Der eigene Projektcode steht unter Apache 2.0.
@@ -62,7 +64,8 @@ Details stehen in den [Release-Hinweisen](RELEASE.md) und den [dokumentierten Te
 | Thema | Einstieg |
 | --- | --- |
 | Bedienung, Fehlerbehebung, Backup | [Handbuch](docs/MANUAL.md) |
-| Neue Testinstallation | [Installation](INSTALL.md) |
+| Neue Docker-Testinstallation | [Installation](INSTALL.md) |
+| Native Installation ohne Docker (Entwicklung) | [Native Anleitung](docs/INSTALL-NATIVE.md) |
 | HTTP-Ausgänge und XML in Loxone | [Bebilderte Anleitung](docs/TUTORIAL.md) |
 | Architektur und Container | [Technik](docs/CONTAINER.md) |
 | Qualitätsprüfungen und Mitarbeit | [Entwicklung](CONTRIBUTING.md) |

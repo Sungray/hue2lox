@@ -44,8 +44,21 @@ Deutsch: Hue2Lox ist als Release Candidate 2 öffentlich verfügbar. Der durchg�
 
 - `src/`: Python application modules; run locally with `python3 src/app.py`.
 - `docker/`: Compose variants and the installer Dockerfile. Compose overrides are combined with the root `compose.yaml`; keep the repository root as the project directory.
+- `deployment/native/`: native systemd installation, update and removal; see [English](docs/INSTALL-NATIVE.en.md) / [Deutsch](docs/INSTALL-NATIVE.md). Docker entry points stay in place.
 - `config/registry.json`: empty source template, separate from live `data/registry.json`.
 - `scripts/`: installation helpers and historical prototype update scripts. The interactive entry point remains `install-assistant.sh` at the root.
 - `tests/`, `docs/`, `web/`: automated tests, detailed guides and browser assets.
 
 The prototype update scripts require the complete source tree in their explicitly configured staging directory, including `scripts/copy-runtime.sh`. They are not a general updater for RC1 installations.
+
+## Native deployment development
+
+Build a native package from a recorded, reviewed commit:
+
+```sh
+python3 scripts/build-native-package.py --version VERSION --output /tmp/hue2lox-native-package
+```
+
+Use a disposable Debian 13 amd64 system for installation and systemd lifecycle tests. The installer requires root and changes system paths; never run it on a developer workstation or an existing installation. Obtain and verify the package SHA-256 independently before installation. Do not distribute packages containing unreviewed working-tree changes as a tagged release.
+
+Native and Docker deployment share the application and state preparation; changes must preserve existing Docker defaults. Native state initialization must accept explicit directories, have no fixed UID and make no systemd changes. Keep native lifecycle tests separate from application and Docker tests. No automated check establishes Hue/Loxone hardware acceptance. A future LoxBerry package can reuse state preparation while providing its own paths, service integration and update hooks.
