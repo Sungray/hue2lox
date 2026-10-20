@@ -44,8 +44,10 @@ def renew(destination, host=None):
         for ip in dict.fromkeys((old, str(address))):
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             sockets.append(sock)
+            sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             try:
                 sock.bind((ip, port))
+                sock.listen(1)
             except OSError as error:
                 # The previous address may already have been removed by the OS.
                 if ip == old and ip != str(address) and error.errno == errno.EADDRNOTAVAIL:

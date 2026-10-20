@@ -73,3 +73,16 @@ class CertificateMaintenanceTests(unittest.TestCase):
         cert=ssl._ssl._test_decode_cert(str(self.dest/'certs/server.crt'))
         self.assertIn(('IP Address','192.0.2.50'),cert['subjectAltName'])
         for path,data in self.original.items():self.assertEqual(path.read_bytes(),data)
+
+    def test_renew_after_closed_server_with_time_wait_connections(self):
+        port=int(dict(l.split('=',1) for l in (self.dest/'.env').read_text().splitlines())['HUE2LOX_PORT'])
+        with socket.socket() as listener:
+            listener.setsockopt(socket.SOL_SOCKET,socket.SO_REUSEADDR,1)
+            listener.bind(('127.0.0.1',port));listener.listen()
+            with socket.create_connection(('127.0.0.1',port)) as client:
+                conn,_=listener.accept()
+                conn.shutdown(socket.SHUT_WR)
+                self.assertEqual(client.recv(1),b'')
+                conn.close()
+        maintenance.renew(self.dest)
+        for path,data in self.original.items():self.assertEqual(path.read_bytes(),data)
