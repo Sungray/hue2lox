@@ -1,9 +1,11 @@
+<p align="center"><a href="README.md">Deutsch</a> | <a href="README.en.md">English</a></p>
+
 <p align="center">
   <img src="web/hue2lox-logo.png" width="360" alt="Hue2Lox – unser Oktopus hält den Schriftzug">
 </p>
 <h1 align="center">Hue im Griff. Mit Hue2Lox.</h1>
 <p align="center">Philips Hue mit Loxone verbinden – lokal, übersichtlich und mit acht helfenden Armen.</p>
-<p align="center"><a href="README.en.md">English</a> · <a href="docs/MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release-Status</a></p>
+<p align="center"><a href="docs/MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release-Status</a></p>
 
 **Release Candidate 1.** Deutsch und Englisch sind verfügbar. Eine frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Die vollständige Abnahme aller Loxone-Funktionen auf dem Veröffentlichungsstand bleibt offen. Der eigene Projektcode steht unter Apache 2.0.
 
