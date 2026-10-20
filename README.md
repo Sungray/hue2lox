@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">Hue im Griff. Mit Hue2Lox.</h1>
 <p align="center">Philips Hue mit Loxone verbinden – lokal, übersichtlich und mit acht helfenden Armen.</p>
-<p align="center"><a href="README.en.md">English</a> · <a href="MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release-Status</a></p>
+<p align="center"><a href="README.en.md">English</a> · <a href="docs/MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a> · <a href="RELEASE.md">Release-Status</a></p>
 
 **Public Beta.** Deutsch und Englisch sind verfügbar. Eine frische Debian-13-Installation mit Bridge-Kopplung, Lampenanzeige und Neustart wurde erfolgreich getestet. Die vollständige Abnahme aller Loxone-Funktionen auf dem Veröffentlichungsstand bleibt offen. Der eigene Projektcode steht unter Apache 2.0.
 
@@ -30,16 +30,16 @@ Szenen erstellst du weiterhin in der Hue-App. Hue2Lox ruft sie über Loxone ab. 
 
 ![Befehle für Loxone im Hue2Lox-Webinterface](web/tutorial-commands.png)
 
-*Beispielansicht mit Testdaten; die aktuelle Oberfläche ist kompakter. Weitere Abbildungen stehen in der [Loxone-Anleitung](TUTORIAL.md).*
+*Beispielansicht mit Testdaten; die aktuelle Oberfläche ist kompakter. Weitere Abbildungen stehen in der [Loxone-Anleitung](docs/TUTORIAL.md).*
 
 ## Starten
 
-Du brauchst einen Linux-Rechner mit Docker Compose, Python und OpenSSL, eine unterstützte Hue Bridge sowie für die Steuerung einen Loxone Miniserver. Den dokumentierten Testumfang findest du in [TEST-RESULTS.md](TEST-RESULTS.md).
+Du brauchst einen Linux-Rechner mit Docker Compose, Python und OpenSSL, eine unterstützte Hue Bridge sowie für die Steuerung einen Loxone Miniserver. Den dokumentierten Testumfang findest du in [docs/TEST-RESULTS.md](docs/TEST-RESULTS.md).
 
 1. Folge der [Linux-Installation mit Installer oder Schritt für Schritt](INSTALL.md): Voraussetzungen installieren, ZIP herunterladen, vom Mac/PC auf den Server kopieren und starten.
 2. Erzeuge eine frische Installation mit eigenen Schlüsseln und leerer Bridge-Liste.
 3. Öffne das Webinterface, prüfe das Zertifikat und melde dich mit `admin` / `admin` an. Das Passwort lässt sich dort ändern.
-4. Kopple eine Bridge, prüfe die gefundenen Lampen und richte Loxone nach der [Anleitung](TUTORIAL.md) ein.
+4. Kopple eine Bridge, prüfe die gefundenen Lampen und richte Loxone nach der [Anleitung](docs/TUTORIAL.md) ein.
 
 **Für bestehende Entwicklungsinstallationen:** Nicht neu installieren. Den bisherigen vorbereiteten Update-Weg nutzen; Zugangsdaten und gespeicherte Geräte erhalten. Ein allgemeiner Release-Updater ist noch nicht freigegeben.
 
@@ -47,16 +47,16 @@ Der [Installer – einfach und komfortabel](INSTALL.md#option-1-einfach-und-komf
 
 ## Mit ChatGPT oder Claude installieren
 
-[KI-Installationsprompt und Voraussetzungen](AI-INSTALL.md): kopieren, Zielsystem prüfen lassen und Schritt für Schritt eine getrennte Testinstallation einrichten. Mit Terminalzugriff kann die KI ausführen; ohne Zugriff begleitet sie dich. Die KI begleitet dich bis zum Start desselben interaktiven Installers.
+[KI-Installationsprompt und Voraussetzungen](docs/AI-INSTALL.md): kopieren, Zielsystem prüfen lassen und Schritt für Schritt eine getrennte Testinstallation einrichten. Mit Terminalzugriff kann die KI ausführen; ohne Zugriff begleitet sie dich. Die KI begleitet dich bis zum Start desselben interaktiven Installers.
 
 ## Dokumentation
 
 | Thema | Einstieg |
 | --- | --- |
-| Bedienung, Fehlerbehebung, Backup | [Handbuch](MANUAL.md) |
+| Bedienung, Fehlerbehebung, Backup | [Handbuch](docs/MANUAL.md) |
 | Neue Testinstallation | [Installation](INSTALL.md) |
-| HTTP-Ausgänge und XML in Loxone | [Bebilderte Anleitung](TUTORIAL.md) |
-| Architektur und Container | [Technik](CONTAINER.md) |
+| HTTP-Ausgänge und XML in Loxone | [Bebilderte Anleitung](docs/TUTORIAL.md) |
+| Architektur und Container | [Technik](docs/CONTAINER.md) |
 | Qualitätsprüfungen und Mitarbeit | [Entwicklung](CONTRIBUTING.md) |
 | Was wir gemeinsam testen | [Abnahmeplan](docs/ACCEPTANCE.md) |
 | Quellen, Icons und Lizenzstatus | [Drittanbieterhinweise](THIRD-PARTY-NOTICES.md) |

@@ -53,7 +53,7 @@ wie „noch nicht getestet“ beziehen sich jeweils auf diese Phase.
 - Kein Schalten, kein Dimmen, keine Farbe und keine bestehenden Loxone-Einstellungen geändert.
 - Noch kein Steuerausgang oder Loxone-Statusmapping eingerichtet.
 
-Historische Ersttests: docs/INITIAL-TEST-RESULTS.md.
+Historische Ersttests: INITIAL-TEST-RESULTS.md.
 
 ## Vorbereitung Ein/Aus und Dimmen
 

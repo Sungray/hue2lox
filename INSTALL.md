@@ -452,7 +452,7 @@ In nano: **Ctrl+O**, Enter zum Speichern; **Ctrl+X** zum Schließen. Anschließe
 sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml up -d
 ```
 
-4. Eine Testlampe auswählen; gleichzeitige Steuerung durch die bestehende Anlage vermeiden. Befehle/XML nach der [Loxone-Anleitung](TUTORIAL.md) einrichten.
+4. Eine Testlampe auswählen; gleichzeitige Steuerung durch die bestehende Anlage vermeiden. Befehle/XML nach der [Loxone-Anleitung](docs/TUTORIAL.md) einrichten.
 5. Mit `sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml restart` neu starten. Kopplung, geändertes Passwort und gespeicherte Einstellungen müssen erhalten bleiben. Erneute Anmeldung kann nötig sein.
 
 Weitere Prüfpunkte: [Abnahmeplan](docs/ACCEPTANCE.md). Der Linux-Test bestätigt noch keine frische LoxBerry-Installation.
@@ -475,7 +475,7 @@ Vor Änderungen die gesamte Installation einschließlich `.env`, `data`, `certs`
 
 ## Alternativen und Entwicklertests
 
-[KI-Installationsprompt](AI-INSTALL.md) · [English AI prompt](AI-INSTALL.en.md).
+[KI-Installationsprompt](docs/AI-INSTALL.md) · [English AI prompt](docs/AI-INSTALL.en.md).
 
 Erfahrene Nutzer können statt ZIP einen separaten Git-Klon verwenden: Git mit `sudo apt install git` installieren, dann `git clone https://github.com/square-com-de/hue2lox.git`. Für den öffentlichen Download ist keine GitHub-Anmeldung nötig. Ab Schritt 7 im geklonten Repository fortfahren.
 

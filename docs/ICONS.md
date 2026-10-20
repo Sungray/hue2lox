@@ -12,6 +12,6 @@ The original SVG icons are licensed under Apache License 2.0; see LICENSE and NO
 
 The old icon assets and current runtime attribution have been removed. Historical commits, backups and already-built old images still contain the former assets and retain their original terms. This change does not rewrite history or delete backups.
 
-Additional product families and model assignments: [research notes](docs/ICON-RESEARCH.md) and `catalog/lamp-icon-models.json`. Only exact catalog model IDs are mapped; manual overrides always win.
+Additional product families and model assignments: [research notes](ICON-RESEARCH.md) and `catalog/lamp-icon-models.json`. Only exact catalog model IDs are mapped; manual overrides always win.
 
 Resonate (`1746430P7`, `929003553001`) uses a compact rectangular wall-light symbol; filament model `LTO001` uses a visible-filament bulb symbol. These exact model mappings override broad bridge archetypes such as `wall_lantern` and `vintage_bulb`. Both shapes are also available as manual choices.

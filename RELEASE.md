@@ -11,7 +11,7 @@ Docker images are built locally from these sources. No prebuilt Hue2Lox images o
 
 ## Validation and limits
 
-On 20 October 2026, a user-run fresh Debian 13 VM installation passed installation, login, bridge discovery/pairing, inventory display and a full VM reboot with the configuration retained. See [TEST-RESULTS.md](TEST-RESULTS.md).
+On 20 October 2026, a user-run fresh Debian 13 VM installation passed installation, login, bridge discovery/pairing, inventory display and a full VM reboot with the configuration retained. See [docs/TEST-RESULTS.md](docs/TEST-RESULTS.md).
 Automated source, HTTPS and container checks are defined in GitHub Actions; consult the run for the specific commit.
 Full Loxone acceptance on this release, backup/restore and certificate renewal remain additional acceptance work. Existing historical live-control tests do not imply every device or distribution is covered.
 

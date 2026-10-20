@@ -4,7 +4,7 @@ Reviewed: 20 October 2026. Original Hue2Lox code, documentation and project asse
 
 ## Original light icons
 
-The current lamp icons are original geometric SVG drawings created for Hue2Lox, approved on 19 October 2026. See ICONS.md and `web/lamp-icons/`. The former third-party icon bundle is no longer shipped in the current source or new builds. Historical releases/commits and existing backups retain their original license obligations; they are not retroactively relicensed. Original project assets are covered by Apache License 2.0 to the extent applicable rights exist.
+The current lamp icons are original geometric SVG drawings created for Hue2Lox, approved on 19 October 2026. See docs/ICONS.md and `web/lamp-icons/`. The former third-party icon bundle is no longer shipped in the current source or new builds. Historical releases/commits and existing backups retain their original license obligations; they are not retroactively relicensed. Original project assets are covered by Apache License 2.0 to the extent applicable rights exist.
 
 ## Model catalog – zigbee-herdsman-converters
 
@@ -30,7 +30,7 @@ Before distributing a built image: pin and record the actual base-image digest, 
 
 ## Branding and screenshots
 
-The octopus assets were generated with Imagegen for this project; provenance is in LOGO.md. No third-party lamp manufacturer endorsement is implied. Hue/Philips Hue and Loxone names identify compatible products; this is an independent project. Verify naming/branding and screenshot publication rights before a public release. Tutorial screenshots currently show German UI.
+The octopus assets were generated with Imagegen for this project; provenance is in docs/LOGO.md. No third-party lamp manufacturer endorsement is implied. Hue/Philips Hue and Loxone names identify compatible products; this is an independent project. Verify naming/branding and screenshot publication rights before a public release. Tutorial screenshots currently show German UI.
 
 ## Deutsch: Status vor Veröffentlichung
 

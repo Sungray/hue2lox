@@ -1,10 +1,10 @@
 # Mit KI installieren
 
-[Startseite](README.md) · [English](AI-INSTALL.en.md) · [Installationsanleitung](INSTALL.md)
+[Startseite](../README.md) · [English](AI-INSTALL.en.md) · [Installationsanleitung](../INSTALL.md)
 
 Öffne einen **neuen Chat** in ChatGPT, Claude oder einem anderen KI-Assistenten und kopiere den folgenden Prompt hinein. Die KI hilft bis zum Start des Installers; danach übernimmt dessen Menü.
 
-Du brauchst einen Linux-Zielserver, dessen IP und Benutzernamen, SSH-Zugang und Root-/sudo-Rechte sowie Zugriff auf [Hue2Lox auf GitHub](https://github.com/square-com-de/hue2lox). Der Download ist ohne GitHub-Konto möglich. Passwörter nur im Terminal eingeben. Unterstützte Systeme und Hilfe bei fehlendem SSH oder sudo stehen in der [Installationsanleitung](INSTALL.md).
+Du brauchst einen Linux-Zielserver, dessen IP und Benutzernamen, SSH-Zugang und Root-/sudo-Rechte sowie Zugriff auf [Hue2Lox auf GitHub](https://github.com/square-com-de/hue2lox). Der Download ist ohne GitHub-Konto möglich. Passwörter nur im Terminal eingeben. Unterstützte Systeme und Hilfe bei fehlendem SSH oder sudo stehen in der [Installationsanleitung](../INSTALL.md).
 
 ## Prompt zum Kopieren
 
@@ -40,4 +40,4 @@ Fordere keine Passwörter, Tokens oder privaten Schlüssel im Chat an.
 Antworte auf Deutsch.
 ```
 
-**Teststatus:** Der vereinfachte KI-Ablauf muss noch in einem neuen Chat getestet werden. Die bereits bestätigten Systemtests stehen in [INSTALL.md](INSTALL.md).
+**Teststatus:** Der vereinfachte KI-Ablauf muss noch in einem neuen Chat getestet werden. Die bereits bestätigten Systemtests stehen in [INSTALL.md](../INSTALL.md).

@@ -16,9 +16,9 @@ for path in sorted(ROOT.glob('*.sh')) + sorted((ROOT / 'scripts').glob('*.sh')):
 de = json.loads((ROOT / 'web/locales/de.json').read_text())
 en = json.loads((ROOT / 'web/locales/en.json').read_text())
 assert de.keys() == en.keys(), 'Translation keys differ'
-for name in ('README.md', 'README.en.md', 'MANUAL.md', 'MANUAL.en.md', 'CONTRIBUTING.md', 'SECURITY.md', 'docs/ACCEPTANCE.md'):
+for name in [p.relative_to(ROOT).as_posix() for p in ROOT.glob('*.md')] + [p.relative_to(ROOT).as_posix() for p in (ROOT / 'docs').rglob('*.md')]:
     path = ROOT / name
-    for target in re.findall(r'\]\(([^\s)]+)', path.read_text()):
+    for target in re.findall(r'\]\(([^\s)]+)', path.read_text()) + re.findall(r'(?:href|src)="([^"]+)"', path.read_text()):
         if ':' in target or target.startswith('#'):
             continue
         assert (path.parent / target.split('#')[0]).exists(), f'{name}: missing {target}'

@@ -33,7 +33,7 @@ wählen. Für einen sichtbaren Weißtest die Helligkeit über 0 % einstellen.
 Der Body lautet auch hier `{"loxone_lumitech":<v>}`. Lumitech RGB + Weiß nutzt
  denselben Body, unterstützt zusätzlich Farbauswahl.
 
-![Steuerungsart und zu kopierende Felder in Hue2Lox](web/tutorial-commands.png)
+![Steuerungsart und zu kopierende Felder in Hue2Lox](../web/tutorial-commands.png)
 
 ## 2. Virtuellen Ausgang anlegen
 
@@ -77,7 +77,7 @@ echtes Token verwenden. `<v>` im Body unverändert und ohne Anführungszeichen
 - **Ein/Aus:** Digitalausgang aktivieren und die angezeigten AUS-Felder ebenfalls übernehmen.
 - **Dimmen, Tunable White, RGB, Lumitech:** Einheit auf `<v>` setzen. Digitalausgang deaktivieren, AUS-Felder leer lassen. Wert 0 schaltet aus. Dimmen verwendet 0–100 %; RGB bzw. Lumitech benötigt den entsprechenden Aktortyp am Lichtsteuerungsbaustein.
 
-![Eigenschaften eines virtuellen Ausgangsbefehls in Loxone Config](web/tutorial-config.png)
+![Eigenschaften eines virtuellen Ausgangsbefehls in Loxone Config](../web/tutorial-config.png)
 
 ## Alternative: XML importieren
 
@@ -105,7 +105,7 @@ speichern und gezielt auslösen. Im **HTTP-Monitor** die Antwort kontrollieren:
 HTTP 200 bestätigt einen erfolgreichen Aufruf. Erst die sichtbare Reaktion der
 Lampe bestätigt die gewünschte Wirkung.
 
-![Beispiel einer erfolgreichen Antwort im HTTP-Monitor](web/tutorial-monitor.png)
+![Beispiel einer erfolgreichen Antwort im HTTP-Monitor](../web/tutorial-monitor.png)
 
 Bei 401 Token prüfen, bei 403 Freischaltung der Steuerung. Bei **HTTP 400** den
 **HTTP-Monitor** in Hue2Lox starten und den Befehl erneut auslösen. Unter

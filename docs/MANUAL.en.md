@@ -1,6 +1,6 @@
 # Hue2Lox – user manual
 
-[Home](README.en.md) · [Deutsch](MANUAL.md) · [Installation](INSTALL.md)
+[Home](../README.en.md) · [Deutsch](MANUAL.md) · [Installation](../INSTALL.md)
 
 ## Access and language
 
@@ -78,6 +78,6 @@ The prototype updater's limited rollback copy is not a complete backup. A genera
 
 ## Limits and licensing
 
-See [release readiness](RELEASE.md) and [third-party notices](THIRD-PARTY-NOTICES.md). No project license has been selected. The new original SVG icons still need an explicit asset license as part of the project licensing decision.
+See [release readiness](../RELEASE.md) and [third-party notices](../THIRD-PARTY-NOTICES.md). No project license has been selected. The new original SVG icons still need an explicit asset license as part of the project licensing decision.
 
 Under **Usage & management → Light icon**, choose a shape per light. **Automatic** uses model and bridge metadata; unknown devices receive a bulb symbol. The choice survives restarts and rescans and does not change Loxone commands.

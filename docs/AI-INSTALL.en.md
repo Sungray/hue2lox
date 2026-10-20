@@ -1,10 +1,10 @@
 # Install with AI
 
-[Home](README.en.md) · [Deutsch](AI-INSTALL.md) · [Installation guide](INSTALL.md)
+[Home](../README.en.md) · [Deutsch](AI-INSTALL.md) · [Installation guide](../INSTALL.md)
 
 Open a **new chat** in ChatGPT, Claude or another AI assistant and paste the prompt below. The AI guides you up to starting the installer; its menu takes over from there.
 
-You need a Linux target server, its IP and username, SSH access and root/sudo rights, plus access to [Hue2Lox on GitHub](https://github.com/square-com-de/hue2lox). No GitHub account is required to download it. Enter passwords only in the terminal. Supported systems and help with missing SSH or sudo are in the [installation guide](INSTALL.md).
+You need a Linux target server, its IP and username, SSH access and root/sudo rights, plus access to [Hue2Lox on GitHub](https://github.com/square-com-de/hue2lox). No GitHub account is required to download it. Enter passwords only in the terminal. Supported systems and help with missing SSH or sudo are in the [installation guide](../INSTALL.md).
 
 ## Copyable prompt
 
@@ -40,4 +40,4 @@ Never request passwords, tokens or private keys in chat.
 Respond in English.
 ```
 
-**Test status:** This simplified AI workflow still needs testing in a new chat. Previously confirmed platform tests are recorded in [INSTALL.md](INSTALL.md).
+**Test status:** This simplified AI workflow still needs testing in a new chat. Previously confirmed platform tests are recorded in [INSTALL.md](../INSTALL.md).
