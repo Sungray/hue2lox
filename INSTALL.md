@@ -596,3 +596,7 @@ keinen neuen Namen. Der Vorbereitungsassistent überschreibt bestehende Installa
 nicht. Ältere Installationen behalten ihren bisherigen Projektnamen `hue2lox-test`.
 Bei Wartungsbefehlen immer die Compose-Datei und `.env` der gewünschten Installation
 verwenden; keinen festen Projektnamen mit `-p` darüberlegen.
+
+## Maintenance / Wartung
+
+[Certificate renewal, IP change, backup and restore / Zertifikat, IP-Wechsel und Sicherung](docs/MAINTENANCE.md)
