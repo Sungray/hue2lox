@@ -7,7 +7,7 @@ import unittest
 from pathlib import Path
 import xml.etree.ElementTree as ET
 import loxone_export
-import test_bridges
+from tests import test_bridges
 
 class HeaderFormatTests(unittest.TestCase):
     setUp=test_bridges.BridgeTests.setUp
@@ -21,7 +21,7 @@ class HeaderFormatTests(unittest.TestCase):
             cmd=root.find('VirtualOutCmd');self.assertEqual(cmd.get('CmdOnHTTP'),expected)
             self.assertEqual(cmd.get('CmdOffHTTP'),expected if mode=='switch' else '')
         self.assertNotIn('\r',expected);self.assertNotIn('\n',expected)
-        source=Path(__file__).with_name('web').joinpath('admin.js').read_text()
+        source=(Path(__file__).resolve().parent.parent/'web/admin.js').read_text()
         helper=re.search(r'function loxoneHTTPHeader\(token\)\{[^\n]+',source).group(0)
         self.assertIsNotNone(shutil.which('node'),'Node required to test actual clipboard helper')
         result=subprocess.check_output(['node','-e',helper+';process.stdout.write(JSON.stringify(loxoneHTTPHeader('+json.dumps(token)+')));'],text=True)

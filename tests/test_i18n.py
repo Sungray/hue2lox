@@ -6,10 +6,10 @@ import unittest
 import xml.etree.ElementTree as ET
 from unittest.mock import patch
 import loxone_export
-import test_admin
-import test_bridges
+from tests import test_admin
+from tests import test_bridges
 
-ROOT=Path(__file__).parent
+ROOT=Path(__file__).resolve().parent.parent
 class LocaleTests(unittest.TestCase):
     def test_dictionary_parity_fallback_and_language_detection(self):
         de=json.loads((ROOT/'web/locales/de.json').read_text());en=json.loads((ROOT/'web/locales/en.json').read_text())

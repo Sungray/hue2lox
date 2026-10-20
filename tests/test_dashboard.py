@@ -4,12 +4,12 @@ from pathlib import Path
 import unittest
 from unittest.mock import patch
 import dashboard
-import test_control
+from tests import test_control
 
 
 class RegistryTests(unittest.TestCase):
     def setUp(self):
-        self.env=patch.dict('os.environ', {'HUE_REGISTRY_FILE':str(Path(__file__).parent/'test-fixtures/registry.json')});self.env.start()
+        self.env=patch.dict('os.environ', {'HUE_REGISTRY_FILE':str(Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json')});self.env.start()
         dashboard.CACHE=None;dashboard.CACHE_AT=0
     def tearDown(self):
         self.env.stop()
@@ -31,7 +31,7 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(result['bridges'][0]['status'],'degraded')
             self.assertIsNone(result['bridges'][0]['lights'][0]['state'])
     def test_multiple_active_bridges_and_lights(self):
-        original=json.loads((Path(__file__).parent/'test-fixtures/registry.json').read_text())
+        original=json.loads((Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json').read_text())
         bridge=dict(original['bridges'][0]);bridge['id']='second';bridge['host']='192.0.2.2';bridge['lights']=[dict(bridge['lights'][0],id='second-light')]
         original['bridges'].append(bridge)
         with tempfile.TemporaryDirectory() as d:

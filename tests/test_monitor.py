@@ -2,7 +2,7 @@ import json
 import unittest
 from unittest.mock import patch
 import request_monitor as monitor
-import test_admin
+from tests import test_admin
 
 class MonitorTests(unittest.TestCase):
     def setUp(self):monitor.stop();monitor.clear()

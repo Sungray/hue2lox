@@ -6,9 +6,9 @@ import bridge_store
 import dashboard
 import hue_client
 import loxone_export
-import test_bridges
-from test_bridges import LEGACY, resources
-import test_admin
+from tests import test_bridges
+from tests.test_bridges import LEGACY, resources
+from tests import test_admin
 
 class LampTests(unittest.TestCase):
     setUp=test_bridges.BridgeTests.setUp

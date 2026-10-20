@@ -12,7 +12,7 @@ import bridge_store
 import dashboard
 import hue_client
 import loxone_export
-import test_admin
+from tests import test_admin
 
 KEY = 'fixture-bridge-key-not-real-1234567890'
 IDENTITY = '001788FFFEABCDEF'
@@ -35,7 +35,7 @@ class BridgeTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.root=Path(self.temp.name)
         self.registry=self.root/'registry.json'
-        doc=json.loads((Path(__file__).parent/'test-fixtures/registry.json').read_text())
+        doc=json.loads((Path(__file__).resolve().parent.parent/'tests/fixtures/registry.json').read_text())
         key=self.root/'legacy-key';key.write_text(KEY)
         doc['bridges'][0]['key_file']=str(key)
         self.registry.write_text(json.dumps(doc))

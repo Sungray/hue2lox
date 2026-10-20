@@ -10,7 +10,7 @@ Use Python 3.12, Node.js 22 (JavaScript syntax and helper tests), OpenSSL and, f
 
 ```sh
 python3 scripts/check-quality.py
-python3 -m unittest discover -s . -p 'test_*.py'
+python3 -m unittest discover -s tests -t . -p 'test_*.py'
 python3 scripts/smoke-install.py
 ```
 

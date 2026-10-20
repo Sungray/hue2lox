@@ -4,7 +4,7 @@ import subprocess
 import unittest
 import xml.etree.ElementTree as ET
 
-ROOT=Path(__file__).parent
+ROOT=Path(__file__).resolve().parent.parent
 class IconTests(unittest.TestCase):
     def test_mapping_and_untrusted_metadata(self):
         script=(ROOT/'web/lamp-icons.js').read_text()+'''

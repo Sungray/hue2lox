@@ -43,7 +43,7 @@ class MappingTests(unittest.TestCase):
     def test_api_errors_even_with_http_200(self):
         with tempfile.TemporaryDirectory() as directory:
             key = Path(directory)/'key'; key.write_text('fake-test-key')
-            env = {'HUE_BRIDGE_IP':'192.0.2.1','HUE_BRIDGE_ID':'001788FFFE000001','HUE_LIGHT_ID':'fixture-light','HUE_KEY_FILE': str(key), 'HUE_CA_FILE': str(Path(__file__).parent/'trust/huebridge-ca.pem')}
+            env = {'HUE_BRIDGE_IP':'192.0.2.1','HUE_BRIDGE_ID':'001788FFFE000001','HUE_LIGHT_ID':'fixture-light','HUE_KEY_FILE': str(key), 'HUE_CA_FILE': str(Path(__file__).resolve().parent.parent/'trust/huebridge-ca.pem')}
             with patch.dict(os.environ, env), patch('hue_client.BridgeConnection') as connection:
                 response = MagicMock(); response.status = 200
                 response.read.return_value = b'{"errors":[{"description":"failed"}],"data":[]}'

@@ -7,8 +7,8 @@ from unittest.mock import patch
 import discovery
 import dashboard
 import bridge_store
-import test_admin
-import test_bridges
+from tests import test_admin
+from tests import test_bridges
 
 
 def name(value):return b''.join(bytes([len(part)])+part.encode() for part in value.split('.'))+b'\0'
