@@ -43,7 +43,7 @@ class MonitorTests(unittest.TestCase):
             self.assertEqual(event['body_detail'],'parsed')
         handle=monitor.begin('PUT','127.0.0.1','/hue-go/state')
         monitor.record_body(handle,b'{"loxone_rgb":<v>}')
-        event=monitor.snapshot()['events'][-1];self.assertIn('<v>',event['body']);self.assertIn('Spalte',event['body_detail'])
+        event=monitor.snapshot()['events'][-1];self.assertIn('<v>',event['body']);self.assertRegex(event['body_detail'],r'^invalid_json:\d+:\d+$')
     def test_body_redaction_valid_and_malformed(self):
         monitor.start();secret='PRIVATE-KEY-ABC123456789'
         bodies=[json.dumps({'token':secret,'on':secret,'rgb':{'r':secret,'g':999,'b':0}}),
@@ -111,7 +111,7 @@ class MonitorAPITests(unittest.TestCase):
             c=http.client.HTTPConnection('127.0.0.1',self.server.server_port,timeout=5)
             c.request('PUT','/hue-go/state',body='{"loxone_rgb":<v>}',headers={**auth,'Content-Type':'application/json'})
             response=c.getresponse();self.assertEqual(response.status,400);response.read();c.close()
-            self.assertIn('JSON ungültig',monitor.snapshot()['events'][-1]['body_detail'])
+            self.assertTrue(monitor.snapshot()['events'][-1]['body_detail'].startswith('invalid_json:'))
             write.assert_not_called()
 
     def test_framing_lengths_extra_bytes_and_partial_body(self):
