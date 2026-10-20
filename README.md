@@ -47,7 +47,7 @@ Der [Installer – einfach und komfortabel](INSTALL.md#option-1-einfach-und-komf
 
 ## Mit ChatGPT oder Claude installieren
 
-[KI-Installationsprompt und Voraussetzungen](AI-INSTALL.md): kopieren, Zielsystem prüfen lassen und Schritt für Schritt eine getrennte Testinstallation einrichten. Mit Terminalzugriff kann die KI ausführen; ohne Zugriff begleitet sie dich. Der KI-Installationsweg wird noch gemeinsam getestet.
+[KI-Installationsprompt und Voraussetzungen](AI-INSTALL.md): kopieren, Zielsystem prüfen lassen und Schritt für Schritt eine getrennte Testinstallation einrichten. Mit Terminalzugriff kann die KI ausführen; ohne Zugriff begleitet sie dich. Die KI begleitet dich bis zum Start desselben interaktiven Installers.
 
 ## Dokumentation
 
@@ -60,7 +60,7 @@ Der [Installer – einfach und komfortabel](INSTALL.md#option-1-einfach-und-komf
 | Qualitätsprüfungen und Mitarbeit | [Entwicklung](CONTRIBUTING.md) |
 | Was wir gemeinsam testen | [Abnahmeplan](docs/ACCEPTANCE.md) |
 | Quellen, Icons und Lizenzstatus | [Drittanbieterhinweise](THIRD-PARTY-NOTICES.md) |
-| Was vor Veröffentlichung fehlt | [Release-Checkliste](RELEASE.md) |
+| Release-Stand und Grenzen | [Release-Hinweise](RELEASE.md) |
 
 ## Tests und Sicherheit
 
