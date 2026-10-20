@@ -43,14 +43,12 @@ Benutzer und IP findest du bei Bedarf in der Server-Konsole mit `whoami` und `ho
 
 ### B. Root verwenden und Download-Werkzeuge bereitstellen
 
-**Auf dem Linux-Server:** Wenn du bereits als Root angemeldet bist, überspringe den Wechsel. Sonst wähle genau einen Weg:
+**Die folgenden Befehle auf dem Linux-Server als Root ausführen.** Falls du noch nicht als Root angemeldet bist:
 
-- **Debian ohne sudo:** `su -` eingeben und das Root-Passwort verwenden.
-- **Vorhandene sudo-Rechte:** `sudo -i` eingeben und das eigene Benutzerpasswort verwenden.
+- **Debian:** `su -` → Root-Passwort eingeben.
+- **Ubuntu:** `sudo -i` → dein Benutzerpasswort eingeben.
 
-sudo wird nicht extra installiert; Benutzergruppen bleiben unverändert. Ohne Root-Zugang oder vorhandene sudo-Rechte hilft der Serveradministrator. Passwörter nur im Terminal eingeben; dabei erscheinen keine Zeichen.
-
-Ab hier alle Serverbefehle **in derselben Root-Sitzung** ausführen. Der Download erfolgt erst jetzt, deshalb müssen keine Dateien aus dem normalen Benutzerordner übernommen werden.
+Danach in derselben Root-Sitzung fortfahren:
 
 ```sh
 apt update &&
