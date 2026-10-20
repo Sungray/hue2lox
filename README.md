@@ -7,11 +7,13 @@
 <p align="center">Philips Hue mit Loxone verbinden – lokal, übersichtlich und mit acht helfenden Armen.</p>
 <p align="center"><a href="docs/MANUAL.md">Handbuch</a> · <a href="INSTALL.md">Installation</a></p>
 
-**Deine Hue-Lampen. Deine Loxone-Steuerung. Ein Ort für die Verbindung.**
+**Deine Hue-Lampen in Loxone. Einfach eingebunden. Komfortabel gesteuert.**
 
-Du möchtest deine Philips-Hue-Lampen in Loxone nutzen, ohne jeden HTTP-Befehl von Hand zusammenzustellen? Hue2Lox liest Lampen und Szenen deiner Bridges ein, bietet die passenden Steuerungsarten an und erzeugt Befehle zum Kopieren oder als XML für Loxone Config.
+Bringe deine Philips-Hue-Lampen und Szenen in deine Loxone-Steuerung – ohne Programmierung und mit automatisch erzeugten Vorlagen für Loxone Config.
 
-So behältst du mehrere Bridges im Blick, wählst die gewünschten Geräte aus und kannst bei Problemen eingehende Loxone-Anfragen prüfen. Alles läuft auf deinem eigenen Linux-Server – mit deutscher oder englischer Oberfläche und ohne Cloudkonto für den laufenden Betrieb.
+Hue2Lox liest die Lampen und Szenen deiner Bridges ein und bietet die passenden Steuerungsarten an: Schalten, Dimmen, Farbe und Weißtemperatur. Wähle deine Geräte aus und übernimm die fertigen Befehle per Kopieren oder XML-Import in Loxone Config.
+
+Alles bleibt übersichtlich: mehrere Bridges, deine Lampen und Szenen in einer Oberfläche. Hue2Lox läuft lokal auf deinem Linux-Server, lässt sich auf Deutsch oder Englisch bedienen und benötigt im laufenden Betrieb kein Cloudkonto.
 
 ## Was Hue2Lox kann
 
