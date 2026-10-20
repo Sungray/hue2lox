@@ -30,14 +30,12 @@ In the server console, `whoami` shows the username and `hostname -I` shows addre
 
 ## 2. Use root and prepare the download tools
 
-**On the Linux server:** if already logged in as root, skip the switch. Otherwise choose one path:
+**Run the following commands as root on the Linux server.** If you are not already logged in as root:
 
-- **Debian without sudo:** enter `su -` and use the root password.
-- **Existing sudo access:** enter `sudo -i` and use your own password.
+- **Debian:** `su -` → enter the root password.
+- **Ubuntu:** `sudo -i` → enter your own password.
 
-Do not install sudo or change user groups. Without root access or existing sudo rights, ask the server administrator for help. Enter passwords only in the terminal; no characters are displayed while typing.
-
-Run all remaining server commands **in this same root session**. The download happens after switching, so no files need to be copied from the normal user's home directory.
+Then continue in the same root session:
 
 ```sh
 apt update &&
