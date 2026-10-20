@@ -26,4 +26,24 @@ python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
 compose restart
 compose up -d --wait --wait-timeout 120
 python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
+# Offline maintenance and restore on this disposable, bridge-free installation.
+compose down
+cp -a "$test_root/instance" "$test_root/backup"
+python3 "$repo/scripts/renew-certificate.py" --destination "$test_root/instance"
+compose up -d --wait --wait-timeout 120
+python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
+compose down
+python3 "$repo/scripts/renew-certificate.py" --destination "$test_root/instance" --host 127.0.0.2
+compose up -d --wait --wait-timeout 120
+python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
+compose down
+# State and identity must survive both renewals byte-for-byte.
+for file in data/registry.json data/admin_auth.json secrets/control_token; do
+    cmp "$test_root/backup/$file" "$test_root/instance/$file"
+done
+rm -rf -- "$test_root/instance"
+cp -a "$test_root/backup" "$test_root/instance"
+compose up -d --wait --wait-timeout 120
+python3 "$repo/scripts/check-ci-http.py" "$test_root/instance"
+echo 'PASS: certificate renewal, changed bind IP and complete offline restore; state preserved.'
 echo 'PASS: fresh Docker build, health, non-root user, read-only application, HTTPS, login and restart.'

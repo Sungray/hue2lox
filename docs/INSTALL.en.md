@@ -136,3 +136,7 @@ sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lo
 Read logs locally and remove credentials and personal details before sharing. Report the source version, OS/architecture, failing step and sanitized error in [Issues](https://github.com/square-com-de/hue2lox/issues).
 
 The installer is for fresh installations, not a general updater. Preserve the whole installation including `.env`, data, secrets and certificates; follow [backup and recovery guidance](MANUAL.en.md). Do not copy individual newer files into RC1. The [German extended guide](../INSTALL.md) also documents manual setup and specific network migration procedures; those sections are not yet translated.
+
+## Maintenance / Wartung
+
+[Certificate renewal, IP change, backup and restore / Zertifikat, IP-Wechsel und Sicherung](MAINTENANCE.en.md)

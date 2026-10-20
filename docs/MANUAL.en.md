@@ -4,7 +4,7 @@
 
 ## Access and language
 
-Open your installation's HTTPS address. New installations use `admin` / `admin`; change the password in the header. Verify the certificate fingerprint on the server before trusting its public certificate on a client. Every new installation generates its own certificate; see INSTALL.md for validity and renewal considerations.
+Open your installation's HTTPS address. New installations use `admin` / `admin`; change the password in the header. Verify the certificate fingerprint on the server before trusting its public certificate on a client. Every new installation generates its own certificate; see [certificate renewal, IP changes, backup and recovery](MAINTENANCE.en.md).
 
 Select Deutsch or English. The browser's language is used initially. Switching language reloads the page: your login and saved control modes remain, but unsaved form inputs and temporary XML selections reset.
 

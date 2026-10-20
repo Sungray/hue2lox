@@ -4,7 +4,7 @@
 
 ## 1. Zugang und Sprache
 
-Öffne die HTTPS-Adresse deiner Installation. Bei einer neuen Einrichtung gilt `admin` / `admin`; das Passwort kann im Kopfbereich geändert werden. Die Browserwarnung verschwindet erst, wenn das passende Zertifikat als vertrauenswürdig eingerichtet wurde. Den Fingerabdruck am Server prüfen; eine neue Installation bekommt ihr eigenes Zertifikat. Details und Erneuerung: INSTALL.md.
+Öffne die HTTPS-Adresse deiner Installation. Bei einer neuen Einrichtung gilt `admin` / `admin`; das Passwort kann im Kopfbereich geändert werden. Die Browserwarnung verschwindet erst, wenn das passende Zertifikat als vertrauenswürdig eingerichtet wurde. Den Fingerabdruck am Server prüfen; eine neue Installation bekommt ihr eigenes Zertifikat. Details: [Zertifikat erneuern, IP wechseln, sichern und wiederherstellen](MAINTENANCE.md).
 
 Deutsch oder Englisch oben auswählen. Die erste Sprache wird aus dem Browser ermittelt. Ein Wechsel lädt die Seite neu; Anmeldung und gespeicherte Nutzungsarten bleiben erhalten, ungespeicherte Eingaben und temporäre XML-Auswahlen werden zurückgesetzt.
 
