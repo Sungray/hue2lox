@@ -46,7 +46,7 @@ Passwort zurücksetzen (Root, vorhandener Benutzer admin):
 
 ```sh
 cd /opt/loxberry/hue2lox-prototype
-python3 admin_auth.py data/admin_auth.json --username admin
+python3 src/admin_auth.py data/admin_auth.json --username admin
 docker compose up -d --force-recreate
 ```
 

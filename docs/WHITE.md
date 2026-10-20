@@ -1,3 +1,5 @@
+> Die folgenden Deployment-Notizen beschreiben den früheren Prototyp. Für die aktuelle Ordnerstruktur muss der **vollständige Quellbaum** im genannten Staging-Verzeichnis liegen, einschließlich `src/`, `docker/`, `config/`, `web/`, `catalog/`, `trust/` und `scripts/copy-runtime.sh`. Selektive Dateilisten unten sind historisch. Dies ist kein allgemeiner RC1-Updater.
+
 # Warm-/Kaltweiß und Lumitech – live getestet
 
 Aktualisiert am 18.10.2026. Erweiterung installiert und freigeschaltet.

@@ -1,3 +1,5 @@
+> Die folgenden Deployment-Notizen beschreiben den früheren Prototyp. Für die aktuelle Ordnerstruktur muss der **vollständige Quellbaum** im genannten Staging-Verzeichnis liegen, einschließlich `src/`, `docker/`, `config/`, `web/`, `catalog/`, `trust/` und `scripts/copy-runtime.sh`. Selektive Dateilisten unten sind historisch. Dies ist kein allgemeiner RC1-Updater.
+
 # Ein/Aus- und Dimmsteuerung
 
 Stand: 17.10.2026. Ein/Aus und Dimmen sind inzwischen auf LoxBerry aktiviert
