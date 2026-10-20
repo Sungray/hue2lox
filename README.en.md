@@ -7,7 +7,7 @@
 <p align="center">Connect Philips Hue to Loxone – locally, clearly, with eight helping arms.</p>
 <p align="center"><a href="docs/MANUAL.en.md">Manual</a> · <a href="docs/INSTALL.en.md">Installation</a> · <a href="RELEASE.md">Release status</a></p>
 
-**Release Candidate 1.** German and English are available. A fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. Full acceptance of all Loxone functions on this release remains pending. Original project code is licensed under Apache 2.0.
+**Release Candidate 1.** German and English are available. A fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. End-to-end testing with a Loxone Miniserver is still in progress. Original project code is licensed under Apache 2.0.
 
 The public download contains **source code, the installer and Dockerfile**. The installer builds the Hue2Lox image on your Linux machine; we do not offer prebuilt Hue2Lox images at this stage.
 
