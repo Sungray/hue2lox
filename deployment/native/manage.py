@@ -186,6 +186,17 @@ def run_systemctl(*args):
     subprocess.run(['systemctl', *args], check=True, stdout=subprocess.DEVNULL)
 
 
+def reset_failure():
+    # A disabled, stopped unit can be unloaded after daemon-reload. Only reset
+    # an actual failed unit; resetting an unloaded one is an error in systemd.
+    result = subprocess.run(['systemctl', 'is-failed', '--quiet', SERVICE],
+                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    if result.returncode == 0:
+        run_systemctl('reset-failed', SERVICE)
+    elif result.returncode not in (1, 3, 4):
+        raise subprocess.CalledProcessError(result.returncode, result.args)
+
+
 def reject_links(path):
     path = Path(path)
     for parent in [path, *path.parents]:
@@ -486,7 +497,7 @@ def restore_snapshot(layout, saved, uid, gid, previous=None):
     shutil.copy2(saved / 'hue2lox.service', layout.unit)
     private_permissions(layout, uid, gid)
     run_systemctl('daemon-reload')
-    run_systemctl('reset-failed', SERVICE)
+    reset_failure()
     run_systemctl('enable', '--now', SERVICE)
     health(layout)
 
@@ -557,7 +568,7 @@ def update(args, layout):
             install_record(layout, manifest)
             private_permissions(layout, uid, gid)
             run_systemctl('daemon-reload')
-            run_systemctl('reset-failed', SERVICE)
+            reset_failure()
             run_systemctl('enable', '--now', SERVICE)
             health(layout)
         except BaseException as failure:

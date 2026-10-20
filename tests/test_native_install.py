@@ -165,6 +165,7 @@ class NativeLifecycleTests(unittest.TestCase):
         self.stack.enter_context(patch.object(native.socket, 'socket'))
         self.systemctl = self.stack.enter_context(patch.object(native, 'run_systemctl'))
         self.health = self.stack.enter_context(patch.object(native, 'health'))
+        self.stack.enter_context(patch.object(native, 'reset_failure'))
         # Real credential/certificate preparation, but no account changes or chown.
         def initialize(layout, runtime, host, uid, gid):
             subprocess.run([sys.executable, str(runtime / 'scripts/prepare-state.py'),
@@ -427,3 +428,23 @@ class NativeLifecycleTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'original installation restored'):
                 native.rollback(self.args, self.layout)
         self.assertEqual(before, self.protected_snapshot())
+
+
+class SystemdFailureResetTests(unittest.TestCase):
+    def test_unloaded_or_healthy_unit_needs_no_reset(self):
+        import subprocess
+        for code in (1, 3, 4):
+            with self.subTest(code=code), patch.object(native.subprocess, 'run', return_value=subprocess.CompletedProcess([], code)), patch.object(native, 'run_systemctl') as systemctl:
+                native.reset_failure()
+                systemctl.assert_not_called()
+
+    def test_failed_unit_is_reset_before_start(self):
+        import subprocess
+        with patch.object(native.subprocess, 'run', return_value=subprocess.CompletedProcess([], 0)), patch.object(native, 'run_systemctl') as systemctl:
+            native.reset_failure()
+            systemctl.assert_called_once_with('reset-failed', native.SERVICE)
+
+    def test_systemctl_query_error_is_not_silenced(self):
+        import subprocess
+        with patch.object(native.subprocess, 'run', return_value=subprocess.CompletedProcess([], 2)):
+            with self.assertRaises(subprocess.CalledProcessError): native.reset_failure()
