@@ -1,8 +1,8 @@
 # Install Hue2Lox on Linux
 
-[Deutsch](../INSTALL.md) · [RC2 release and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.2) · [English manual](MANUAL.en.md)
+[Deutsch](../INSTALL.md) · [RC3 release and ZIP](https://github.com/square-com-de/hue2lox/releases/tag/v1.0.0-rc.3) · [English manual](MANUAL.en.md)
 
-This guide installs **RC2** directly on the Linux server. The [version, package and checksum](DOWNLOADS.md) belong together. The German manual development path uses `main` and is separate from this release installation.
+This guide installs **RC3** directly on the Linux server. The [version, package and checksum](DOWNLOADS.md) belong together. The German manual development path uses `main` and is separate from this release installation.
 
 ## Requirements and supported systems
 
@@ -44,26 +44,26 @@ apt install -y --no-install-recommends ca-certificates curl unzip
 
 This applies to the Ubuntu/Debian-based systems above. On other systems, provide these three tools using their package manager. Stop on errors; if you see “Not live until”, check the server clock first.
 
-## 3. Download RC2, verify and start
+## 3. Download RC3, verify and start
 
-**Still on the server as root.** Copy the whole block. It creates a new download directory, downloads the fixed RC2 package and SHA-256 checksum, verifies and extracts it, then starts the installer. Existing directories are not overwritten.
+**Still on the server as root.** Copy the whole block. It creates a new download directory, downloads the fixed RC3 package and SHA-256 checksum, verifies and extracts it, then starts the installer. Existing directories are not overwritten.
 
 ```sh
-HUE2LOX_DOWNLOAD_DIR=$(mktemp -d "$HOME/hue2lox-rc2-XXXXXXXX") &&
+HUE2LOX_DOWNLOAD_DIR=$(mktemp -d "$HOME/hue2lox-rc3-XXXXXXXX") &&
 cd "$HUE2LOX_DOWNLOAD_DIR" &&
-curl --fail --location --output hue2lox-v1.0.0-rc.2.zip \
-  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/hue2lox-v1.0.0-rc.2.zip &&
+curl --fail --location --output hue2lox-v1.0.0-rc.3.zip \
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.3/hue2lox-v1.0.0-rc.3.zip &&
 curl --fail --location --output SHA256SUMS.txt \
-  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.2/SHA256SUMS.txt &&
+  https://github.com/square-com-de/hue2lox/releases/download/v1.0.0-rc.3/SHA256SUMS.txt &&
 sha256sum --check SHA256SUMS.txt &&
-unzip -tq hue2lox-v1.0.0-rc.2.zip &&
-unzip -q hue2lox-v1.0.0-rc.2.zip &&
-bash "$HUE2LOX_DOWNLOAD_DIR/hue2lox-v1.0.0-rc.2/install-assistant.sh"
+unzip -tq hue2lox-v1.0.0-rc.3.zip &&
+unzip -q hue2lox-v1.0.0-rc.3.zip &&
+bash "$HUE2LOX_DOWNLOAD_DIR/hue2lox-v1.0.0-rc.3/install-assistant.sh"
 ```
 
 Continue only when verification succeeds. On `FAILED`, download or extraction errors, stop; do not start the installer separately. The checksum must come from the same release as the ZIP. `Code → Download ZIP` downloads the development branch instead.
 
-**Open again:** repeat the final `bash` command in the same root session. After reconnecting, use the actual download directory; `ls -d /root/hue2lox-rc2-*` lists the default paths. This extraction directory is separate from the eventual installation directory, such as `/opt/hue2lox-test`.
+**Open again:** repeat the final `bash` command in the same root session. After reconnecting, use the actual download directory; `ls -d /root/hue2lox-rc3-*` lists the default paths. This extraction directory is separate from the eventual installation directory, such as `/opt/hue2lox-test`.
 
 ## 4. Continue in the installer
 
