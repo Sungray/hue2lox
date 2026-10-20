@@ -1,3 +1,5 @@
+> Die folgenden Deployment-Notizen beschreiben den früheren Prototyp. Für die aktuelle Ordnerstruktur muss der **vollständige Quellbaum** im genannten Staging-Verzeichnis liegen, einschließlich `src/`, `docker/`, `config/`, `web/`, `catalog/`, `trust/` und `scripts/copy-runtime.sh`. Selektive Dateilisten unten sind historisch. Dies ist kein allgemeiner RC1-Updater.
+
 # Warm-/Kaltweiß und Lumitech – live getestet
 
 Aktualisiert am 18.10.2026. Erweiterung installiert und freigeschaltet.
@@ -65,12 +67,12 @@ Die vorhandenen RGB-, Ein/Aus- und Dimmfelder bleiben unabhängig nutzbar.
 Lumitech-RGB benötigt zusätzlich die bestehende Farbfreigabe; keine Umgehung.
 
 Selektiv nach /opt/loxberry/hue2lox-white-staging/ übertragen:
-app.py, hue_client.py, color.py, compose.yaml, .dockerignore, Dockerfile.status,
-install-white.sh. Root-Script sichert Laufzeitdateien, behält vorhandene Overrides
+app.py, hue_client.py, color.py, compose.yaml, .dockerignore, docker/Dockerfile.status,
+scripts/install-white.sh. Root-Script sichert Laufzeitdateien, behält vorhandene Overrides
 und Tokens bei und installiert erst nach Prüfung der Weißsperre. Es sendet keinen PUT.
 Build und Installation im echten Container erfolgreich; Live-Weißtest vom Nutzer bestätigt.
 
-compose.white.yaml enthält ausschließlich die Freigabe HUE_WHITE_ENABLED=1.
+docker/compose.white.yaml enthält ausschließlich die Freigabe HUE_WHITE_ENABLED=1.
 Es kann zusätzlich zu den Control-/Color-Overrides geladen werden. Auf dem
 laufenden LoxBerry wurde HUE_WHITE_ENABLED=1 in compose.override.yaml ergänzt.
 Kein Token und kein privater Schlüssel wird ins Repository kopiert.
@@ -102,8 +104,8 @@ Die anschließenden echten Live-Tests sind gesondert dokumentiert.
 Aktiver Modus ohne Secrets reproduzierbar (nach sicherem Bereitstellen der Key-Dateien):
 
 ```sh
-docker compose -f compose.yaml -f compose.control.yaml -f compose.color.yaml -f compose.white.yaml config --quiet
-docker compose -f compose.yaml -f compose.control.yaml -f compose.color.yaml -f compose.white.yaml up -d --build
+docker compose -f compose.yaml -f docker/compose.control.yaml -f docker/compose.color.yaml -f docker/compose.white.yaml config --quiet
+docker compose -f compose.yaml -f docker/compose.control.yaml -f docker/compose.color.yaml -f docker/compose.white.yaml up -d --build
 ```
 
 Diese Befehle dokumentieren die Betriebsart und wurden beim Dokumentationsupdate

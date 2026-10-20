@@ -6,15 +6,8 @@ set -eu
 src=/opt/loxberry/hue2lox-control-staging
 dst=/opt/loxberry/hue2lox-prototype
 backup=/opt/loxberry/hue2lox-backups/control-$(date +%Y%m%d-%H%M%S)
-umask 077
-mkdir -p "$backup"
-for f in app.py hue_client.py compose.yaml .dockerignore Dockerfile.status; do
-    cp -p "$dst/$f" "$backup/$f"
-done
-printf 'Rollback files: %s\n' "$backup"
-for f in app.py hue_client.py compose.yaml compose.control.yaml .dockerignore Dockerfile.status; do
-    install -m 644 "$src/$f" "$dst/$f"
-done
+. "$(dirname -- "$0")/copy-runtime.sh"
+copy_runtime
 cd "$dst"
 docker compose config --quiet
 docker compose build

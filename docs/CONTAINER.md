@@ -24,7 +24,7 @@ Ein grüner Schwachstellenscan ist keine Lizenzfreigabe.
 | Bisheriger Container-Betrieb | `linux/amd64` | Frühere Deployment-Prüfungen, siehe TEST-RESULTS.md |
 | Docker CLI | 29.9.1, Build `dfc520d` | `docker --version`, per SSH am 18.10.2026 gelesen |
 | Compose CLI | v5.6.0 | `docker compose version`, per SSH am 18.10.2026 gelesen |
-| Container-Basis | `python:3.12-alpine` | Aktuelles Dockerfile.status |
+| Container-Basis | `python:3.12-alpine` | Aktuelles docker/Dockerfile.status |
 | Container-Laufzeit | CPython 3.12 auf Alpine Linux | Basis-Image; genaue Patch-/Alpine-/OpenSSL-Version hängt vom gebauten Image ab |
 
 Compose setzt kein `platform:`. Der lokale Build verwendet somit normalerweise die Architektur des Docker-Hosts. ARM64 und andere Plattformen sind derzeit nicht als getestet dokumentiert. Host-Debian und Container-Alpine sind unterschiedliche Betriebssystemumgebungen; der Container nutzt den Linux-Kernel des Hosts.
@@ -58,20 +58,20 @@ Der Browser steuert mit der aktuellen Verwaltungsoberfläche keine Lampe direkt.
 
 ## Inhalt des Images
 
-Verwendet wird **Dockerfile.status**, ausgewählt durch `compose.yaml`. Der historische `Dockerfile` ist ein Überbleibsel des ersten Health-Prototyps und kein aktueller Build-Einstieg: Er kopiert nur `app.py` und enthält nicht dessen heutige Import-Abhängigkeiten.
+Verwendet wird **docker/Dockerfile.status**, ausgewählt durch `compose.yaml`. Der `Dockerfile` im Hauptordner baut dieselbe Anwendung und bleibt der Einstieg für `docker build .`. Beide verwenden `src/` für den Code und `config/registry.json` als leere Startvorlage.
 
 ```text
 /app/
-  app.py                 HTTPS-Routen, Zugriffskontrolle und JSON-Antworten
-  hue_client.py          TLS-geprüfte Hue-v2-Abfragen und Steuerung
-  color.py               RGB-, Kelvin- und Loxone-Lumitech-Umrechnung
-  dashboard.py           Statusübersicht, Bridge-Zuordnung und 5-Sekunden-Cache
-  admin_auth.py          Passwortprüfung, Sitzungen und Login-Begrenzung
-  loxone_export.py       Befehlsdaten und Loxone-VirtualOut-XML
-  scenes.py              Szeneninventur, Bridge-Zuordnung und statischer Aufruf
-  bridge_store.py        Atomare persistente Registry- und Key-Speicherung
-  bridge_admin.py        HTTPS-Erkennung, Kopplung und Lampeninventur
-  registry.json          Startvorlage für Bridges/Lampen, nicht die aktive Registry
+  src/app.py                 HTTPS-Routen, Zugriffskontrolle und JSON-Antworten
+  src/hue_client.py          TLS-geprüfte Hue-v2-Abfragen und Steuerung
+  src/color.py               RGB-, Kelvin- und Loxone-Lumitech-Umrechnung
+  src/dashboard.py           Statusübersicht, Bridge-Zuordnung und 5-Sekunden-Cache
+  src/admin_auth.py          Passwortprüfung, Sitzungen und Login-Begrenzung
+  src/loxone_export.py       Befehlsdaten und Loxone-VirtualOut-XML
+  src/scenes.py              Szeneninventur, Bridge-Zuordnung und statischer Aufruf
+  src/bridge_store.py        Atomare persistente Registry- und Key-Speicherung
+  src/bridge_admin.py        HTTPS-Erkennung, Kopplung und Lampeninventur
+  config/registry.json   Startvorlage für Bridges/Lampen, nicht die aktive Registry
   trust/
     huebridge-ca.pem      Öffentliches CA-Zertifikat für die Hue Bridges
   web/
@@ -104,7 +104,7 @@ Das Admin-Passwort wird als PBKDF2-SHA256-Hash mit 600.000 Iterationen und zufä
 
 ## Prozess und Schutz
 
-- Start: `python -u app.py`, Arbeitsverzeichnis `/app`.
+- Start: `python -u app.py`, Arbeitsverzeichnis `/app/src`.
 - UID/GID: `10001:10001`, kein Root-Prozess.
 - Root-Dateisystem read-only; Zertifikats-/Legacy-Key-Mounts read-only. Ausschließlich `/data` ist für persistente Bridge-Verwaltung schreibbar.
 - Alle Linux-Capabilities entfernt; `no-new-privileges:true`.
@@ -147,13 +147,13 @@ Healthcheck: alle 30 Sekunden, Timeout 5 Sekunden, drei Fehlversuche, Startfrist
 | `HUE_CONTROL_TOKEN_FILE` | `/run/secrets/control_token` |
 | `HUE_KEY_FILE` / `HUE_CA_FILE` | Hue-Key bzw. CA-Datei; Standard `/run/secrets/hue_key` und `/app/trust/huebridge-ca.pem` |
 | `HUE_BRIDGE_IP` / `HUE_BRIDGE_ID` / `HUE_LIGHT_ID` | Bestehende Hue-Go-Zuordnung; Defaults im Client. Weitere Geräte über Registry |
-| `HUE_REGISTRY_FILE` | Compose setzt `/data/registry.json`; ohne explizite Variable dient die Registry neben dem Code als lesende Startvorlage |
+| `HUE_REGISTRY_FILE` | Compose setzt `/data/registry.json`; ohne explizite Variable dient die Registry unter `/app/config/registry.json` als lesende Startvorlage |
 | `HUE_STATE_DIR` | `/data`, einziger schreibbarer Speicher für Runtime-Registry und neue Bridge-Keys |
 | `HUE_WRITES_ENABLED` | Grundfreigabe für Schalten/Dimmen; Basis-Compose `0` |
 | `HUE_COLOR_ENABLED` | RGB-Freigabe; Basis-Compose `0` |
 | `HUE_WHITE_ENABLED` | Kelvin-/Lumitech-Freigabe; Basis-Compose `0` |
 
-Die bestehende Installation hat Schalten, RGB und Weiß über ihr lokales `compose.override.yaml` freigeschaltet. Die versionierten `compose.control.yaml`, `compose.color.yaml` und `compose.white.yaml` dokumentieren die entsprechenden Ergänzungen. Compose lädt diese drei Dateien nicht automatisch: Entweder Inhalte im lokalen Override verwenden oder sie explizit mit `-f` angeben. Ein normales `.env` wird von Compose für Platzhalter ausgewertet; zusätzliche Python-Variablen müssen tatsächlich über `environment:` an den Container weitergereicht werden.
+Die bestehende Installation hat Schalten, RGB und Weiß über ihr lokales `compose.override.yaml` freigeschaltet. Die versionierten `docker/compose.control.yaml`, `docker/compose.color.yaml` und `docker/compose.white.yaml` dokumentieren die entsprechenden Ergänzungen. Compose lädt diese drei Dateien nicht automatisch: Entweder Inhalte im lokalen Override verwenden oder sie explizit mit `-f` angeben. Ein normales `.env` wird von Compose für Platzhalter ausgewertet; zusätzliche Python-Variablen müssen tatsächlich über `environment:` an den Container weitergereicht werden.
 
 Die Registry im Image ist eine Startvorlage. Die aktive Registry und neue Bridge-Keys liegen auf dem persistenten `/data`-Mount; Änderungen durch das Webinterface wirken ohne Neubau. Änderungen an Quellcode und Webdateien erfordern Image-Neubau und Neuerstellung des Containers. Nur `docker compose restart` übernimmt einen neuen Quellstand nicht. Der Installer bewahrt die vorhandene Registry und lokale Overrides; Details in ADMIN.md.
 
@@ -184,7 +184,7 @@ docker compose exec -T hue2lox cat /etc/alpine-release
 ## Szenen-Erweiterung
 
 `web/scenes.js` ergänzt den Szenenbereich. `scenes.py` und `web/scenes.js` werden
-von Dockerfile.status und install-web.sh mit installiert. Es gibt keinen neuen
+von docker/Dockerfile.status und scripts/install-web.sh mit installiert. Es gibt keinen neuen
 Container, Port, Mount oder Schlüssel. Szenenmetadaten liegen pro Bridge in
 `/data/registry.json`; das vorhandene Bearer-Token und die Schreibfreigabe gelten
 auch für Szenenaufrufe. Details und Schnittstellen: [SCENES.md](SCENES.md).
@@ -193,7 +193,7 @@ auch für Szenenaufrufe. Details und Schnittstellen: [SCENES.md](SCENES.md).
 
 `discovery.py` ergänzt begrenzte UDP-/SSDP- und mDNS-Suche sowie den gespeicherten
 Miniserver-Link. `web/discovery.js` ergänzt die Auswahl und manuelle Eingabe.
-Beide Dateien werden von Dockerfile.status und install-web.sh mit installiert.
+Beide Dateien werden von docker/Dockerfile.status und scripts/install-web.sh mit installiert.
 Es bleiben Python-Standardbibliothek, ein Container und die vorhandenen Mounts.
 Es werden keine weiteren Ports veröffentlicht und keine Netzwerkmodi geändert.
 Suchantworten im Docker-Netz sind installationsabhängig; Details und Prüfung:
@@ -223,11 +223,11 @@ Installationsdaten. Keine zusätzliche Bibliothek, kein neuer Container oder Por
 
 ### Vorbereitete Neuinstallation – 19.10.2026
 
-`compose.install.yaml` ist ein separater Ausgangspunkt für neue Testinstallationen. `scripts/prepare-install.py` erstellt ein neues Zielverzeichnis und kopiert diese Datei als dessen `compose.yaml`. Eigene Zertifikate/Token, leere Registry, UID 10001 auf Linux/root, keine Legacy-Hue-Go-Endpunkte oder vorhandenen Bridge-Keys. Dockerfile.status akzeptiert `REGISTRY_SOURCE` (Standard unverändert `registry.json`, frische Installation `install/registry.empty.json`). Steuerung ist zunächst gesperrt. Keine neue Python-/Node-Laufzeitabhängigkeit; Sprachdateien sind statische Assets. Siehe INSTALL.md für Test und Grenzen.
+`docker/compose.install.yaml` ist ein separater Ausgangspunkt für neue Testinstallationen. `scripts/prepare-install.py` erstellt ein neues Zielverzeichnis und kopiert diese Datei als dessen `compose.yaml`. Eigene Zertifikate/Token, leere Registry, UID 10001 auf Linux/root, keine Legacy-Hue-Go-Endpunkte oder vorhandenen Bridge-Keys. docker/Dockerfile.status akzeptiert `REGISTRY_SOURCE` (Standard `config/registry.json`, frische Installation `install/registry.empty.json`). Steuerung ist zunächst gesperrt. Keine neue Python-/Node-Laufzeitabhängigkeit; Sprachdateien sind statische Assets. Siehe INSTALL.md für Test und Grenzen.
 
 ## Standard-Dockerfile
 
-`Dockerfile` und `Dockerfile.status` enthalten dieselbe Anwendung. Ein normaler
+`Dockerfile` und `docker/Dockerfile.status` enthalten dieselbe Anwendung. Ein normaler
 `docker build -t hue2lox .` kopiert alle benötigten Module und eine leere Registry.
 Für den Betrieb werden weiterhin Zertifikate, persistente Daten und die passende
 Compose-Konfiguration benötigt; der Installationsassistent bereitet diese vor.

@@ -6,7 +6,7 @@ import os
 
 @lru_cache(maxsize=1)
 def catalog():
-    path=Path(__file__).with_name('catalog')/'hue-models.json'
+    path=(Path(__file__).resolve().parent.parent/'catalog')/'hue-models.json'
     return json.loads(path.read_text())['models']
 
 def details(light):

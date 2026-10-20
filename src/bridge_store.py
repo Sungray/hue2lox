@@ -13,7 +13,7 @@ LOCK = threading.RLock()
 
 
 def registry_path():
-    return Path(os.environ.get('HUE_REGISTRY_FILE', str(Path(__file__).with_name('registry.json'))))
+    return Path(os.environ.get('HUE_REGISTRY_FILE', str((Path(__file__).resolve().parent.parent/'config/registry.json'))))
 
 
 def state_dir():

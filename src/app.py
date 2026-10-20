@@ -147,7 +147,7 @@ class Handler(BaseHTTPRequestHandler):
             filename, content_type = assets[self.path]
             if self.path == '/assets/hue-models.zip':
                 buffer = io.BytesIO()
-                catalog = Path(__file__).parent / 'catalog'
+                catalog = Path(__file__).resolve().parent.parent / 'catalog'
                 with zipfile.ZipFile(buffer, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
                     for source, target in [('hue-models.csv','Hue-Modelltabelle.csv'),
                                            ('LICENSE-zigbee-herdsman-converters','LICENSE.txt'),
@@ -155,7 +155,7 @@ class Handler(BaseHTTPRequestHandler):
                         archive.writestr(target, (catalog / source).read_bytes())
                 body = buffer.getvalue()
             else:
-                body = (Path(__file__).parent / 'web' / filename).read_bytes()
+                body = (Path(__file__).resolve().parent.parent / 'web' / filename).read_bytes()
             self.send_response(200)
             self.send_header('Content-Type', content_type)
             if self.path == '/assets/hue-models.zip':

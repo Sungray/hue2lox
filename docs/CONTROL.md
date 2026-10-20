@@ -1,3 +1,5 @@
+> Die folgenden Deployment-Notizen beschreiben den früheren Prototyp. Für die aktuelle Ordnerstruktur muss der **vollständige Quellbaum** im genannten Staging-Verzeichnis liegen, einschließlich `src/`, `docker/`, `config/`, `web/`, `catalog/`, `trust/` und `scripts/copy-runtime.sh`. Selektive Dateilisten unten sind historisch. Dies ist kein allgemeiner RC1-Updater.
+
 # Ein/Aus- und Dimmsteuerung
 
 Stand: 17.10.2026. Ein/Aus und Dimmen sind inzwischen auf LoxBerry aktiviert
@@ -34,7 +36,7 @@ GET auf den Steuerpfad schaltet nichts. Kein Steuerbefehl steht im Healthcheck,
 Startcode oder Installationsscript.
 
 Für eine spätere freigegebene Aktivierung sind beide Voraussetzungen nötig:
-- Compose-Override `compose.control.yaml` zusätzlich laden.
+- Compose-Override `docker/compose.control.yaml` zusätzlich laden.
 - Eigenen zufälligen Steuer-Token (mindestens 32 Zeichen) als
   secrets/control_token bereitstellen, UID/GID 10001, Modus 0400.
 
@@ -47,9 +49,9 @@ Aktivierung und echter Schalt-/Dimmtest sind erfolgreich erfolgt; siehe TEST-RES
 ## Update vorbereiten
 
 Quellcode selektiv nach /opt/loxberry/hue2lox-control-staging/ übertragen:
-app.py, hue_client.py, compose.yaml, compose.control.yaml, .dockerignore,
-Dockerfile.status. Kein Kopieren von .env, certs oder secrets nötig.
-Dann install-control.sh als root ausführen, nachdem es ebenfalls übertragen wurde.
+app.py, hue_client.py, compose.yaml, docker/compose.control.yaml, .dockerignore,
+docker/Dockerfile.status. Kein Kopieren von .env, certs oder secrets nötig.
+Dann scripts/install-control.sh als root ausführen, nachdem es ebenfalls übertragen wurde.
 Das Script sichert die bisherigen Laufzeitdateien, baut und installiert den Code
 mit Steuerung AUS. Build und Live-Test im tatsächlichen Container sind inzwischen erfolgreich erfolgt.
 Es aktiviert keine Loxone-Ausgänge und sendet keinen Hue-PUT.

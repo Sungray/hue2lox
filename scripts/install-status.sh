@@ -6,21 +6,12 @@ set -eu
 src=/opt/loxberry/hue2lox-status-staging
 dst=/opt/loxberry/hue2lox-prototype
 backup=/opt/loxberry/hue2lox-backups/$(date +%Y%m%d-%H%M%S)
-umask 077
-mkdir -p "$backup"
-cp -p "$dst/app.py" "$dst/compose.yaml" "$dst/.dockerignore" "$backup/"
-printf 'Rollback files: %s\n' "$backup"
-install -m 644 "$src/app.py" "$dst/app.py"
-install -m 644 "$src/hue_client.py" "$dst/hue_client.py"
-buildfile="$src/Dockerfile.status"
-[ -f "$buildfile" ] || buildfile="$src/Dockerfile"
-install -m 644 "$buildfile" "$dst/Dockerfile.status"
-install -m 644 "$src/.dockerignore" "$dst/.dockerignore"
-install -m 644 "$src/compose.yaml" "$dst/compose.yaml"
-install -d -m 755 "$dst/trust"
-install -m 644 "$src/trust/huebridge-ca.pem" "$dst/trust/huebridge-ca.pem"
+. "$(dirname -- "$0")/copy-runtime.sh"
+copy_runtime
 install -d -m 700 -o 10001 -g 10001 "$dst/secrets"
-install -m 400 -o 10001 -g 10001 "$src/secrets/hue_key" "$dst/secrets/hue_key"
+if [ ! -f "$dst/secrets/hue_key" ]; then
+    install -m 400 -o 10001 -g 10001 "$src/secrets/hue_key" "$dst/secrets/hue_key"
+fi
 cd "$dst"
 docker compose config --quiet
 docker compose build

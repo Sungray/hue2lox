@@ -12,30 +12,21 @@ esac
 src=/opt/loxberry/hue2lox-web-staging
 dst=/opt/loxberry/hue2lox-prototype
 backup=/opt/loxberry/hue2lox-backups/web-$(date +%Y%m%d-%H%M%S)
-umask 077
-mkdir -p "$backup"
-for f in lamp_types.py app.py hue_client.py color.py Dockerfile.status dashboard.py admin_auth.py loxone_export.py bridge_store.py bridge_admin.py scenes.py discovery.py request_monitor.py compose.yaml .dockerignore LICENSE NOTICE THIRD-PARTY-NOTICES.md registry.json web catalog; do
-    if [ -e "$dst/$f" ]; then cp -a "$dst/$f" "$backup/"; fi
-done
-printf 'Rollback files: %s\n' "$backup"
-for f in lamp_types.py app.py hue_client.py color.py dashboard.py admin_auth.py loxone_export.py bridge_store.py bridge_admin.py scenes.py discovery.py request_monitor.py Dockerfile.status compose.yaml .dockerignore LICENSE NOTICE THIRD-PARTY-NOTICES.md; do
-    install -m 644 "$src/$f" "$dst/$f"
-done
-# Existing edited topology must not be overwritten during subsequent updates.
-if [ ! -e "$dst/registry.json" ]; then install -m 644 "$src/registry.json" "$dst/registry.json"; fi
+. "$(dirname -- "$0")/copy-runtime.sh"
+copy_runtime
 # Persistent state; preserve existing runtime registry and newly paired keys.
 install -d -m 700 -o 10001 -g 10001 "$dst/data"
 if [ ! -f "$dst/data/registry.json" ]; then
-    install -m 600 -o 10001 -g 10001 "$dst/registry.json" "$dst/data/registry.json"
+    install -m 600 -o 10001 -g 10001 "$dst/config/registry.json" "$dst/data/registry.json"
 fi
 # Migrate a previous administrator once; never reset a changed password on update.
 if [ "$reset_admin" = 1 ]; then
-    python3 "$src/admin_auth.py" "$dst/data/admin_auth.json" --username admin --default
+    python3 "$src/src/admin_auth.py" "$dst/data/admin_auth.json" --username admin --default
 elif [ ! -f "$dst/data/admin_auth.json" ]; then
     if [ -f "$dst/secrets/admin_auth.json" ]; then
         install -m 600 -o 10001 -g 10001 "$dst/secrets/admin_auth.json" "$dst/data/admin_auth.json"
     else
-        python3 "$src/admin_auth.py" "$dst/data/admin_auth.json" --username admin --default
+        python3 "$src/src/admin_auth.py" "$dst/data/admin_auth.json" --username admin --default
     fi
 fi
 chown 10001:10001 "$dst/data/admin_auth.json"

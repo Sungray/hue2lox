@@ -355,7 +355,7 @@ unzip -tq ~/hue2lox-main.zip &&
 mkdir ~/hue2lox-source &&
 unzip -q ~/hue2lox-main.zip -d ~/hue2lox-source &&
 cd ~/hue2lox-source/hue2lox-main &&
-ls scripts/prepare-install.py scripts/start-install.py compose.install.yaml
+ls scripts/prepare-install.py scripts/start-install.py docker/compose.install.yaml
 ```
 
 Die ZIP wird zuerst geprüft und nur bei Erfolg entpackt. Am Ende müssen die drei genannten Dateien erscheinen. Durch `&&` stoppt die Befehlsfolge bei einem Fehler.
@@ -500,13 +500,17 @@ sudo cp -p /opt/hue2lox-test/compose.yaml "$HUE2LOX_NET_BACKUP/compose.yaml" &&
 printf 'Sicherung: %s/compose.yaml\n' "$HUE2LOX_NET_BACKUP"
 ```
 
+Diese Umstellung setzt bereits die Verzeichnisstruktur mit `src/` und `docker/` im Installationsziel voraus. Für ältere Installationen einschließlich RC1 die Anleitung der installierten Version verwenden; nicht nur eine Compose-Datei aus einer neueren Version übernehmen.
+
 Bei Fehler stoppen. Dann den bisherigen Container stoppen, ausschließlich die neue Compose-Datei übernehmen und mit dem geprüften Startskript starten:
 
 ```sh
-test -f "$HOME/hue2lox-source-neu/hue2lox-main/compose.install.yaml" &&
+test -f /opt/hue2lox-test/docker/Dockerfile.status &&
+test -f /opt/hue2lox-test/src/app.py &&
+test -f "$HOME/hue2lox-source-neu/hue2lox-main/docker/compose.install.yaml" &&
 test -f "$HOME/hue2lox-source-neu/hue2lox-main/scripts/start-install.py" &&
 sudo docker compose --project-directory /opt/hue2lox-test --env-file /opt/hue2lox-test/.env -f /opt/hue2lox-test/compose.yaml down &&
-sudo install -m 644 "$HOME/hue2lox-source-neu/hue2lox-main/compose.install.yaml" /opt/hue2lox-test/compose.yaml &&
+sudo install -m 644 "$HOME/hue2lox-source-neu/hue2lox-main/docker/compose.install.yaml" /opt/hue2lox-test/compose.yaml &&
 sudo python3 "$HOME/hue2lox-source-neu/hue2lox-main/scripts/start-install.py" --destination /opt/hue2lox-test
 ```
 
@@ -559,7 +563,7 @@ Erst bei erfolgreicher Sicherungsmeldung weitergehen. Jetzt **zurück in den ent
 
 ```sh
 cd ~/hue2lox-source/hue2lox-main
-ls scripts/prepare-install.py compose.install.yaml
+ls scripts/prepare-install.py docker/compose.install.yaml
 ```
 
 Beide Dateien müssen erscheinen. Falls du ein Commit-ZIP oder einen anderen Quellordner verwendet hast, den Pfad entsprechend anpassen; `ls ~/hue2lox-source` zeigt die vorhandenen Unterordner.
