@@ -54,17 +54,17 @@ mkdir -p /mnt/user/appdata/hue2lox/data && chown 10001:10001 /mnt/user/appdata/h
 
 No source checkout or local build is needed.
 
-## Enabling lamp control
+## Lamp control
 
-Reading, discovery and the Loxone export work out of the box. Lamp control is **off by default**: commands answer `403 writes_disabled` and nothing is sent to your bridges. Opt in with environment variables:
+Lamp control is **on by default**: switching, dimming, RGB and tunable white all work once a bridge is paired. Control requests must carry the control token as `Authorization: Bearer ...`. The container creates the token on first start; the admin interface shows it and the Loxone export includes it. Without TLS or a reverse proxy the token crosses your network unencrypted, so only use it on a network you trust.
 
-| Variable | Enables |
-| --- | --- |
-| `HUE_WRITES_ENABLED=1` | Switching and dimming. Required for every control command. |
-| `HUE_COLOR_ENABLED=1` | RGB colour commands, in addition to `HUE_WRITES_ENABLED`. |
-| `HUE_WHITE_ENABLED=1` | Tunable-white commands, in addition to `HUE_WRITES_ENABLED`. |
+To run read-only (commands answer `403 writes_disabled` and nothing is sent to your bridges), set the variables to `0`:
 
-Control requests must carry the control token as `Authorization: Bearer ...`. The container creates the token on first start; the admin interface shows it and the Loxone export includes it. Treat it like a password and, without TLS, only use it on a trusted network.
+| Variable | Default | Controls |
+| --- | --- | --- |
+| `HUE_WRITES_ENABLED` | `1` | Switching and dimming. Setting it to `0` blocks every control command. |
+| `HUE_COLOR_ENABLED` | `1` | RGB colour commands (also need `HUE_WRITES_ENABLED`). |
+| `HUE_WHITE_ENABLED` | `1` | Tunable-white commands (also need `HUE_WRITES_ENABLED`). |
 
 ## Updating
 
@@ -81,7 +81,7 @@ docker compose pull && docker compose up -d
 | `PORT` | `8443` | Listen port |
 | `HUE_PUBLIC_URL` | `https://localhost:8443` | Address used in the generated Loxone commands; an `https://` value also marks the login cookie `Secure` |
 | `HUE2LOX_ADMIN_PASSWORD` | `admin` | Initial admin password, applied only when no credentials exist yet |
-| `HUE_WRITES_ENABLED` | `0` | Allow switching and dimming (see above) |
-| `HUE_COLOR_ENABLED` | `0` | Allow RGB colour commands (needs `HUE_WRITES_ENABLED`) |
-| `HUE_WHITE_ENABLED` | `0` | Allow tunable-white commands (needs `HUE_WRITES_ENABLED`) |
+| `HUE_WRITES_ENABLED` | `1` | Allow switching and dimming (see Lamp control) |
+| `HUE_COLOR_ENABLED` | `1` | Allow RGB colour commands |
+| `HUE_WHITE_ENABLED` | `1` | Allow tunable-white commands |
 | `TLS_CERT`, `TLS_KEY` | unset | Optional built-in HTTPS; set both or neither |

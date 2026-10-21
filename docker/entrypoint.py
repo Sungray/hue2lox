@@ -18,6 +18,9 @@ SECRETS = STATE / 'secrets'
 os.environ.setdefault('HUE_REGISTRY_FILE', str(STATE / 'registry.json'))
 os.environ.setdefault('HUE_ADMIN_AUTH_FILE', str(STATE / 'admin_auth.json'))
 os.environ.setdefault('HUE_CONTROL_TOKEN_FILE', str(SECRETS / 'control_token'))
+# Lamp control is on by default in the image; set any of these to 0 for read-only.
+for flag in ('HUE_WRITES_ENABLED', 'HUE_COLOR_ENABLED', 'HUE_WHITE_ENABLED'):
+    os.environ.setdefault(flag, '1')
 
 
 def write_private(path, text, mode=0o600):

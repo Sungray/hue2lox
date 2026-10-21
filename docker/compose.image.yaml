@@ -17,11 +17,11 @@ services:
       HUE_PUBLIC_URL: "http://192.168.0.10:18443"
       # Optional initial admin password (default: admin). Only used on first start.
       # HUE2LOX_ADMIN_PASSWORD: "change-me"
-      # Lamp control is off by default: commands answer 403 writes_disabled.
-      # Uncomment to allow switching/dimming, then RGB and/or tunable white if you use them.
-      # HUE_WRITES_ENABLED: "1"
-      # HUE_COLOR_ENABLED: "1"
-      # HUE_WHITE_ENABLED: "1"
+      # Lamp control is on by default (control token: see the admin interface).
+      # Set any of these to "0" for read-only: commands then answer 403 writes_disabled.
+      # HUE_WRITES_ENABLED: "0"   # switching and dimming (needed for all control)
+      # HUE_COLOR_ENABLED: "0"    # RGB
+      # HUE_WHITE_ENABLED: "0"    # tunable white
     volumes:
       # Credentials, control token and bridge registry. Back this up.
       # A named volume starts out writable for the container's user. To use a host folder
