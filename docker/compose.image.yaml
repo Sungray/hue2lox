@@ -1,0 +1,26 @@
+# Run the published image: no source checkout, no build, one data volume.
+# Works with plain `docker compose up -d` and with the Unraid Compose Manager.
+# Serves plain HTTP; put a reverse proxy in front for HTTPS.
+# Host networking lets Hue2Lox discover bridges on the LAN; it listens on PORT.
+services:
+  hue2lox:
+    image: ghcr.io/square-com-de/hue2lox:latest
+    container_name: hue2lox
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PORT: "18443"
+      # Address clients use to reach it (use https://... if a reverse proxy terminates TLS).
+      HUE_PUBLIC_URL: "http://192.168.0.10:18443"
+      # Optional initial admin password (default: admin). Only used on first start.
+      # HUE2LOX_ADMIN_PASSWORD: "change-me"
+    volumes:
+      # Credentials, control token and bridge registry. Back this up.
+      - ./data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
