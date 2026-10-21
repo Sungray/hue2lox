@@ -1,6 +1,6 @@
 # Running the container image
 
-For Docker-native hosts (Unraid, Synology, Portainer, plain Docker). Linux hosts that prefer a guided setup can still use `install-assistant.sh` ([INSTALL.en.md](../INSTALL.md)).
+For Docker-native hosts (Unraid, Synology, Portainer, plain Docker). Linux hosts that prefer a guided setup can still use `install-assistant.sh` ([INSTALL.md](../INSTALL.md)).
 
 Images are published to `ghcr.io/square-com-de/hue2lox` for `linux/amd64` and `linux/arm64` when a release tag is pushed.
 
