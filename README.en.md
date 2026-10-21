@@ -43,6 +43,16 @@ You need a Linux server, VM or Raspberry Pi with a supported 64-bit OS, a Hue Br
 
 Prefer guidance from an AI assistant? Use the [ChatGPT or Claude installation prompt](docs/AI-INSTALL.en.md). It guides you to the same interactive installer.
 
+## Feedback & contact
+
+Have you tried Hue2Lox? I'd love to hear your feedback – including what works well!
+
+- **By email, no GitHub account needed:** [hue2lox@square-com.de](mailto:hue2lox@square-com.de)
+- **Feedback or questions on GitHub:** [Open feedback / question](https://github.com/square-com-de/hue2lox/issues/new?template=feedback_question.md) (GitHub account required).
+- **Bugs or improvement ideas:** [Choose an issue template](https://github.com/square-com-de/hue2lox/issues/new/choose).
+
+For problems, include your Hue2Lox version, a short description and, if useful, a screenshot or error message. Please omit passwords and tokens. Report security issues privately – see [security reporting](SECURITY.md).
+
 ## Release status and technical notes
 
 **Release Candidate 3.** German and English are available. An earlier fresh Debian 13 installation, bridge pairing, light display and restart have passed a user-run test. A fresh Debian test of the RC3 package and end-to-end testing with a Loxone Miniserver are still pending. Original project code is licensed under Apache 2.0.
