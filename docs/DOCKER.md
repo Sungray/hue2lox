@@ -2,7 +2,18 @@
 
 For Docker-native hosts (Unraid, Synology, Portainer, plain Docker). Linux hosts that prefer a guided setup can still use `install-assistant.sh` ([INSTALL.en.md](INSTALL.en.md)).
 
-Images are published to `ghcr.io/square-com-de/hue2lox` for `linux/amd64` and `linux/arm64` on every release tag (`latest` for stable releases, `rc` for release candidates, plus the exact version).
+Images are published to `ghcr.io/square-com-de/hue2lox` for `linux/amd64` and `linux/arm64` when a release tag is pushed.
+
+## Image tags
+
+| Tag | Meaning |
+| --- | --- |
+| `rc` | Newest release candidate. Only release candidates exist so far, so use this channel for now. |
+| `latest` | Newest **stable** release. It does not exist until the first stable release and never points at a release candidate. |
+| `1.0.0-rc.3`, `1.0.0` | One exact version. Pin one of these for reproducible updates. |
+| `1.0` | Newest stable release of that minor version. |
+
+Pushes to branches and manual workflow runs never publish an image.
 
 ## HTTP and HTTPS
 
@@ -10,13 +21,18 @@ The image serves **plain HTTP**. Like most self-hosted apps, it does not manage 
 
 Built-in HTTPS (as used by `install-assistant.sh`) is still available: set `TLS_CERT` and `TLS_KEY` to certificate and key files mounted into the container. Set both or neither: if only one is set, or either is empty, the container exits with an error instead of falling back to HTTP.
 
-## Volumes
+## Data volume
 
-| Mount | Purpose |
-| --- | --- |
-| `/data` | Bridge registry, admin credentials, control token. Back this up. |
+`/data` holds the bridge registry, admin credentials and control token. Back it up. The container runs as UID/GID 10001 and needs to be able to write there.
 
-The container runs as UID/GID 10001, so `/data` must be writable by it.
+- **Named volume (the default in `compose.image.yaml`).** A new named volume starts out owned by 10001, so nothing needs preparing.
+- **Host folder (bind mount).** Docker creates a missing host folder as `root`, which the container cannot write to. Create it first:
+
+  ```sh
+  mkdir -p /path/to/hue2lox/data && chown 10001:10001 /path/to/hue2lox/data
+  ```
+
+  If the folder is not writable the container exits immediately and prints this hint.
 
 ## Docker Compose
 
@@ -30,7 +46,25 @@ Host networking is used so bridges can be discovered on the LAN; the service lis
 
 ## Unraid (Compose Manager)
 
-Create a stack, paste the contents of `docker/compose.image.yaml`, and replace `./data` with an absolute path such as `/mnt/user/appdata/hue2lox/data`. No source checkout or local build is needed.
+Create a stack and paste the contents of `docker/compose.image.yaml`. The named volume works as is. To keep the data under appdata instead, prepare the folder from the Unraid terminal, then replace `hue2lox-data:/data` with the path and delete the `volumes:` block at the bottom:
+
+```sh
+mkdir -p /mnt/user/appdata/hue2lox/data && chown 10001:10001 /mnt/user/appdata/hue2lox/data
+```
+
+No source checkout or local build is needed.
+
+## Enabling lamp control
+
+Reading, discovery and the Loxone export work out of the box. Lamp control is **off by default**: commands answer `403 writes_disabled` and nothing is sent to your bridges. Opt in with environment variables:
+
+| Variable | Enables |
+| --- | --- |
+| `HUE_WRITES_ENABLED=1` | Switching and dimming. Required for every control command. |
+| `HUE_COLOR_ENABLED=1` | RGB colour commands, in addition to `HUE_WRITES_ENABLED`. |
+| `HUE_WHITE_ENABLED=1` | Tunable-white commands, in addition to `HUE_WRITES_ENABLED`. |
+
+Control requests must carry the control token as `Authorization: Bearer ...`. The container creates the token on first start; the admin interface shows it and the Loxone export includes it. Treat it like a password and, without TLS, only use it on a trusted network.
 
 ## Updating
 
@@ -47,4 +81,7 @@ docker compose pull && docker compose up -d
 | `PORT` | `8443` | Listen port |
 | `HUE_PUBLIC_URL` | `https://localhost:8443` | Address used in the generated Loxone commands; an `https://` value also marks the login cookie `Secure` |
 | `HUE2LOX_ADMIN_PASSWORD` | `admin` | Initial admin password, applied only when no credentials exist yet |
+| `HUE_WRITES_ENABLED` | `0` | Allow switching and dimming (see above) |
+| `HUE_COLOR_ENABLED` | `0` | Allow RGB colour commands (needs `HUE_WRITES_ENABLED`) |
+| `HUE_WHITE_ENABLED` | `0` | Allow tunable-white commands (needs `HUE_WRITES_ENABLED`) |
 | `TLS_CERT`, `TLS_KEY` | unset | Optional built-in HTTPS; set both or neither |

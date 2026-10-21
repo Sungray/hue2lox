@@ -42,7 +42,14 @@ def ensure_state():
         write_private(token, secrets.token_hex(32) + '\n', 0o600)
 
 
+def require_writable_state():
+    if not os.access(STATE, os.W_OK):
+        sys.exit('Hue2Lox: %s is not writable by UID %d. Use a named volume, or for a host folder run '
+                 '"chown %d:%d <folder>" before starting.' % (STATE, os.getuid(), os.getuid(), os.getgid()))
+
+
 if __name__ == '__main__':
+    require_writable_state()
     ensure_state()
     os.chdir('/app/src')
     os.execvp('python', ['python', '-u', 'app.py'])

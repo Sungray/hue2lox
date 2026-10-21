@@ -4,7 +4,10 @@
 # Host networking lets Hue2Lox discover bridges on the LAN; it listens on PORT.
 services:
   hue2lox:
-    image: ghcr.io/square-com-de/hue2lox:latest
+    # Channels: ":rc" = newest release candidate, ":latest" = newest stable release,
+    # ":1.0.0-rc.3"-style tags = one exact version. Only the first RC is published so far,
+    # so this example uses the rc channel; pin an exact version for reproducible updates.
+    image: ghcr.io/square-com-de/hue2lox:rc
     container_name: hue2lox
     restart: unless-stopped
     network_mode: host
@@ -14,9 +17,17 @@ services:
       HUE_PUBLIC_URL: "http://192.168.0.10:18443"
       # Optional initial admin password (default: admin). Only used on first start.
       # HUE2LOX_ADMIN_PASSWORD: "change-me"
+      # Lamp control is off by default: commands answer 403 writes_disabled.
+      # Uncomment to allow switching/dimming, then RGB and/or tunable white if you use them.
+      # HUE_WRITES_ENABLED: "1"
+      # HUE_COLOR_ENABLED: "1"
+      # HUE_WHITE_ENABLED: "1"
     volumes:
       # Credentials, control token and bridge registry. Back this up.
-      - ./data:/data
+      # A named volume starts out writable for the container's user. To use a host folder
+      # instead (e.g. /mnt/user/appdata/hue2lox/data), create it first and make it writable
+      # for UID/GID 10001: mkdir -p <dir> && chown 10001:10001 <dir>
+      - hue2lox-data:/data
     read_only: true
     tmpfs:
       - /tmp
@@ -24,3 +35,6 @@ services:
       - ALL
     security_opt:
       - no-new-privileges:true
+
+volumes:
+  hue2lox-data:
