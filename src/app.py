@@ -541,12 +541,25 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
 
+def tls_context(environ):
+    """HTTPS context when TLS_CERT and TLS_KEY are both set, None (plain HTTP) when both are absent."""
+    cert, key = environ.get('TLS_CERT'), environ.get('TLS_KEY')
+    if cert is None and key is None:
+        return None
+    if not cert or not key:
+        raise ValueError('TLS_CERT and TLS_KEY must both be set and non-empty for HTTPS; '
+                         'unset both to serve plain HTTP behind a reverse proxy.')
+    context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    context.minimum_version = ssl.TLSVersion.TLSv1_2
+    context.load_cert_chain(cert, key)
+    return context
+
+
 if __name__ == '__main__':
-    context = None
-    if os.environ.get('TLS_CERT') and os.environ.get('TLS_KEY'):
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-        context.minimum_version = ssl.TLSVersion.TLSv1_2
-        context.load_cert_chain(os.environ['TLS_CERT'], os.environ['TLS_KEY'])
+    try:
+        context = tls_context(os.environ)
+    except ValueError as error:
+        raise SystemExit('Hue2Lox: ' + str(error))
     server = BoundedHTTPSServer((os.environ.get('BIND_HOST', '0.0.0.0'),
                                 int(os.environ.get('PORT', '8443'))), Handler, context)
     print('Hue2Lox ' + ('HTTPS' if context else 'HTTP') + ' service ready', flush=True)
